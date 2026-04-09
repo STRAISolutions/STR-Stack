@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>STR Solutions Command Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg:#f7f7f5;
+      --panel:#ffffff;
+      --panel-alt:#fafaf8;
+      --border:#e8e6e1;
+      --text:#1a1a1a;
+      --muted:#8c8c8c;
+      --accent:#1a1a1a;
+      --accent-soft:#f0efe9;
+      --gold:#b8976a;
+      --gold-soft:#f5f0e8;
+      --success:#2d7a4f;
+      --warn:#b8860b;
+      --danger:#a33;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:'DM Sans',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); }
+    h1,h2,.kpi-val,.metric,.metric-sm,.stat-val { font-family:'Cormorant Garamond','Georgia',serif; }
+
+    /* ── Header ── */
+    header {
+      padding:30px 40px 16px;
+      display:flex; flex-direction:column; align-items:center; text-align:center;
+      border-bottom:1px solid var(--border);
+      background:linear-gradient(180deg, #fff 0%, var(--bg) 100%);
+    }
+    .logo-mark {
+      width:60px; height:60px; border-radius:50%;
+      background:linear-gradient(135deg, #2a2a2a 0%, #4a4a4a 50%, #2a2a2a 100%);
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 20px rgba(0,0,0,0.15);
+      margin-bottom:12px;
+    }
+    .logo-mark svg { width:36px; height:36px; }
+    h1 {
+      margin:0; font-size:28px; letter-spacing:0.06em; font-weight:600;
+      text-transform:uppercase; color:var(--text);
+    }
+    .header-sub {
+      font-family:'DM Sans',sans-serif; font-size:12px; letter-spacing:0.15em;
+      text-transform:uppercase; color:var(--muted); margin-top:4px;
+    }
+    .pill {
+      padding:5px 14px; border-radius:999px;
+      background:var(--gold-soft); color:var(--gold);
+      font-weight:600; letter-spacing:0.1em; font-size:11px;
+      font-family:'DM Sans',sans-serif; margin-top:10px;
+      border:1px solid rgba(184,151,106,0.3);
+    }
+    .pill.warn { background:#fef8ee; color:var(--warn); border-color:rgba(184,134,11,0.3); }
+    .pill.danger { background:#fef2f2; color:var(--danger); border-color:rgba(170,51,51,0.3); }
+
+    /* ── Navigation ── */
+    nav.tabs {
+      display:flex; flex-wrap:wrap; gap:4px; padding:12px 40px;
+      border-bottom:1px solid var(--border); justify-content:center;
+      background:#fff;
+    }
+    nav.tabs button {
+      background:transparent; border:none; color:var(--muted);
+      padding:10px 20px; border-radius:0; font-weight:500;
+      cursor:pointer; font-size:12px; transition:all .2s;
+      font-family:'DM Sans',sans-serif; letter-spacing:0.08em;
+      text-transform:uppercase; border-bottom:2px solid transparent;
+    }
+    nav.tabs button:hover { color:var(--text); }
+    nav.tabs button.active {
+      color:var(--text); border-bottom:2px solid var(--gold);
+      background:transparent;
+    }
+
+    /* ── Layout ── */
+    main { padding:28px 40px 60px; max-width:1440px; margin:0 auto; }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; animation:fade .3s ease-in; }
+    @keyframes fade { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── Cards ── */
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; }
+    .card {
+      background:var(--panel); border:1px solid var(--border);
+      border-radius:12px; padding:22px;
+      box-shadow:0 1px 8px rgba(0,0,0,0.04);
+    }
+    .card h2 {
+      margin:0 0 12px; font-size:14px; letter-spacing:0.12em;
+      text-transform:uppercase; color:var(--muted); font-weight:600;
+      font-family:'DM Sans',sans-serif;
+    }
+    .metric { font-size:40px; font-weight:600; margin:4px 0; color:var(--text); }
+    .metric span { font-size:15px; color:var(--muted); margin-left:8px; font-family:'DM Sans',sans-serif; }
+    .metric-sm { font-size:26px; font-weight:600; margin:4px 0; }
+
+    /* ── KPI Cards ── */
+    .kpi-card {
+      background:var(--panel); border:1px solid var(--border);
+      border-radius:12px; padding:28px 24px;
+      box-shadow:0 1px 8px rgba(0,0,0,0.04);
+      text-align:center; position:relative;
+    }
+    .kpi-card::after {
+      content:''; position:absolute; bottom:0; left:20%; right:20%;
+      height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    }
+    .kpi-card .kpi-val { font-size:34px; font-weight:700; margin:10px 0 6px; }
+    .kpi-card .kpi-label {
+      font-size:11px; color:var(--muted); text-transform:uppercase;
+      letter-spacing:0.14em; font-family:'DM Sans',sans-serif; font-weight:600;
+    }
+    .kpi-card .kpi-delta { font-size:12px; font-weight:500; margin-top:4px; font-family:'DM Sans',sans-serif; }
+
+    /* ── Lists & Links ── */
+    ul.list, ol.list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+    ul.list li, ol.list li {
+      background:var(--panel-alt); border:1px solid var(--border);
+      border-radius:10px; padding:12px 14px; line-height:1.5;
+      font-family:'DM Sans',sans-serif; font-size:13px;
+    }
+    .links { display:flex; flex-wrap:wrap; gap:10px; }
+    .links a {
+      text-decoration:none; color:var(--text); background:var(--panel-alt);
+      border:1px solid var(--border); border-radius:10px; padding:10px 16px;
+      transition:all .2s; font-weight:500; font-size:13px;
+      font-family:'DM Sans',sans-serif;
+    }
+    .links a:hover { background:var(--gold-soft); border-color:var(--gold); }
+    pre {
+      background:var(--panel-alt); border:1px solid var(--border);
+      border-radius:10px; padding:18px; max-height:420px; overflow:auto;
+      font-family:'Fira Code',monospace; font-size:12px; color:var(--text);
+    }
+    label {
+      display:block; font-size:12px; color:var(--muted); margin:12px 0 6px;
+      font-weight:500; font-family:'DM Sans',sans-serif; letter-spacing:0.04em;
+    }
+    input {
+      width:100%; padding:11px 14px; border-radius:8px;
+      border:1px solid var(--border); background:var(--panel-alt);
+      color:var(--text); font-size:13px; font-family:'DM Sans',sans-serif;
+    }
+    .cta {
+      margin-top:18px; padding:14px 18px; background:var(--gold-soft);
+      border:1px solid rgba(184,151,106,0.3); border-radius:10px;
+      font-family:'DM Sans',sans-serif; font-size:13px;
+    }
+    button.refresh {
+      background:var(--accent); color:#fff; border:none;
+      border-radius:8px; padding:10px 18px; font-weight:600;
+      cursor:pointer; transition:opacity .2s; font-family:'DM Sans',sans-serif;
+      font-size:12px; letter-spacing:0.04em;
+    }
+    button.refresh:hover { opacity:0.8; }
+    .subline { color:var(--muted); font-size:12px; margin-top:6px; font-family:'DM Sans',sans-serif; }
+    .dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:8px; }
+    .dot.up { background:var(--success); box-shadow:0 0 6px rgba(45,122,79,0.4); }
+    .dot.down { background:var(--danger); box-shadow:0 0 6px rgba(170,51,51,0.4); }
+    .dot.warn { background:var(--warn); box-shadow:0 0 6px rgba(184,134,11,0.4); }
+    .svc-row { display:flex; justify-content:space-between; align-items:center; }
+    .svc-row .svc-info { flex:1; }
+    .svc-row .svc-meta { text-align:right; color:var(--muted); font-size:12px; font-family:'DM Sans',sans-serif; }
+    .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:14px; }
+    .stat-box {
+      background:var(--panel-alt); border:1px solid var(--border);
+      border-radius:10px; padding:16px; text-align:center;
+    }
+    .stat-box .stat-val { font-size:30px; font-weight:600; }
+    .stat-box .stat-label {
+      font-size:11px; color:var(--muted); text-transform:uppercase;
+      letter-spacing:0.1em; margin-top:4px; font-family:'DM Sans',sans-serif;
+    }
+    .kpi-embed {
+      width:100%; border:none; border-radius:10px;
+      min-height:500px; background:var(--panel-alt);
+    }
+    .divider {
+      height:1px; background:linear-gradient(90deg,transparent,var(--border),transparent);
+      margin:28px 0;
+    }
+    .section-title {
+      font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:600;
+      color:var(--text); margin:0 0 16px; letter-spacing:0.04em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-mark">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="url(#lg)" stroke="#999" stroke-width="1.5"/>
+        <text x="50" y="62" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-size="32" font-weight="700" fill="#e0e0e0" letter-spacing="3">STR</text>
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="100" y2="100"><stop offset="0%" stop-color="#3a3a3a"/><stop offset="50%" stop-color="#555"/><stop offset="100%" stop-color="#3a3a3a"/></linearGradient></defs>
+      </svg>
+    </div>
+    <h1>STR Solutions</h1>
+    <div class="header-sub">Command Center</div>
+    <div style="display:flex; align-items:center; gap:12px; margin-top:8px;">
+      <div class="pill" id="global-status">LIVE</div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="financials">Financial KPIs</button>
+    <button class="tab-btn" data-tab="services">Services</button>
+    <button class="tab-btn" data-tab="stack">Stack</button>
+    <button class="tab-btn" data-tab="pipeline">Pipeline</button>
+    <button class="tab-btn" data-tab="flowise">Flowise</button>
+    <button class="tab-btn" data-tab="activity">Activity</button>
+    <button class="tab-btn" data-tab="skills">Skills</button>
+    <button class="tab-btn" data-tab="cowork">Cowork</button>
+    <button class="tab-btn" data-tab="config">Config</button>
+  </nav>
+
+  <main>
+
+    <!-- ─── FINANCIAL KPIs TAB ────────────────────────────────── -->
+    <section id="tab-financials" class="tab-panel active">
+      <!-- Primary KPIs -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-bottom:24px;">
+        <div class="kpi-card">
+          <div class="kpi-label">Lifetime Value Pipeline</div>
+          <div class="kpi-val" style="color:var(--gold);" id="kpi-ltv">--</div>
+          <div class="kpi-delta" style="color:var(--muted);" id="kpi-ltv-formula">Hot leads x $8,000 LTV</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:6px; font-family:'DM Sans',sans-serif;" id="kpi-ltv-detail"></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Monthly Gross Profit</div>
+          <div class="kpi-val" style="color:var(--success);" id="kpi-monthly">--</div>
+          <div class="kpi-delta" style="color:var(--muted);" id="kpi-monthly-formula">Hot leads x $750/mo</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:6px; font-family:'DM Sans',sans-serif;" id="kpi-monthly-detail"></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Hot Leads</div>
+          <div class="kpi-val" style="color:var(--text);" id="kpi-hotleads">--</div>
+          <div class="kpi-delta" style="color:var(--muted);">Qualified + Routed</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:6px; font-family:'DM Sans',sans-serif;" id="kpi-hotleads-detail"></div>
+        </div>
+      </div>
+
+      <!-- Secondary KPIs -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-bottom:24px;">
+        <div class="kpi-card">
+          <div class="kpi-label">Total Pipeline</div>
+          <div class="kpi-val" style="font-size:28px;" id="kpi-total-opps">--</div>
+          <div class="kpi-delta" style="color:var(--muted);" id="kpi-total-detail">All opportunities</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Demos Booked</div>
+          <div class="kpi-val" style="color:var(--warn); font-size:28px;" id="kpi-demos">--</div>
+          <div class="kpi-delta" style="color:var(--muted);" id="kpi-demos-delta">Target: 30/day</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Leads Generated</div>
+          <div class="kpi-val" style="font-size:28px;" id="kpi-leads">--</div>
+          <div class="kpi-delta" style="color:var(--muted);" id="kpi-leads-delta">Instantly</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Conversion Rate</div>
+          <div class="kpi-val" style="font-size:28px;" id="kpi-conversion">--%</div>
+          <div class="kpi-delta" style="color:var(--muted);">Lead to Close</div>
+        </div>
+      </div>
+
+      <!-- Stage Breakdown -->
+      <div class="card" style="margin-bottom:24px;">
+        <h2>Hot Lead Breakdown</h2>
+        <div class="subline" style="margin-bottom:14px;">Only Qualified-Booked and Routed to Call Center stages count toward LTV & Monthly Gross</div>
+        <div id="stage-breakdown" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px;"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- GHL Dashboard Embeds -->
+      <div class="section-title">GoHighLevel Dashboards</div>
+      <div class="grid" style="grid-template-columns:1fr 1fr;">
+        <div class="card">
+          <h2>GHL Pipeline — Revenue Tracker</h2>
+          <div class="subline" style="margin-bottom:12px;">Master subaccount</div>
+          <iframe class="kpi-embed" src="https://app.gohighlevel.com/v2/location/1OOZ4AKIgxO8QKKMnIcK/dashboard" id="ghl-pipeline-embed"></iframe>
+          <div class="subline" style="margin-top:8px;">
+            <em>GHL may require direct login.</em>
+            <a href="https://app.gohighlevel.com/v2/location/1OOZ4AKIgxO8QKKMnIcK/dashboard" target="_blank" style="color:var(--gold); margin-left:8px;">Open in GHL</a>
+          </div>
+        </div>
+        <div class="card">
+          <h2>GHL Call Center — Appointments</h2>
+          <div class="subline" style="margin-bottom:12px;">Call center booking pipeline</div>
+          <iframe class="kpi-embed" src="https://app.gohighlevel.com/v2/location/7hTDBClatcBgmUv36bZX/dashboard" id="ghl-callcenter-embed"></iframe>
+          <div class="subline" style="margin-top:8px;">
+            <em>GHL may require direct login.</em>
+            <a href="https://app.gohighlevel.com/v2/location/7hTDBClatcBgmUv36bZX/dashboard" target="_blank" style="color:var(--gold); margin-left:8px;">Open in GHL</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="card" style="margin-top:20px;">
+        <h2>Financial Tools</h2>
+        <div class="links">
+          <a href="https://app.gohighlevel.com/v2/location/1OOZ4AKIgxO8QKKMnIcK/dashboard" target="_blank">GHL Master Dashboard</a>
+          <a href="https://app.gohighlevel.com/v2/location/7hTDBClatcBgmUv36bZX/dashboard" target="_blank">Call Center Dashboard</a>
+          <a href="https://app.instantly.ai/" target="_blank">Instantly Campaigns</a>
+          <a href="https://app.apollo.io/" target="_blank">Apollo Pipeline</a>
+          <a href="https://app.clay.com/shared-table/share_0tb2sm4GNGZghFQDCEs" target="_blank">Clay ICP Table</a>
+          <a href="https://dashboard.vapi.ai/" target="_blank">Vapi Voice Metrics</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SERVICES TAB ──────────────────────────────────────── -->
+    <section id="tab-services" class="tab-panel">
+      <div class="grid">
+        <div class="card" style="grid-column: span 2;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2>Live Services</h2>
+            <button class="refresh" onclick="loadServices()">Refresh</button>
+          </div>
+          <ul class="list" id="svc-list"><li>Loading...</li></ul>
+        </div>
+        <div class="card">
+          <h2>Callback Endpoints</h2>
+          <ul class="list">
+            <li><strong>Vapi Webhook</strong><br/><code style="font-size:11px;color:var(--gold);">https://openclaw-droplet.tailb44e91.ts.net/vapi/webhook</code><br/><span class="subline">POST &middot; x-vapi-secret auth</span></li>
+            <li><strong>OpenClaw Gateway</strong><br/><code style="font-size:11px;color:var(--gold);">https://openclaw-droplet.tailb44e91.ts.net/</code><br/><span class="subline">Token auth &middot; Funnel &rarr; :18789</span></li>
+            <li><strong>Flowise Prediction</strong><br/><code style="font-size:11px;color:var(--gold);">https://flowise.strsolutionsusa.com/api/v1/prediction/2955e532...</code><br/><span class="subline">POST &middot; Bearer FLOWISE_API_KEY</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:18px;">
+        <div class="card">
+          <h2>Disk</h2>
+          <div class="metric-sm" id="disk-usage">--</div>
+          <div class="subline" id="disk-detail">Loading...</div>
+        </div>
+        <div class="card">
+          <h2>Tailscale Funnel</h2>
+          <div class="metric-sm" style="color:var(--success);" id="funnel-status">ACTIVE</div>
+          <div class="subline">/ &rarr; OpenClaw &middot; /vapi &rarr; Relay</div>
+        </div>
+        <div class="card">
+          <h2>Cron Jobs</h2>
+          <ul class="list" style="font-size:12px;">
+            <li>06:00 &mdash; PPD Pipeline</li>
+            <li>08:00 &mdash; Nightly Audit</li>
+            <li>*/5 min &mdash; Health &amp; Stats</li>
+            <li>*/5 min &mdash; Financial KPIs</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── STACK TAB ───────────────────────────────────────── -->
+    <section id="tab-stack" class="tab-panel">
+      <div class="grid">
+        <div class="card">
+          <h2>Skills Installed</h2>
+          <div class="metric" id="skills-count">--</div>
+          <div class="subline" id="skills-updated">waiting...</div>
+        </div>
+        <div class="card">
+          <h2>Context Timestamp</h2>
+          <div class="metric" id="context-date">--</div>
+          <div class="subline">Next refresh in <span id="refresh-countdown">60</span>s</div>
+        </div>
+        <div class="card">
+          <h2>Clay ICP 1 Feed</h2>
+          <div class="metric" style="color:var(--success);">4,756 <span>rows</span></div>
+          <p class="subline">99 enriched &middot; webhooks live</p>
+        </div>
+        <div class="card">
+          <h2>Daily Demo Target</h2>
+          <div class="metric" style="color:var(--warn);">30 <span>demos/day</span></div>
+          <p class="subline">Apollo &rarr; Clay &rarr; Instantly &rarr; GHL &rarr; Vapi</p>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:22px;">
+        <div class="card" style="grid-column: span 2;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2>Active Work</h2>
+            <button class="refresh" onclick="loadContext()">Refresh now</button>
+          </div>
+          <ul class="list" id="active-work"><li>Loading...</li></ul>
+        </div>
+        <div class="card">
+          <h2>Priority Blockers</h2>
+          <ol class="list" id="blockers"></ol>
+        </div>
+        <div class="card">
+          <h2>Key Paths</h2>
+          <ul class="list" id="key-paths"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PIPELINE TAB ────────────────────────────────────── -->
+    <section id="tab-pipeline" class="tab-panel">
+      <div class="grid">
+        <div class="card">
+          <h2>Clay Rows &mdash; ICP 1</h2>
+          <div class="metric">4,756</div>
+          <p class="subline">Webhook table &middot; updates hourly</p>
+        </div>
+        <div class="card">
+          <h2>Instantly Campaigns</h2>
+          <div class="metric" id="instantly-count" style="color:var(--gold);">--</div>
+          <p class="subline">4 campaigns configured</p>
+        </div>
+        <div class="card">
+          <h2>GHL Pipeline</h2>
+          <div class="metric" style="color:var(--success);">Connected</div>
+          <p class="subline">Location: 1OOZ4AKIgxO8QKKMnIcK</p>
+        </div>
+        <div class="card">
+          <h2>Voice / Demo</h2>
+          <div class="metric">PAM</div>
+          <p class="subline">Vapi Agent ID: 48cc1c2e...</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:20px;">
+        <h2>Pipeline Map</h2>
+        <p style="font-family:'DM Sans',sans-serif; font-size:13px; line-height:1.6;">Apollo sourcing &rarr; Clay (4756 rows) &rarr; Instantly (4 campaigns) &rarr; GHL CRM &rarr; Vapi PAM &rarr; Demo (30/day target).</p>
+        <div class="links">
+          <a href="https://app.apollo.io/" target="_blank">Apollo</a>
+          <a href="https://app.clay.com/" target="_blank">Clay</a>
+          <a href="https://app.instantly.ai/" target="_blank">Instantly</a>
+          <a href="https://app.gohighlevel.com/" target="_blank">GHL</a>
+          <a href="https://dashboard.vapi.ai/" target="_blank">Vapi</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── FLOWISE TAB ──────────────────────────────────────── -->
+    <section id="tab-flowise" class="tab-panel">
+      <div class="grid">
+        <div class="card">
+          <h2>Service Health</h2>
+          <div class="subline">Last check: <span id="flowise-checked">--</span></div>
+          <ul class="list" id="flowise-health-list"><li>Loading...</li></ul>
+        </div>
+        <div class="card">
+          <h2>HTTP Probe</h2>
+          <div class="metric" id="flowise-http-code">--</div>
+          <p class="subline" id="flowise-http-url">http://localhost:3000</p>
+          <div class="links" style="margin-top:12px;">
+            <a href="https://flowise.strsolutionsusa.com/" target="_blank">Open Flowise</a>
+            <a href="https://discord.com/channels/1472376607166697586/1472376608223658018" target="_blank">Discord #stu</a>
+          </div>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:18px;">
+        <div class="card" style="grid-column: span 2;">
+          <h2>STU Agent Stats</h2>
+          <div class="subline">Updated every 5 min &middot; Last: <span id="stats-timestamp">--</span></div>
+          <div class="stat-grid" style="margin-top:14px;">
+            <div class="stat-box"><div class="stat-val" id="stat-flows" style="color:var(--gold);">--</div><div class="stat-label">Chatflows</div></div>
+            <div class="stat-box"><div class="stat-val" id="stat-deployed" style="color:var(--success);">--</div><div class="stat-label">Deployed</div></div>
+            <div class="stat-box"><div class="stat-val" id="stat-exec-total">--</div><div class="stat-label">Total Exec</div></div>
+            <div class="stat-box"><div class="stat-val" id="stat-exec-24h" style="color:var(--warn);">--</div><div class="stat-label">Last 24h</div></div>
+            <div class="stat-box"><div class="stat-val" id="stat-exec-7d" style="color:var(--gold);">--</div><div class="stat-label">Last 7 Days</div></div>
+            <div class="stat-box"><div class="stat-val" id="stat-tools">--</div><div class="stat-label">Tools</div></div>
+            <div class="stat-box"><div class="stat-val" id="stat-fb-up" style="color:var(--success);">--</div><div class="stat-label">Positive</div></div>
+            <div class="stat-box"><div class="stat-val" id="stat-fb-down" style="color:var(--danger);">--</div><div class="stat-label">Negative</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>STU Tools</h2>
+          <ul class="list" style="font-size:12px;">
+            <li><span class="dot up"></span>GHL Contact Lookup</li>
+            <li><span class="dot up"></span>Instantly Campaign Status</li>
+            <li><span class="dot up"></span>Apollo Contact Enrichment</li>
+            <li><span class="dot up"></span>System Status Check</li>
+            <li><span class="dot warn"></span>Make Scenario Trigger <span style="color:var(--warn);font-size:10px;">(no webhook URL)</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── ACTIVITY TAB ────────────────────────────────────── -->
+    <section id="tab-activity" class="tab-panel">
+      <div class="card">
+        <h2>Latest CONTEXT.md</h2>
+        <pre id="context-raw">Loading...</pre>
+      </div>
+    </section>
+
+    <!-- ─── SKILLS TAB ──────────────────────────────────────── -->
+    <section id="tab-skills" class="tab-panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <div>
+          <h2 style="margin:0; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); font-family:'DM Sans',sans-serif;">Skill Library &middot; <span id="skills-total" style="color:var(--text);">--</span> installed</h2>
+          <div class="subline">Click a category to expand &middot; Click a skill for details</div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="refresh" onclick="toggleAllSkills(true)" style="font-size:11px; padding:8px 12px;">Expand All</button>
+          <button class="refresh" onclick="toggleAllSkills(false)" style="font-size:11px; padding:8px 12px;">Collapse All</button>
+          <button class="refresh" onclick="loadSkills()">Refresh</button>
+        </div>
+      </div>
+      <div id="skills-list" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); gap:16px;"></div>
+    </section>
+
+    <!-- ─── COWORK TAB ──────────────────────────────────────── -->
+    <section id="tab-cowork" class="tab-panel">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+
+        <!-- STU Chat -->
+        <div class="card" style="display:flex; flex-direction:column; height:600px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:18px;">STU</h2>
+            <span class="pill" style="font-size:10px;">GPT-4o &middot; Flowise</span>
+          </div>
+          <div class="subline" style="margin-bottom:10px;">GHL lookups &middot; Instantly status &middot; Apollo enrich &middot; System health</div>
+          <div id="stu-messages" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:10px 0;">
+            <div style="background:var(--gold-soft); border-radius:10px; padding:10px 14px; align-self:flex-start; max-width:85%; font-size:13px; font-family:'DM Sans',sans-serif;">I'm STU. Ask me to check system status, look up a GHL contact, check Instantly campaigns, or enrich a contact via Apollo.</div>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:8px;">
+            <input type="text" id="stu-input" placeholder="Ask STU anything..." style="flex:1;" onkeydown="if(event.key==='Enter')sendSTU()" />
+            <button class="refresh" onclick="sendSTU()" style="white-space:nowrap;">Send</button>
+          </div>
+          <div style="display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;">
+            <button onclick="stuQuick('Check system status')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">System Status</button>
+            <button onclick="stuQuick('Check Instantly campaigns')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">Instantly</button>
+            <button onclick="stuQuick('Look up contact info@strsolutionsusa.com in GHL')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">GHL Lookup</button>
+          </div>
+        </div>
+
+        <!-- Claude Chat -->
+        <div class="card" style="display:flex; flex-direction:column; height:600px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:18px;">Claude</h2>
+            <span class="pill warn" id="claude-status-pill" style="font-size:10px;">PENDING KEY</span>
+          </div>
+          <div class="subline" style="margin-bottom:10px;">Analysis &middot; Code generation &middot; Strategy &middot; Research</div>
+          <div id="claude-messages" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:10px 0;">
+            <div style="background:var(--gold-soft); border-radius:10px; padding:10px 14px; align-self:flex-start; max-width:85%; font-size:13px; font-family:'DM Sans',sans-serif;">Claude is ready to connect. Add your Anthropic API key to unlock strategy, code analysis, and deep research.</div>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:8px;">
+            <input type="text" id="claude-input" placeholder="Waiting for Anthropic API key..." style="flex:1;" disabled onkeydown="if(event.key==='Enter')sendClaude()" />
+            <button class="refresh" onclick="sendClaude()" id="claude-send-btn" disabled style="white-space:nowrap; opacity:0.4;">Send</button>
+          </div>
+          <div class="cta" style="margin-top:8px; padding:10px 14px; font-size:11px;">
+            To activate: add <code>ANTHROPIC_API_KEY</code> to <code>/root/.openclaw/.env</code>, then reload.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Entry Points & GitHub -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px;">
+        <div class="card">
+          <h2>Entry Points</h2>
+          <div class="links">
+            <a href="https://flowise.strsolutionsusa.com/" target="_blank">Flowise UI</a>
+            <a href="https://discord.com/channels/1472376607166697586" target="_blank">Discord STU</a>
+            <a href="https://dashboard.vapi.ai/" target="_blank">Vapi Dashboard</a>
+            <a href="https://app.gohighlevel.com/" target="_blank">GHL CRM</a>
+            <a href="https://app.instantly.ai/" target="_blank">Instantly</a>
+            <a href="https://app.clay.com/" target="_blank">Clay</a>
+            <a href="https://app.apollo.io/" target="_blank">Apollo</a>
+            <a href="https://us2.make.com/" target="_blank">Make.com</a>
+          </div>
+        </div>
+        <div class="card">
+          <h2>GitHub</h2>
+          <p style="font-family:'DM Sans',sans-serif; font-size:13px;">Repo: <a href="https://github.com/STRAISolutions/Stack" target="_blank" style="color:var(--gold);">STRAISolutions/Stack</a></p>
+          <p style="font-family:'DM Sans',sans-serif; font-size:13px;">Branch: <code>devin/1773159064-hospitality-scraper</code></p>
+          <p style="font-family:'DM Sans',sans-serif; font-size:13px;">Logs tracked in <code>Stack/logs/</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── CONFIG TAB ──────────────────────────────────────── -->
+    <section id="tab-config" class="tab-panel">
+      <div class="grid">
+        <div class="card">
+          <h2>GHL (GoHighLevel)</h2>
+          <label>Agency OAuth (PIT)</label>
+          <input type="text" value="pit-e19a0be3-b73e-45d6-b316-ad17a76df45c" readonly />
+          <label>Master Subaccount OAuth</label>
+          <input type="text" value="pit-4b3979a4-bbb0-4bfe-99ef-b30ee3782cc7" readonly />
+          <label>Call Center OAuth (JWT)</label>
+          <input type="text" value="pit-290a13bb-76e4-4d41-8e84-40629ea6b701" readonly />
+          <label>Location ID (Master)</label>
+          <input type="text" value="1OOZ4AKIgxO8QKKMnIcK" readonly />
+          <label>Location ID (Call Center)</label>
+          <input type="text" value="7hTDBClatcBgmUv36bZX" readonly />
+        </div>
+        <div class="card">
+          <h2>Lead Gen / Outreach</h2>
+          <label>Instantly API Key</label>
+          <input type="text" value="NDI1M2E...mpOb2x4WFdDTnVnYg==" readonly />
+          <label>Apollo API Key</label>
+          <input type="text" value="NWt_5gpS9thDdeYiBPbc2g" readonly />
+          <label>Clay API Key</label>
+          <input type="text" value="3bb1e2be39f726488871" readonly />
+          <label>AirDNA API Key</label>
+          <input type="text" value="f0cd7cc942a6429da4e59308bae7e48a" readonly />
+        </div>
+        <div class="card">
+          <h2>AI / Voice</h2>
+          <label>OpenAI Key</label>
+          <input type="text" value="sk-proj-***...HKWh6*** (valid)" readonly />
+          <label>Vapi Agent ID (PAM)</label>
+          <input type="text" value="48cc1c2e-23dc-40b9-8f71-add20d210a5d" readonly />
+          <label>ElevenLabs</label>
+          <input type="text" value="sk_a601e26c...cdfc" readonly />
+          <label>Discord Bot Token</label>
+          <input type="text" value="MTQ3MjM0...*** (active)" readonly />
+        </div>
+        <div class="card">
+          <h2>Infrastructure</h2>
+          <label>Flowise URL</label>
+          <input type="text" value="https://flowise.strsolutionsusa.com" readonly />
+          <label>Flowise Login</label>
+          <input type="text" value="mike@strsolutionsusa.com / StrStack2026" readonly />
+          <label>Server IP</label>
+          <input type="text" value="134.209.11.87" readonly />
+          <label>Tailscale</label>
+          <input type="text" value="openclaw-droplet.tailb44e91.ts.net (Funnel active)" readonly />
+          <label>Make.com Scenario</label>
+          <input type="text" value="c95c833a-7438-4cda-bc99-628c18bb1105" readonly />
+          <label>Make.com Webhook URL</label>
+          <input type="text" value="Not configured" readonly style="border-color:var(--warn);" />
+        </div>
+      </div>
+      <div class="cta" style="margin-top:18px;">
+        Keys live in <code>/root/.openclaw/.env</code> and <code>/root/str-stack/.env</code>. Masterkey sheet: <code>/root/str-stack/masterkey_list.csv</code>.
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const refreshInterval = 60000;
+    let countdown = refreshInterval / 1000;
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    function scheduleCountdown() {
+      setInterval(() => {
+        countdown = countdown <= 0 ? refreshInterval / 1000 : countdown - 1;
+        const el = document.getElementById('refresh-countdown');
+        if (el) el.textContent = countdown;
+      }, 1000);
+    }
+
+    function captureSection(text, title) {
+      const regex = new RegExp('## ' + title + '\n([\\s\\S]*?)(\n##|$)');
+      const match = text.match(regex);
+      return match ? match[1].trim() : '';
+    }
+
+    function renderList(targetId, lines, fallback) {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      target.innerHTML = '';
+      if (!lines.length) lines = [fallback];
+      lines.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item.replace(/^[\-\u2022\d+\.\s]*/, '');
+        target.appendChild(li);
+      });
+    }
+
+    // ── Services Tab ──
+    async function loadServices() {
+      const svcMeta = {
+        openclaw: { name: 'OpenClaw Gateway', desc: 'AI agent gateway' },
+        vapi_relay: { name: 'Vapi Relay', desc: 'Voice webhook relay' },
+        flowise: { name: 'Flowise / STU', desc: 'AI chatflow engine' },
+        funnel: { name: 'Tailscale Funnel', desc: 'Public HTTPS' },
+        discord: { name: 'Discord Bot', desc: 'STU agent on Discord' },
+      };
+      const list = document.getElementById('svc-list');
+      list.innerHTML = '';
+      let allUp = true;
+
+      try {
+        const r = await fetch('service-health.json?_=' + Date.now());
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const data = await r.json();
+
+        document.getElementById('disk-usage').textContent = data.disk?.used_pct + '%';
+        document.getElementById('disk-detail').textContent = data.disk?.available + ' available';
+
+        for (const [key, svc] of Object.entries(data.services || {})) {
+          const meta = svcMeta[key] || { name: key, desc: '' };
+          const li = document.createElement('li');
+          li.classList.add('svc-row');
+          const status = svc.status === 'up' ? 'up' : 'down';
+          const statusText = svc.status === 'up' ? 'HEALTHY' : 'DOWN';
+          if (status !== 'up') allUp = false;
+          const portLabel = svc.port === 'ws' ? 'WebSocket' : ':' + svc.port;
+          li.innerHTML = '<div class="svc-info"><span class="dot ' + status + '"></span><strong>' + meta.name + '</strong><br/><span class="subline">' + meta.desc + '</span></div><div class="svc-meta">' + portLabel + '<br/>' + statusText + '</div>';
+          list.appendChild(li);
+        }
+      } catch(e) {
+        list.innerHTML = '<li>Failed to load: ' + e.message + '</li>';
+        allUp = false;
+      }
+
+      const pill = document.getElementById('global-status');
+      pill.textContent = allUp ? 'ALL SYSTEMS LIVE' : 'DEGRADED';
+      pill.className = 'pill' + (allUp ? '' : ' warn');
+    }
+
+    // ── Context ──
+    async function loadContext() {
+      countdown = refreshInterval / 1000;
+      try {
+        const resp = await fetch('CONTEXT.md?_=' + Date.now());
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const text = await resp.text();
+        document.getElementById('context-raw').textContent = text.trim();
+        const line = text.match(/Last updated:\s*(.+)/);
+        document.getElementById('context-date').textContent = line ? line[1] : '--';
+        const active = captureSection(text, 'Active work').split('\n').filter(l => l.trim().startsWith('-'));
+        const blockers = captureSection(text, 'Blockers \\(priority order\\)').split('\n').filter(l => /^\d/.test(l.trim()));
+        const paths = captureSection(text, 'Key paths').split('\n').filter(l => l.trim().startsWith('-'));
+        renderList('active-work', active, 'No items');
+        renderList('blockers', blockers, 'No blockers listed');
+        renderList('key-paths', paths, 'No paths listed');
+      } catch (err) {
+        document.getElementById('context-raw').textContent = 'Failed to load: ' + err;
+      }
+    }
+
+    // ── Skills ──
+    function toggleAllSkills(expand) {
+      document.querySelectorAll('.cat-skills').forEach(el => el.style.display = expand ? 'block' : 'none');
+      document.querySelectorAll('.cat-arrow').forEach(el => el.textContent = expand ? '\u25BC' : '\u25B6');
+    }
+
+    async function loadSkills() {
+      try {
+        const resp = await fetch('skills-list.json?_=' + Date.now());
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const data = await resp.json();
+        const totalEl = document.getElementById('skills-total');
+        if (totalEl) totalEl.textContent = data.total ?? '--';
+        const countEl = document.getElementById('skills-count');
+        if (countEl) countEl.textContent = data.total ?? '--';
+        const updEl = document.getElementById('skills-updated');
+        if (updEl) updEl.textContent = 'Updated ' + new Date().toLocaleTimeString();
+        const list = document.getElementById('skills-list');
+        list.innerHTML = '';
+
+        if (data.categories) {
+          data.categories.forEach((cat, ci) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.cssText = 'padding:0; overflow:hidden;';
+            const catId = 'cat-' + ci;
+
+            const header = document.createElement('div');
+            header.style.cssText = 'padding:14px 18px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; border-left:3px solid ' + (cat.color || 'var(--gold)') + '; transition:background .15s;';
+            header.onmouseenter = () => header.style.background = 'var(--panel-alt)';
+            header.onmouseleave = () => header.style.background = 'transparent';
+            header.innerHTML = '<div><span style="font-size:16px; margin-right:8px;">' + (cat.icon || '') + '</span><strong style="font-size:14px; font-family:\'Cormorant Garamond\',serif;">' + cat.name + '</strong><span style="font-size:11px; color:var(--muted); margin-left:8px; font-family:\'DM Sans\',sans-serif;">' + cat.skills.length + ' skill' + (cat.skills.length !== 1 ? 's' : '') + '</span></div><span class="cat-arrow" id="arrow-' + catId + '" style="color:var(--muted); font-size:11px;">\u25BC</span>';
+            header.onclick = () => {
+              const body = document.getElementById(catId);
+              const arrow = document.getElementById('arrow-' + catId);
+              if (body.style.display === 'none') { body.style.display = 'block'; arrow.textContent = '\u25BC'; }
+              else { body.style.display = 'none'; arrow.textContent = '\u25B6'; }
+            };
+            card.appendChild(header);
+
+            const body = document.createElement('div');
+            body.id = catId;
+            body.className = 'cat-skills';
+            body.style.cssText = 'padding:0 18px 14px; display:block;';
+
+            cat.skills.forEach((skill, si) => {
+              const skillDiv = document.createElement('div');
+              skillDiv.style.cssText = 'background:var(--panel-alt); border:1px solid var(--border); border-radius:8px; padding:12px 14px; margin-top:10px; cursor:pointer; transition:border-color .2s;';
+              skillDiv.onmouseenter = () => skillDiv.style.borderColor = cat.color || 'var(--gold)';
+              skillDiv.onmouseleave = () => skillDiv.style.borderColor = 'var(--border)';
+              const detailId = 'sd-' + ci + '-' + si;
+              skillDiv.innerHTML = '<div style="display:flex; justify-content:space-between; align-items:center;"><strong style="font-size:12px; font-family:\'DM Sans\',sans-serif;">' + skill.name + '</strong><span style="font-size:9px; color:var(--success); font-weight:600; font-family:\'DM Sans\',sans-serif;">READY</span></div><div id="' + detailId + '" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-size:12px; line-height:1.6; font-family:\'DM Sans\',sans-serif;"><p style="margin:0 0 8px; color:var(--text);">' + (skill.description || '') + '</p>' + (skill.trigger ? '<p style="margin:0; font-size:11px; color:var(--muted);"><strong style="color:' + (cat.color || 'var(--gold)') + ';">Trigger:</strong> ' + skill.trigger + '</p>' : '') + '</div>';
+              skillDiv.onclick = (e) => { e.stopPropagation(); const d = document.getElementById(detailId); d.style.display = d.style.display === 'none' ? 'block' : 'none'; };
+              body.appendChild(skillDiv);
+            });
+
+            card.appendChild(body);
+            list.appendChild(card);
+          });
+        }
+      } catch (err) {
+        const countEl = document.getElementById('skills-count');
+        if (countEl) countEl.textContent = '~~';
+      }
+    }
+
+    // ── Flowise Health ──
+    async function loadFlowiseHealth() {
+      try {
+        const resp = await fetch('flowise-health.json?_=' + Date.now());
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const data = await resp.json();
+        document.getElementById('flowise-checked').textContent = data.checked_at ?? '--';
+        document.getElementById('flowise-http-code').textContent = data.http_probe?.status_code ?? '--';
+        document.getElementById('flowise-http-url').textContent = data.http_probe?.url ?? '';
+        const list = document.getElementById('flowise-health-list');
+        list.innerHTML = '';
+        (data.containers || []).forEach(item => {
+          const li = document.createElement('li');
+          li.innerHTML = '<span class="dot ' + (item.status?.includes('Up') ? 'up' : 'down') + '"></span><strong>' + item.name + '</strong> &middot; ' + item.status + '<br/><small>' + item.image + ' &mdash; ' + item.ports + '</small>';
+          list.appendChild(li);
+        });
+      } catch (err) {
+        document.getElementById('flowise-health-list').innerHTML = '<li>Failed: ' + err + '</li>';
+      }
+    }
+
+    // ── Flowise Stats ──
+    async function loadFlowiseStats() {
+      try {
+        const resp = await fetch('flowise-stats.json?_=' + Date.now());
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const d = await resp.json();
+        document.getElementById('stats-timestamp').textContent = d.timestamp ?? '--';
+        document.getElementById('stat-flows').textContent = d.flows?.total ?? '--';
+        document.getElementById('stat-deployed').textContent = d.flows?.deployed ?? '--';
+        document.getElementById('stat-exec-total').textContent = d.executions?.total ?? '--';
+        document.getElementById('stat-exec-24h').textContent = d.executions?.last_24h ?? '--';
+        document.getElementById('stat-exec-7d').textContent = d.executions?.last_7d ?? '--';
+        document.getElementById('stat-tools').textContent = d.tools ?? '--';
+        document.getElementById('stat-fb-up').textContent = d.feedback?.positive ?? '0';
+        document.getElementById('stat-fb-down').textContent = d.feedback?.negative ?? '0';
+      } catch (err) {
+        document.getElementById('stats-timestamp').textContent = 'error';
+      }
+    }
+
+    // ── Financial KPIs ──
+    async function loadKPIs() {
+      try {
+        const r = await fetch('financial-kpis.json?_=' + Date.now());
+        if (!r.ok) return;
+        const d = await r.json();
+        const fmt = (n) => typeof n === 'number' ? '$' + n.toLocaleString() : '--';
+
+        // Primary KPIs
+        const ltv = d.pipeline?.ltv_pipeline;
+        const monthly = d.pipeline?.monthly_gross;
+        const hot = d.pipeline?.hot_leads;
+
+        document.getElementById('kpi-ltv').textContent = ltv != null ? fmt(ltv) : '--';
+        document.getElementById('kpi-ltv-formula').textContent = (hot || 0) + ' hot leads \u00d7 $' + ((d.pipeline?.ltv_per_account || 8000)).toLocaleString() + ' LTV';
+        document.getElementById('kpi-ltv-detail').textContent = d.pipeline?.total + ' total pipeline opportunities';
+
+        document.getElementById('kpi-monthly').textContent = monthly != null ? fmt(monthly) + '/mo' : '--';
+        document.getElementById('kpi-monthly-formula').textContent = (hot || 0) + ' hot leads \u00d7 $' + (d.pipeline?.monthly_per_account || 750) + '/mo';
+        document.getElementById('kpi-monthly-detail').textContent = 'Qualified-Booked + Routed to Call Center';
+
+        document.getElementById('kpi-hotleads').textContent = hot != null ? hot.toLocaleString() : '--';
+        document.getElementById('kpi-hotleads-detail').textContent = d.pipeline?.open + ' open | ' + d.pipeline?.lost + ' lost | ' + d.pipeline?.won + ' won';
+
+        // Secondary
+        document.getElementById('kpi-total-opps').textContent = d.pipeline?.total?.toLocaleString() ?? '--';
+        document.getElementById('kpi-total-detail').textContent = d.pipeline?.open + ' open / ' + d.pipeline?.lost + ' lost / ' + d.pipeline?.won + ' won';
+        document.getElementById('kpi-demos').textContent = d.demos?.booked ?? '--';
+        document.getElementById('kpi-demos-delta').textContent = 'Target: ' + (d.demos?.target || 30) + '/day';
+        document.getElementById('kpi-leads').textContent = d.leads?.total?.toLocaleString() ?? '--';
+        document.getElementById('kpi-leads-delta').textContent = d.leads?.active_campaigns + ' active / ' + d.leads?.total_campaigns + ' campaigns';
+        document.getElementById('kpi-conversion').textContent = (d.conversion?.rate || 0) + '%';
+
+        // Stage breakdown
+        const breakdown = d.pipeline?.hot_stage_breakdown || {};
+        const container = document.getElementById('stage-breakdown');
+        container.innerHTML = '';
+        for (const [stage, count] of Object.entries(breakdown)) {
+          const box = document.createElement('div');
+          box.className = 'stat-box';
+          box.innerHTML = '<div class="stat-val" style="color:var(--gold);">' + count + '</div><div class="stat-label">' + stage + '</div>';
+          container.appendChild(box);
+        }
+        // Show all-stages breakdown below if data exists
+        const allBreakdown = d.pipeline?.all_stage_breakdown || {};
+        if (Object.keys(allBreakdown).length > 0) {
+          const allContainer = document.createElement('div');
+          allContainer.style.cssText = 'grid-column:1/-1; margin-top:16px; padding-top:16px; border-top:1px solid var(--border);';
+          allContainer.innerHTML = '<div style="font-size:12px; color:var(--muted); margin-bottom:10px; font-family:\'DM Sans\',sans-serif; letter-spacing:0.08em; text-transform:uppercase;">All Open Stages</div>';
+          const grid = document.createElement('div');
+          grid.style.cssText = 'display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px;';
+          for (const [stage, count] of Object.entries(allBreakdown)) {
+            const isHot = stage === 'Qualified - Booked' || stage === 'Routed to Call Center';
+            const box = document.createElement('div');
+            box.style.cssText = 'background:' + (isHot ? 'var(--gold-soft)' : 'var(--panel-alt)') + '; border:1px solid ' + (isHot ? 'rgba(184,151,106,0.3)' : 'var(--border)') + '; border-radius:8px; padding:10px; text-align:center;';
+            box.innerHTML = '<div style="font-size:20px; font-weight:600; font-family:\'Cormorant Garamond\',serif; color:' + (isHot ? 'var(--gold)' : 'var(--text)') + ';">' + count + '</div><div style="font-size:10px; color:var(--muted); font-family:\'DM Sans\',sans-serif; margin-top:2px;">' + stage + '</div>';
+            grid.appendChild(box);
+          }
+          allContainer.appendChild(grid);
+          container.appendChild(allContainer);
+        }
+      } catch(e) {}
+    }
+
+    // ── STU Chat ──
+    const STU_ENDPOINT = 'https://flowise.strsolutionsusa.com/api/v1/prediction/2955e532-d156-4648-8a38-6a645f37cc43';
+    let stuSessionId = null;
+
+    function appendMsg(containerId, text, isUser) {
+      const container = document.getElementById(containerId);
+      const div = document.createElement('div');
+      div.style.cssText = 'background:' + (isUser ? 'var(--accent-soft)' : 'var(--gold-soft)') + '; border:1px solid var(--border); border-radius:10px; padding:10px 14px; align-self:' + (isUser ? 'flex-end' : 'flex-start') + '; max-width:85%; font-size:13px; line-height:1.5; white-space:pre-wrap; word-wrap:break-word; font-family:\'DM Sans\',sans-serif;';
+      div.textContent = text;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+      return div;
+    }
+
+    async function sendSTU() {
+      const input = document.getElementById('stu-input');
+      const q = input.value.trim();
+      if (!q) return;
+      input.value = '';
+      appendMsg('stu-messages', q, true);
+      const thinking = appendMsg('stu-messages', '\u2026', false);
+      try {
+        const body = { question: q };
+        if (stuSessionId) body.overrideConfig = { sessionId: stuSessionId };
+        const r = await fetch(STU_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const d = await r.json();
+        thinking.textContent = d.text || d.error || JSON.stringify(d);
+        if (d.sessionId) stuSessionId = d.sessionId;
+      } catch(e) {
+        thinking.textContent = 'Error: ' + e.message;
+        thinking.style.color = 'var(--danger)';
+      }
+    }
+
+    function stuQuick(q) {
+      document.getElementById('stu-input').value = q;
+      sendSTU();
+    }
+
+    // ── Claude Chat ──
+    async function sendClaude() {
+      const input = document.getElementById('claude-input');
+      const q = input.value.trim();
+      if (!q) return;
+      input.value = '';
+      appendMsg('claude-messages', q, true);
+      const thinking = appendMsg('claude-messages', '\u2026', false);
+      try {
+        const r = await fetch('/api/claude', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: q })
+        });
+        const d = await r.json();
+        thinking.textContent = d.text || d.content?.[0]?.text || d.error || JSON.stringify(d);
+      } catch(e) {
+        thinking.textContent = 'Claude not yet connected. Add ANTHROPIC_API_KEY to activate.';
+        thinking.style.color = 'var(--warn)';
+      }
+    }
+
+    // ── Auto refresh ──
+    function autoRefresh() {
+      loadKPIs();
+      loadServices();
+      loadContext();
+      loadSkills();
+      loadFlowiseHealth();
+      loadFlowiseStats();
+      setInterval(() => {
+        loadKPIs();
+        loadServices();
+        loadContext();
+        loadSkills();
+        loadFlowiseHealth();
+        loadFlowiseStats();
+      }, refreshInterval);
+    }
+    scheduleCountdown();
+    autoRefresh();
+  </script>
+</body>
+</html>

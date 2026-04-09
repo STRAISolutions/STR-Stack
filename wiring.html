@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>STR Stack — Live Wiring Diagram</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#f7f7f5; --panel:#ffffff; --border:#e8e6e1;
+      --text:#1a1a1a; --muted:#8c8c8c;
+      --gold:#b8976a; --gold-soft:#f5f0e8;
+      --on:#2d7a4f; --on-bg:#e8f5ee; --on-border:#b5dfc5;
+      --off:#a33; --off-bg:#fef2f2; --off-border:#f0b5b5;
+      --standby:#b8860b; --standby-bg:#fef8ee; --standby-border:#e8d5a0;
+      --trouble:#c45500; --trouble-bg:#fff4e6; --trouble-border:#f0c888;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:var(--text); }
+    h1,h2,h3,.stat-val { font-family:'Cormorant Garamond','Georgia',serif; }
+
+    /* Header */
+    header {
+      padding:24px 40px 16px; text-align:center;
+      border-bottom:1px solid var(--border);
+      background:linear-gradient(180deg, #fff 0%, var(--bg) 100%);
+    }
+    h1 { font-size:24px; letter-spacing:0.06em; font-weight:600; text-transform:uppercase; }
+    .header-sub { font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+    .refresh-info { font-size:11px; color:var(--muted); margin-top:8px; }
+    .refresh-info span { font-weight:600; color:var(--text); }
+
+    /* Summary bar */
+    .summary-bar {
+      display:flex; gap:16px; padding:16px 40px; justify-content:center; flex-wrap:wrap;
+      border-bottom:1px solid var(--border); background:#fff;
+    }
+    .summary-pill {
+      padding:6px 16px; border-radius:999px; font-size:12px; font-weight:600;
+      letter-spacing:0.05em; border:1px solid;
+    }
+    .summary-pill.good { background:var(--on-bg); color:var(--on); border-color:var(--on-border); }
+    .summary-pill.warn { background:var(--trouble-bg); color:var(--trouble); border-color:var(--trouble-border); }
+    .summary-pill.bad { background:var(--off-bg); color:var(--off); border-color:var(--off-border); }
+
+    /* Main layout */
+    .container { max-width:1400px; margin:0 auto; padding:24px 40px; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px; }
+    .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; margin-bottom:24px; }
+    @media (max-width:900px) { .grid-2,.grid-3 { grid-template-columns:1fr; } }
+
+    /* Panels */
+    .panel {
+      background:var(--panel); border:1px solid var(--border); border-radius:12px;
+      padding:20px; position:relative;
+    }
+    .panel h2 {
+      font-size:16px; font-weight:600; margin-bottom:16px;
+      padding-bottom:8px; border-bottom:1px solid var(--border);
+      letter-spacing:0.04em;
+    }
+
+    /* Diagram canvas */
+    .diagram-panel { grid-column:1/-1; min-height:500px; position:relative; overflow:hidden; }
+    #wiring-canvas { width:100%; height:100%; min-height:500px; }
+
+    /* Node styles */
+    .node {
+      position:absolute; padding:10px 14px; border-radius:10px;
+      border:2px solid; font-size:11px; font-weight:600;
+      text-align:center; min-width:100px; cursor:default;
+      transition:all .3s ease; z-index:2;
+      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+    }
+    .node:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(0,0,0,0.1); z-index:10; }
+    .node .label { font-size:12px; font-weight:700; letter-spacing:0.04em; }
+    .node .detail { font-size:10px; opacity:0.7; margin-top:2px; }
+    .node .port { font-size:9px; opacity:0.5; margin-top:2px; font-family:monospace; }
+    .node .status-dot {
+      width:8px; height:8px; border-radius:50%; display:inline-block;
+      margin-right:4px; vertical-align:middle;
+    }
+    .node.on { background:var(--on-bg); border-color:var(--on-border); color:var(--on); }
+    .node.on .status-dot { background:var(--on); box-shadow:0 0 6px var(--on); }
+    .node.off { background:var(--off-bg); border-color:var(--off-border); color:var(--off); }
+    .node.off .status-dot { background:var(--off); }
+    .node.standby { background:var(--standby-bg); border-color:var(--standby-border); color:var(--standby); }
+    .node.standby .status-dot { background:var(--standby); }
+    .node.trouble { background:var(--trouble-bg); border-color:var(--trouble-border); color:var(--trouble); }
+    .node.trouble .status-dot { background:var(--trouble); animation:pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* SVG wires */
+    svg.wires { position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events:none; }
+    .wire { fill:none; stroke-width:2; stroke-linecap:round; }
+    .wire.on { stroke:var(--on); opacity:0.5; stroke-dasharray:8 4; animation:dashFlow 1s linear infinite, wireGlow 1.5s ease-in-out infinite; }
+    .wire.off { stroke:var(--off); stroke-dasharray:6 4; opacity:0.4; animation:dashFlow 2s linear infinite; }
+    .wire.trouble { stroke:var(--trouble); stroke-dasharray:8 3; opacity:0.6; animation:wire-pulse 2s infinite, dashFlow 0.8s linear infinite; }
+    @keyframes wire-pulse { 0%,100%{opacity:0.6} 50%{opacity:0.2} }
+    .wire-label {
+      font-size:9px; font-family:'DM Sans',sans-serif; fill:var(--muted);
+      text-anchor:middle; dominant-baseline:middle;
+    }
+
+    /* Key depository table */
+    .key-table { width:100%; border-collapse:collapse; font-size:12px; }
+    .key-table th {
+      text-align:left; padding:8px 10px; font-size:10px; letter-spacing:0.1em;
+      text-transform:uppercase; color:var(--muted); border-bottom:2px solid var(--border);
+    }
+    .key-table td { padding:7px 10px; border-bottom:1px solid var(--border); }
+    .key-table tr:last-child td { border-bottom:none; }
+    .key-table .key-name { font-weight:600; font-family:monospace; font-size:11px; }
+    .key-table .key-masked { font-family:monospace; font-size:10px; color:var(--muted); }
+    .key-table .key-target { font-size:10px; color:var(--muted); }
+    .key-badge {
+      display:inline-block; padding:2px 8px; border-radius:999px;
+      font-size:9px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+    }
+    .key-badge.on { background:var(--on-bg); color:var(--on); }
+    .key-badge.off { background:var(--off-bg); color:var(--off); }
+    .key-badge.trouble { background:var(--trouble-bg); color:var(--trouble); }
+    .key-badge.standby { background:var(--standby-bg); color:var(--standby); }
+
+    /* Breakpoints */
+    .break-item {
+      padding:10px 12px; border-radius:8px; margin-bottom:8px;
+      font-size:12px; border-left:4px solid;
+    }
+    .break-item.critical { background:var(--off-bg); border-color:var(--off); }
+    .break-item.high { background:var(--trouble-bg); border-color:var(--trouble); }
+    .break-item.medium { background:var(--standby-bg); border-color:var(--standby); }
+    .break-item.low { background:var(--gold-soft); border-color:var(--gold); }
+    .break-item.info { background:#f0f9ff; border-color:#4a90d9; }
+    .break-component { font-weight:700; }
+    .break-severity {
+      float:right; font-size:9px; font-weight:700; text-transform:uppercase;
+      letter-spacing:0.08em; opacity:0.7;
+    }
+
+    /* Legend */
+    .legend { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:16px; justify-content:center; }
+    .legend-item { display:flex; align-items:center; gap:6px; font-size:11px; }
+    .legend-swatch {
+      width:14px; height:14px; border-radius:4px; border:2px solid;
+    }
+    .legend-swatch.on { background:var(--on-bg); border-color:var(--on); }
+    .legend-swatch.off { background:var(--off-bg); border-color:var(--off); }
+    .legend-swatch.standby { background:var(--standby-bg); border-color:var(--standby); }
+    .legend-swatch.trouble { background:var(--trouble-bg); border-color:var(--trouble); }
+
+    .back-link { display:inline-block; margin-bottom:12px; font-size:12px; color:var(--gold); text-decoration:none; }
+    .back-link:hover { text-decoration:underline; }
+
+    /* Loading */
+    .loading { text-align:center; padding:60px; color:var(--muted); font-size:14px; }
+    .error-msg { text-align:center; padding:40px; color:var(--off); font-size:13px; }
+  
+    /* ── Animated flowing wires ── */
+    @keyframes dashFlow {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -20; }
+    }
+    @keyframes wireGlow {
+      0%, 100% { filter: drop-shadow(0 0 2px #2d7a4f); }
+      50% { filter: drop-shadow(0 0 8px #4ade80); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>STR Stack Wiring Diagram</h1>
+    <div class="header-sub">Live Infrastructure Status</div>
+    <div class="refresh-info">Last check: <span id="last-check">Loading...</span> &mdash; Auto-refreshes every 60s</div>
+  </header>
+
+  <div class="summary-bar" id="summary-bar">
+    <span class="summary-pill good" id="pill-services">-- Services</span>
+    <span class="summary-pill good" id="pill-apis">-- APIs</span>
+    <span class="summary-pill good" id="pill-wires">-- Wires</span>
+  </div>
+
+  <div class="container">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch on"></div> On / Healthy</div>
+      <div class="legend-item"><div class="legend-swatch off"></div> Off / Down</div>
+      <div class="legend-item"><div class="legend-swatch standby"></div> Standby / Untested</div>
+      <div class="legend-item"><div class="legend-swatch trouble"></div> Trouble / Auth Error</div>
+    </div>
+
+    <!-- Wiring diagram -->
+    <div class="panel diagram-panel" id="diagram-panel">
+      <svg class="wires" id="wires-svg"></svg>
+      <div id="nodes-container"></div>
+      <div class="loading" id="diagram-loading">Loading wiring data...</div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Key Depository -->
+      <div class="panel" id="keys-panel">
+        <h2>Key Depository</h2>
+        <p style="font-size:11px;color:var(--muted);margin-bottom:12px;">
+          Source: <code>/root/str-stack/.env</code> &mdash;
+          <a href="javascript:void(0)" style="color:var(--gold);" title="Edit master .env then run: bash /root/str-stack/sync-keys.sh">Sync Instructions</a>
+        </p>
+        <table class="key-table">
+          <thead><tr><th>Key</th><th>Value</th><th>Status</th><th>Used By</th></tr></thead>
+          <tbody id="keys-body"><tr><td colspan="4" style="text-align:center;color:var(--muted);">Loading...</td></tr></tbody>
+        </table>
+      </div>
+
+      <!-- Breakpoints -->
+      <div class="panel" id="breaks-panel">
+        <h2>Breakpoints &amp; Issues</h2>
+        <div id="breaks-list"><div class="loading">Loading...</div></div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:16px;">
+      <a class="back-link" href="dashboard.html">&larr; Back to Command Center</a>
+    </div>
+  </div>
+
+  <script>
+  // ── Node layout positions (x%, y%) ──
+  const NODE_POSITIONS = {
+    // Core services (center column)
+    nginx:       { x: 50, y: 6 },
+    swarmclaw:   { x: 22, y: 22 },
+    openclaw_gw: { x: 50, y: 22 },
+    flowise:     { x: 78, y: 22 },
+    vapi_relay:  { x: 22, y: 42 },
+    redis:       { x: 8,  y: 32 },
+    flowise_db:  { x: 92, y: 32 },
+    tailscale:   { x: 8,  y: 8 },
+    paperclip:   { x: 36, y: 22 },
+    // External APIs (bottom rows)
+    discord:       { x: 36, y: 44 },
+    openai:        { x: 50, y: 44 },
+    ghl_master:    { x: 64, y: 44 },
+    ghl_callcenter:{ x: 78, y: 44 },
+    vapi_cloud:    { x: 8,  y: 56 },
+    instantly:     { x: 22, y: 62 },
+    clay:          { x: 36, y: 62 },
+    apollo:        { x: 50, y: 62 },
+    slack:         { x: 64, y: 62 },
+    apify:         { x: 78, y: 62 },
+    elevenlabs:    { x: 36, y: 78 },
+    make:          { x: 50, y: 78 },
+  };
+
+  let data = null;
+
+  async function loadData() {
+    try {
+      const r = await fetch('wiring-data.json?t=' + Date.now());
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      data = await r.json();
+      render();
+    } catch (e) {
+      document.getElementById('diagram-loading').innerHTML =
+        '<div class="error-msg">Could not load wiring-data.json<br><small>' + e.message +
+        '</small><br><br><small>Run: <code>bash /root/str-stack/wiring-check.sh</code></small></div>';
+    }
+  }
+
+  function render() {
+    document.getElementById('diagram-loading').style.display = 'none';
+    renderSummary();
+    renderNodes();
+    renderWires();
+    renderKeys();
+    renderBreakpoints();
+    document.getElementById('last-check').textContent = data.generated_at || 'unknown';
+  }
+
+  function renderSummary() {
+    const s = data.summary;
+    setPill('pill-services', s.services_up, s.total_services, 'Services');
+    setPill('pill-apis', s.apis_healthy, s.total_apis, 'APIs');
+    setPill('pill-wires', s.wires_ok, s.total_wires, 'Wires');
+  }
+
+  function setPill(id, ok, total, label) {
+    const el = document.getElementById(id);
+    el.textContent = ok + '/' + total + ' ' + label;
+    el.className = 'summary-pill ' + (ok === total ? 'good' : ok > total/2 ? 'warn' : 'bad');
+  }
+
+  function renderNodes() {
+    const container = document.getElementById('nodes-container');
+    container.innerHTML = '';
+    const allNodes = [...data.nodes.services, ...data.nodes.external];
+    allNodes.forEach(n => {
+      const pos = NODE_POSITIONS[n.id];
+      if (!pos) return;
+      const div = document.createElement('div');
+      div.className = 'node ' + n.status;
+      div.id = 'node-' + n.id;
+      div.style.left = pos.x + '%';
+      div.style.top = pos.y + '%';
+      div.style.transform = 'translate(-50%, -50%)';
+      div.innerHTML =
+        '<div class="label"><span class="status-dot"></span>' + n.label + '</div>' +
+        (n.detail ? '<div class="detail">' + n.detail + '</div>' : '') +
+        (n.port ? '<div class="port">:' + n.port + '</div>' : '');
+      container.appendChild(div);
+    });
+  }
+
+  function renderWires() {
+    const svg = document.getElementById('wires-svg');
+    svg.innerHTML = '';
+    const panel = document.getElementById('diagram-panel');
+    const rect = panel.getBoundingClientRect();
+
+    data.wires.forEach(w => {
+      const fromEl = document.getElementById('node-' + w.from);
+      const toEl = document.getElementById('node-' + w.to);
+      if (!fromEl || !toEl) return;
+
+      const fromRect = fromEl.getBoundingClientRect();
+      const toRect = toEl.getBoundingClientRect();
+
+      const x1 = fromRect.left + fromRect.width / 2 - rect.left;
+      const y1 = fromRect.top + fromRect.height / 2 - rect.top;
+      const x2 = toRect.left + toRect.width / 2 - rect.left;
+      const y2 = toRect.top + toRect.height / 2 - rect.top;
+
+      // Curved path
+      const mx = (x1 + x2) / 2;
+      const my = (y1 + y2) / 2;
+      const dx = Math.abs(x2 - x1);
+      const dy = Math.abs(y2 - y1);
+      const curve = Math.min(dx, dy) * 0.3;
+      const cx = mx;
+      const cy = my - curve;
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`);
+      path.setAttribute('class', 'wire ' + w.status);
+      svg.appendChild(path);
+
+      // Wire label
+      if (w.label) {
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', mx);
+        text.setAttribute('y', cy - 6);
+        text.setAttribute('class', 'wire-label');
+        text.textContent = w.label;
+        svg.appendChild(text);
+      }
+    });
+  }
+
+  function renderKeys() {
+    const tbody = document.getElementById('keys-body');
+    tbody.innerHTML = '';
+    data.keys.forEach(k => {
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td class="key-name">' + k.name + '</td>' +
+        '<td class="key-masked">' + k.masked + '</td>' +
+        '<td><span class="key-badge ' + k.status + '">' + k.status.toUpperCase() +
+        (k.http > 0 ? ' (' + k.http + ')' : '') + '</span></td>' +
+        '<td class="key-target">' + k.target + '</td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  function renderBreakpoints() {
+    const list = document.getElementById('breaks-list');
+    list.innerHTML = '';
+    if (!data.breakpoints || data.breakpoints.length === 0 ||
+        (data.breakpoints.length === 1 && data.breakpoints[0].component === 'none')) {
+      list.innerHTML = '<div class="break-item info"><span class="break-component">All Clear</span> All systems operational</div>';
+      return;
+    }
+    data.breakpoints.forEach(b => {
+      if (b.component === 'none') return;
+      const div = document.createElement('div');
+      div.className = 'break-item ' + b.severity;
+      div.innerHTML =
+        '<span class="break-severity">' + b.severity + '</span>' +
+        '<span class="break-component">' + b.component + '</span> &mdash; ' + b.issue;
+      list.appendChild(div);
+    });
+  }
+
+  // Handle resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { if (data) renderWires(); }, 200);
+  });
+
+  // Initial load + auto-refresh every 60s
+  loadData();
+  setInterval(loadData, 60000);
+  </script>
+</body>
+</html>

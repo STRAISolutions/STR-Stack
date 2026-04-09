@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>STR Mission Control – Preview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family:'Inter','Segoe UI',sans-serif; background:#070a12; color:#f5f7fb; margin:0; padding:40px; }
+    h1 { margin-top:0; font-size:32px; }
+    p { color:#a8b0c7; max-width:720px; }
+    .preview-box { margin-top:24px; border-radius:16px; border:1px solid rgba(255,255,255,0.08); background:linear-gradient(145deg,#0f1421,#131a2a); padding:32px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:24px; }
+    .card { background:rgba(7,10,18,0.6); border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:18px; }
+    .label { text-transform:uppercase; font-size:12px; letter-spacing:0.12em; color:#7f89a6; }
+    .value { font-size:36px; font-weight:700; margin:6px 0; }
+    .cta { margin-top:30px; padding:18px; border-radius:12px; background:#10172a; border:1px dashed rgba(255,255,255,0.1); }
+    code { background:#11182c; padding:3px 6px; border-radius:6px; }
+    a { color:#5b8dff; }
+  </style>
+</head>
+<body>
+  <h1>STR Solutions — Command Center (Preview)</h1>
+  <p>This public preview shows the look & feel of the password-protected dashboard now live on the droplet. The real board auto-refreshes every 60 s, pulls CONTEXT.md, surfaces priority blockers, and includes direct links into Flowise, GHL, Instantly, Vapi, Gmail, and Discord.</p>
+  <div class="preview-box">
+    <div class="grid">
+      <div class="card">
+        <div class="label">Skills Installed</div>
+        <div class="value">16</div>
+        <div class="label">OpenClaw packages on droplet</div>
+      </div>
+      <div class="card">
+        <div class="label">Clay ICP Feed</div>
+        <div class="value">4,756</div>
+        <div class="label">webhook rows (99 enriched)</div>
+      </div>
+      <div class="card">
+        <div class="label">Demo Target</div>
+        <div class="value">30/day</div>
+        <div class="label">Apollo → Clay → Instantly → GHL → Vapi</div>
+      </div>
+    </div>
+    <div class="cta">
+      <strong>Full access:</strong> use HTTPS basic auth at <code>https://dashboard.strsolutionsusa.com</code> with either <code>strdashboard / 5RkINuzY4KktKfJu</code> or <code>dashboard@strsolutionsusa.com / 3JJzJL2nEMfs5/fT</code>.
+    </div>
+  </div>
+  <p style="margin-top:32px; color:#7f89a6;">This preview is intentionally redacted (no CONTEXT.md output) so you can confirm the site loads without credentials. Once you’re ready, hit the full dashboard with the credentials above.</p>
+</body>
+</html>

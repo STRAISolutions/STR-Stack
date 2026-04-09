@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-09T16:57:01Z",
+  "generated_at": "2026-04-09T13:09:01Z",
   "nodes": {
     "services": [
       {"id":"nginx","label":"Nginx","port":"80/443","status":"on","type":"proxy"},
@@ -9,8 +9,7 @@
       {"id":"flowise_db","label":"Flowise DB","port":"5432","status":"on","type":"database","detail":"PostgreSQL"},
       {"id":"vapi_relay","label":"Vapi Relay","port":"8443","status":"on","type":"service","detail":"Webhook Relay"},
       {"id":"redis","label":"Redis","port":"6379","status":"on","type":"database","detail":"Cache/Queue"},
-      {"id":"tailscale","label":"Tailscale","port":"VPN","status":"on","type":"network","detail":"Mesh VPN"},
-      {"id":"paperclip","label":"Paperclip","port":"3100","status":"on","type":"service","detail":"Multi-Agent Orchestrator"}
+      {"id":"tailscale","label":"Tailscale","port":"VPN","status":"on","type":"network","detail":"Mesh VPN"}
     ],
     "external": [
       {"id":"discord","label":"Discord","status":"on","type":"external","detail":"WebSocket Gateway"},
@@ -23,7 +22,7 @@
       {"id":"vapi_cloud","label":"Vapi Cloud","status":"on","type":"external","detail":"Voice AI"},
       {"id":"slack","label":"Slack","status":"trouble","type":"external","detail":"Notifications"},
       {"id":"apify","label":"Apify","status":"on","type":"external","detail":"Web Scraping"},
-      {"id":"elevenlabs","label":"ElevenLabs","status":"on","type":"external","detail":"Voice Clone"},
+      {"id":"elevenlabs","label":"ElevenLabs","status":"trouble","type":"external","detail":"Voice Clone"},
       {"id":"make","label":"Make","status":"trouble","type":"external","detail":"Automation"},
       {"id":"gamma","label":"Gamma","status":"on","type":"external","detail":"Presentations"},
       {"id":"heygen","label":"HeyGen","status":"standby","type":"external","detail":"AI Video"},
@@ -41,8 +40,7 @@
     {"from":"flowise","to":"openai","label":"API Key","status":"idle"},
     {"from":"vapi_relay","to":"openclaw_gw","label":"webhook","status":"idle"},
     {"from":"swarmclaw","to":"openai","label":"API (OAuth)","status":"idle"},
-    {"from":"swarmclaw","to":"redis","label":"cache","status":"idle"},
-    {"from":"paperclip","to":"openclaw_gw","label":"WebSocket :18789","status":"idle"}
+    {"from":"swarmclaw","to":"redis","label":"cache","status":"idle"}
   ],
   "keys": [
     {"name":"OPENAI_API_KEY","masked":"sk-proj-...TOMA","status":"on","http":200,"target":"OpenClaw, Flowise, Swarmclaw"},
@@ -56,7 +54,7 @@
     {"name":"VAPI_API_KEY","masked":"48cc1c2e...0a5d","status":"on","http":200,"target":"Voice AI / PAM"},
     {"name":"SLACK_TOKEN","masked":"xoxe.xox...MDky","status":"trouble","http":200,"target":"Notifications"},
     {"name":"APIFY_API_KEY","masked":"apify_ap...yEkv","status":"on","http":200,"target":"Web Scraping"},
-    {"name":"ELEVENLABS_API_KEY","masked":"sk_a601e...cdfc","status":"on","http":200,"target":"Voice Clone"},
+    {"name":"ELEVENLABS_API_KEY","masked":"sk_a601e...cdfc","status":"trouble","http":000000,"target":"Voice Clone"},
     {"name":"MAKE_API_TOKEN","masked":"c95c833a...1105","status":"trouble","http":401,"target":"Automation"},
     {"name":"AIRDNA_API_KEY","masked":"f0cd7cc9...e48a","status":"standby","http":0,"target":"Market Data"}
   ],
@@ -65,12 +63,12 @@
     {"component":"Slack","issue":"Token trouble - notifications blocked","severity":"low","failed_at":"2026-04-04T16:28:32Z","fail_reason":"HTTP 200"}
   ],
   "summary": {
-    "total_services": 9,
-    "services_up": 9,
+    "total_services": 8,
+    "services_up": 8,
     "total_apis": 12,
-    "apis_healthy": 9,
-    "total_wires": 12,
-    "wires_ok": 12,
+    "apis_healthy": 8,
+    "total_wires": 11,
+    "wires_ok": 11,
     "critical_breaks": 0
   }
 }

@@ -1,0 +1,284 @@
+STR Solutions Security Audit — 2026-03-22 18:18 UTC
+Hostname: ubuntu-s-2vcpu-4gb-sfo2-01 | IP: 134.209.11.87
+
+========================================================================
+  1. OS & KERNEL
+
+========================================================================
+[INFO] Ubuntu 24.04.4 LTS
+[INFO] Kernel: 6.8.0-106-generic
+[PASS] No pending security updates
+[PASS] unattended-upgrades is installed
+
+========================================================================
+  2. FIREWALL (UFW)
+
+========================================================================
+[PASS] UFW is active
+[INFO]   22/tcp (OpenSSH)           ALLOW IN    Anywhere
+[INFO]   80/tcp                     ALLOW IN    Anywhere
+[INFO]   1024:65535/udp             ALLOW IN    Anywhere                   # Discord voice UDP responses
+[INFO]   8443/tcp                   ALLOW IN    Anywhere                   # Vapi webhook relay
+[INFO]   443/tcp                    ALLOW IN    Anywhere
+[INFO]   3000/tcp                   ALLOW IN    Anywhere
+[INFO]   22/tcp (OpenSSH (v6))      ALLOW IN    Anywhere (v6)
+[INFO]   80/tcp (v6)                ALLOW IN    Anywhere (v6)
+[INFO]   1024:65535/udp (v6)        ALLOW IN    Anywhere (v6)              # Discord voice UDP responses
+[INFO]   8443/tcp (v6)              ALLOW IN    Anywhere (v6)              # Vapi webhook relay
+[INFO]   443/tcp (v6)               ALLOW IN    Anywhere (v6)
+[INFO]   3000/tcp (v6)              ALLOW IN    Anywhere (v6)
+[INFO]   443/udp                    ALLOW OUT   Anywhere                   # Discord voice UDP
+[INFO]   443/udp (v6)               ALLOW OUT   Anywhere (v6)              # Discord voice UDP
+
+========================================================================
+  3. SSH HARDENING
+
+========================================================================
+[FAIL] SSH PasswordAuthentication is 'yes' — should be 'no'
+[WARN] SSH PermitRootLogin is 'yes' — consider 'prohibit-password' or 'no'
+[INFO] SSH on default port 22 (acceptable, but non-standard port adds obscurity)
+
+========================================================================
+  4. LISTENING SERVICES
+
+========================================================================
+[INFO] Ports listening on 0.0.0.0 / [::]  (public-facing):
+[INFO]   :80 (nginx) — HTTP/S
+[INFO]   :22 (sshd) — SSH
+[INFO]   :8443 (node) — Vapi relay (expected, public via Funnel)
+[WARN]   :5100 (python3) — unexpected public listener, verify intent
+[WARN]   :5001 (python3) — unexpected public listener, verify intent
+[WARN]   :631 (cupsd) — unexpected public listener, verify intent
+[WARN]   :53 (systemd-resolve) — unexpected public listener, verify intent
+[WARN]   :5200 (node) — unexpected public listener, verify intent
+[WARN]   :5300 (node) — unexpected public listener, verify intent
+[INFO]   :443 (nginx) — HTTP/S
+[WARN]   :5679 (node) — unexpected public listener, verify intent
+[WARN]   :9876 (python3) — unexpected public listener, verify intent
+[WARN]   :18792 (openclaw-gatewa) — unexpected public listener, verify intent
+[WARN]   :18789 (openclaw-gatewa) — unexpected public listener, verify intent
+[WARN]   :18791 (openclaw-gatewa) — unexpected public listener, verify intent
+[WARN]   :3000 (docker-proxy) — unexpected public listener, verify intent
+[INFO]   :443 (tailscaled) — HTTP/S
+[WARN]   :10000 (tailscaled) — unexpected public listener, verify intent
+[WARN]   :53 (systemd-resolve) — unexpected public listener, verify intent
+[WARN]   :3456 (next-server (v1) — unexpected public listener, verify intent
+[WARN]   :42315 (tailscaled) — unexpected public listener, verify intent
+[INFO]   :22 (sshd) — SSH
+[WARN]   :631 (cupsd) — unexpected public listener, verify intent
+[WARN]   :63732 (tailscaled) — unexpected public listener, verify intent
+[WARN]   :18789 (openclaw-gatewa) — unexpected public listener, verify intent
+[WARN]   :10000 (tailscaled) — unexpected public listener, verify intent
+[WARN]   :3000 (docker-proxy) — unexpected public listener, verify intent
+[INFO]   :443 (tailscaled) — HTTP/S
+[INFO] 
+[INFO] Ports listening on 127.0.0.1 (loopback only — good):
+[INFO]   :5100 (python3)
+[INFO]   :5001 (python3)
+[INFO]   :5200 (node)
+[INFO]   :5300 (node)
+[INFO]   :5679 (node)
+[INFO]   :9876 (python3)
+[INFO]   :18792 (openclaw-gatewa)
+[INFO]   :18789 (openclaw-gatewa)
+[INFO]   :18791 (openclaw-gatewa)
+[INFO]   :3456 (next-server (v1)
+
+========================================================================
+  5. DOCKER SECURITY
+
+========================================================================
+[INFO] Docker version: 29.3.0,
+[WARN] Container 'flowise' runs as root
+[WARN] Container 'flowise-db' runs as root
+[PASS] Docker socket permissions: 660
+
+========================================================================
+  6. SECRETS & SENSITIVE FILES
+
+========================================================================
+[PASS] /root/.openclaw/.env permissions: 600 (owner: root)
+[FAIL] /opt/swarmclaw/.next/standalone/.env.local is world-readable (perms: 644) — fix: chmod 600 /opt/swarmclaw/.next/standalone/.env.local
+[FAIL] /opt/flowise/.env is world-readable (perms: 644) — fix: chmod 600 /opt/flowise/.env
+[FAIL] /opt/flowise/docker-compose.yml is world-readable (perms: 644) — fix: chmod 600 /opt/flowise/docker-compose.yml
+[INFO] Scanning for potential leaked secrets in home directories...
+[WARN] Possible API keys found in plaintext files:
+[WARN]   /root/.claude/projects/-root-str-stack/2f5955c3-a6d9-49c4-a25f-a515a614f73c/tool-results/bvq6h51t6.txt
+
+========================================================================
+  7. USER ACCOUNTS & SUDO
+
+========================================================================
+[PASS] Only 'root' has UID 0
+[INFO] Accounts with login shells:
+[INFO]   root (uid=0, shell=/bin/bash)
+[INFO]   sync (uid=4, shell=/bin/sync)
+[INFO]   swarmclaw (uid=997, shell=/bin/bash)
+[INFO] Sudoers (non-comment entries):
+[INFO]   root	ALL=(ALL:ALL) ALL
+[INFO]   %admin ALL=(ALL) ALL
+[INFO]   %sudo	ALL=(ALL:ALL) ALL
+[INFO]   @includedir /etc/sudoers.d
+[INFO]   [/etc/sudoers.d/90-cloud-init-users] root ALL=(ALL) NOPASSWD:ALL
+
+========================================================================
+  8. AUTHORIZED SSH KEYS
+
+========================================================================
+[INFO] Keys in /root/.ssh/authorized_keys:
+[INFO]   ssh-ed25519 ... str-gateway
+[INFO]   ssh-ed25519 ... ubuntu@bb0c857bb459
+[INFO]   ssh-ed25519 ... laptop@SSIMADAMS
+[INFO]   ssh-rsa ... laptop@SSIMADAMS
+[INFO]   ssh-ed25519 ... ubuntu@devin-box
+[INFO]   <my_public_key> ... <my_public_key>
+[INFO]   ssh-ed25519 ... ubuntu@devin-box
+[INFO]   ssh-ed25519 ... laptop@SSIMADAMS
+[INFO]   ssh-ed25519 ... laptop@SSIMADAMS
+[INFO]   ssh-ed25519 ... devin@strsolutions
+[INFO]   PASTE_YOUR_PUBLIC_KEY_HERE ... PASTE_YOUR_PUBLIC_KEY_HERE
+[INFO]   ssh-rsa ... laptop@SSIMADAMS
+[PASS] /root/.ssh/authorized_keys permissions: 600
+
+========================================================================
+  9. TAILSCALE & FUNNEL EXPOSURE
+
+========================================================================
+[INFO] Tailscale status:
+[INFO]   100.101.4.1    openclaw-droplet  mike@  linux    -
+[INFO]   100.89.132.1   ssimadams         mike@  windows  active; direct 76.68.75.15:41641, tx 12033024 rx 621176
+[INFO]   100.85.210.63  system-10         mike@  windows  -
+[INFO]   
+[INFO]   # Funnel on:
+[INFO] Tailscale serve/funnel config:
+[INFO]   
+[INFO]   # Funnel on:
+[INFO]   #     - https://openclaw-droplet.tailb44e91.ts.net:10000
+[INFO]   
+[INFO]   https://openclaw-droplet.tailb44e91.ts.net:10000 (Funnel on)
+[INFO]   |-- / proxy http://127.0.0.1:3456
+[INFO]   
+[INFO]   https://openclaw-droplet.tailb44e91.ts.net (tailnet only)
+[INFO]   |-- /     proxy http://127.0.0.1:18789
+[INFO]   |-- /vapi proxy http://127.0.0.1:8443
+[INFO]   
+[PASS] Funnel port :10000 is expected
+[WARN] Funnel port :18789 — verify this is intentional
+[WARN] Funnel port :3456 — verify this is intentional
+[PASS] Funnel port :8443 is expected
+
+========================================================================
+  10. SYSTEMD SERVICES & CRON
+
+========================================================================
+[INFO] Custom systemd services (enabled):
+[INFO]   UNIT FILE                              STATE   PRESET
+[INFO]   airdna-service.service                 enabled enabled
+[INFO]   apport.service                         enabled enabled
+[INFO]   blk-availability.service               enabled enabled
+[INFO]   console-setup.service                  enabled enabled
+[INFO]   containerd.service                     enabled enabled
+[INFO]   dmesg.service                          enabled enabled
+[INFO]   do-agent.service                       enabled enabled
+[INFO]   docker.service                         enabled enabled
+[INFO]   droplet-agent.service                  enabled enabled
+[INFO]   e2scrub_reap.service                   enabled enabled
+[INFO]   finalrd.service                        enabled enabled
+[INFO]   grub-common.service                    enabled enabled
+[INFO]   grub-initrd-fallback.service           enabled enabled
+[INFO]   keyboard-setup.service                 enabled enabled
+[INFO]   lvm2-monitor.service                   enabled enabled
+[INFO]   n8n.service                            enabled enabled
+[INFO]   nginx.service                          enabled enabled
+[INFO]   open-iscsi.service                     enabled enabled
+[INFO]   open-vm-tools.service                  enabled enabled
+[INFO]   pollinate.service                      enabled enabled
+[INFO]   router.service                         enabled enabled
+[INFO]   secureboot-db.service                  enabled enabled
+[INFO]   setvtrgb.service                       enabled enabled
+[INFO]   str-pipeline-webhook.service           enabled enabled
+[INFO]   stt-service.service                    enabled enabled
+[INFO]   swarmclaw.service                      enabled enabled
+[INFO]   sysstat.service                        enabled enabled
+[INFO]   tailscaled.service                     enabled enabled
+[INFO]   tts-service.service                    enabled enabled
+[INFO]   ua-reboot-cmds.service                 enabled enabled
+[INFO]   ubuntu-advantage.service               enabled enabled
+[INFO]   vapi-relay.service                     enabled enabled
+[INFO]   vgauth.service                         enabled enabled
+[INFO]   vpc-peering.service                    enabled enabled
+[INFO]   62 unit files listed.
+[INFO] 
+[INFO] Cron jobs (root):
+[INFO]   0 6 * * * /root/str-stack/prompts/run_pipeline.sh >> /root/str-stack/prompts/pipeline.log 2>&1
+[INFO]   0 8 * * * /root/.openclaw/scripts/nightly_audit.sh >> /root/.openclaw/logs/audit.log 2>&1
+[INFO]   */5 * * * * /root/.openclaw/workspace/Scripts/update_flowise_health.py >/dev/null 2>&1
+[INFO]   */5 * * * * /root/str-stack/flowise-stats.sh >/dev/null 2>&1
+[INFO]   * * * * * /root/str-stack/health-check.sh >/dev/null 2>&1
+[INFO]   */5 * * * * /root/str-stack/kpi-update.sh >/dev/null 2>&1
+[INFO] 
+[INFO] System cron (/etc/cron.d/):
+[INFO]   [/etc/cron.d/certbot] SHELL=/bin/sh
+[INFO]   [/etc/cron.d/certbot] PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+[INFO]   [/etc/cron.d/certbot] 0 */12 * * * root test -x /usr/bin/certbot -a \! -d /run/systemd/system && perl -e 'sleep int(rand(43200))' && certbot -q renew --no-random-sleep-on-renew
+[INFO]   [/etc/cron.d/e2scrub_all] 30 3 * * 0 root test -e /run/systemd/system || SERVICE_MODE=1 /usr/lib/x86_64-linux-gnu/e2fsprogs/e2scrub_all_cron
+[INFO]   [/etc/cron.d/e2scrub_all] 10 3 * * * root test -e /run/systemd/system || SERVICE_MODE=1 /sbin/e2scrub_all -A -r
+[INFO]   [/etc/cron.d/sysstat] PATH=/usr/lib/sysstat:/usr/sbin:/usr/sbin:/usr/bin:/sbin:/bin
+[INFO]   [/etc/cron.d/sysstat] 5-55/10 * * * * root command -v debian-sa1 > /dev/null && debian-sa1 1 1
+[INFO]   [/etc/cron.d/sysstat] 59 23 * * * root command -v debian-sa1 > /dev/null && debian-sa1 60 2
+
+========================================================================
+  11. FAIL2BAN / INTRUSION DETECTION
+
+========================================================================
+[WARN] fail2ban is NOT installed — recommended: apt install fail2ban
+
+========================================================================
+  12. DISK & RESOURCE USAGE
+
+========================================================================
+[INFO] Disk usage:
+  / — 48G used of 154G (31%)
+[PASS] Root disk usage: 31%
+[INFO] Memory:
+  RAM: 3.4Gi used / 7.8Gi total (245Mi free)
+  Swap: 0B used / 0B total
+
+========================================================================
+  13. RECENT AUTH FAILURES
+
+========================================================================
+[INFO] Failed SSH attempts in auth.log: 5129
+[WARN] High number of failed SSH attempts (5129) — ensure fail2ban is active
+[INFO] Top 5 offending IPs:
+[INFO]   37.60.230.8 — 290 attempts
+[INFO]   195.178.110.218 — 220 attempts
+[INFO]   193.32.162.151 — 168 attempts
+[INFO]   170.64.166.200 — 139 attempts
+[INFO]   2.57.122.96 — 102 attempts
+
+========================================================================
+  14. NGINX SECURITY (if present)
+
+========================================================================
+[INFO] Nginx version: 1.24.0 (Ubuntu)
+[PASS] server_tokens off (version hidden)
+[PASS]   flowise: SSL configured
+[PASS]   str-dashboard: SSL configured
+
+========================================================================
+  SUMMARY
+
+========================================================================
+
+  PASS: 13
+  WARN: 6
+  FAIL: 4
+  INFO: 35
+  ---
+  TOTAL checks: 58
+
+⚠  4 FAIL item(s) need immediate attention. Review above.
+⚡ 6 WARN item(s) should be addressed soon.
+
+Full report saved to: /root/str-stack/security-audit-report.txt

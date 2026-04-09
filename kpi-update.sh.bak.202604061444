@@ -1,0 +1,200 @@
+#!/bin/bash
+# Financial KPIs from GHL + Instantly → JSON for dashboard
+# Hot Lead Stages: Qualified-Booked + Routed to Call Center
+# LTV per account = $8,000 | Monthly STR Earnings = $750/account
+set -a; source <(grep -v "APP_PASSWORD" /root/str-stack/.env); set +a
+OUT="/root/str-stack/financial-kpis.json"
+TMP_OPPS="/tmp/ghl_opps_all.json"
+
+# ── GHL: Fetch ALL opportunities (paginated) ──
+echo "[]" > "$TMP_OPPS"
+AFTER=""
+PAGE=0
+
+while true; do
+  URL="https://services.leadconnectorhq.com/opportunities/search?location_id=${GHL_LOCATION_ID}&limit=100"
+  [ -n "$AFTER" ] && URL="${URL}&startAfterId=${AFTER}"
+
+  RESP=$(curl -s "$URL" \
+    -H "Authorization: Bearer ${GHL_MASTER_OAUTH}" \
+    -H "Version: 2021-07-28" 2>/dev/null)
+
+  AFTER=$(echo "$RESP" | python3 -c "
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    opps = d.get('opportunities', [])
+    with open('$TMP_OPPS') as f:
+        existing = json.load(f)
+    existing.extend(opps)
+    with open('$TMP_OPPS', 'w') as f:
+        json.dump(existing, f)
+    meta = d.get('meta', {})
+    npu = meta.get('nextPageUrl', '')
+    if 'startAfterId=' in npu:
+        print(npu.split('startAfterId=')[-1].split('&')[0])
+    else:
+        print('')
+except:
+    print('')
+" 2>/dev/null)
+
+  PAGE=$((PAGE + 1))
+  [ -z "$AFTER" ] && break
+  [ "$PAGE" -ge 20 ] && break
+done
+
+# ── Calculate pipeline metrics ──
+OPPS=$(python3 << 'PYEOF'
+import json
+from collections import Counter
+
+LTV = 8000          # Lifetime value per account
+MONTHLY_EARN = 750  # Monthly STR earnings per account
+
+with open('/tmp/ghl_opps_all.json') as f:
+    opps = json.load(f)
+
+total = len(opps)
+
+# HOT LEAD stages — only these count for pipeline value
+hot_stages = {
+    "f85e7cfb-5f7e-4297-abf2-33a275416a8e",  # Qualified - Booked
+    "0e8f9ce5-5db9-4529-bb37-685c39ecba7f",  # Routed to Call Center
+}
+
+# Count hot leads (open + in hot stages)
+hot_leads = [o for o in opps
+             if o.get('status') == 'open'
+             and o.get('pipelineStageId') in hot_stages]
+hot_count = len(hot_leads)
+
+# Financial calculations
+ltv_pipeline = hot_count * LTV
+monthly_gross = hot_count * MONTHLY_EARN
+
+# Overall counts
+won = sum(1 for o in opps if o.get('status') == 'won')
+open_count = sum(1 for o in opps if o.get('status') == 'open')
+lost = sum(1 for o in opps if o.get('status') == 'lost')
+ghl_value = sum(o.get('monetaryValue', 0) or 0 for o in opps)
+
+# Stage breakdown for hot leads
+stage_names = {
+    "f85e7cfb-5f7e-4297-abf2-33a275416a8e": "Qualified - Booked",
+    "0e8f9ce5-5db9-4529-bb37-685c39ecba7f": "Routed to Call Center",
+}
+stage_counts = Counter(stage_names.get(o.get('pipelineStageId',''), 'other') for o in hot_leads)
+stage_breakdown = dict(stage_counts.most_common())
+
+# Full pipeline stage breakdown (all open opps)
+all_stage_names = {
+    "1e27c19c-8b7f-4379-b88f-dcdedfcc10ea": "New Lead (Captured)",
+    "0e8f9ce5-5db9-4529-bb37-685c39ecba7f": "Routed to Call Center",
+    "fb056da9-7614-4f4d-acee-bacea935e095": "Qualified - Not Booked",
+    "f85e7cfb-5f7e-4297-abf2-33a275416a8e": "Qualified - Booked",
+    "926c80ea-bd7f-4f9b-bee3-d23450ff8d88": "Wrong Information",
+    "62159b43-d622-43d3-afd3-337dc8c16238": "Contract Sent",
+    "cbed8b9c-b111-4769-8727-04e9a3f78c79": "Contract Signed",
+    "1e54d545-7178-4016-b6b0-98089dbb731a": "Invoice Sent",
+    "8b95e5d0-5fd2-40d1-af18-e83af90620da": "Onboarding Started",
+    "cda9f83d-324b-4d5f-a449-180b1472686c": "Lost/Nurture",
+    "fd3d61d9-7ff8-459f-abed-d1486742902a": "Connected - Disqualified",
+    "d7a563cb-3311-4b7f-8a23-707d035c583a": "Closed - Lost",
+    "0a211fbe-b749-49da-b382-5442e60f1d40": "New Lead (Pre-Sign Up)",
+    "ca81b6d0-ee8d-4b76-a216-90e47e4b8107": "Payment Successful",
+    "9cf3d4d7-ee54-4094-ac70-bf153f883cd5": "Abandoned Cart",
+}
+all_open = [o for o in opps if o.get('status') == 'open']
+all_breakdown = Counter(all_stage_names.get(o.get('pipelineStageId',''), o.get('pipelineStageId','')[:20]) for o in all_open)
+
+print(json.dumps({
+    'total': total,
+    'hot_leads': hot_count,
+    'ltv_pipeline': ltv_pipeline,
+    'monthly_gross': monthly_gross,
+    'ltv_per_account': LTV,
+    'monthly_per_account': MONTHLY_EARN,
+    'ghl_monetary_value': ghl_value,
+    'won': won,
+    'open': open_count,
+    'lost': lost,
+    'hot_stage_breakdown': stage_breakdown,
+    'all_stage_breakdown': dict(all_breakdown.most_common(15))
+}))
+PYEOF
+)
+
+# ── Instantly campaign stats ──
+INSTANTLY_DATA=$(curl -s "https://api.instantly.ai/api/v1/campaign/list?api_key=${INSTANTLY_API_KEY}" 2>/dev/null)
+
+CAMP_STATS=$(echo "$INSTANTLY_DATA" | python3 -c "
+import sys, json
+try:
+    camps = json.load(sys.stdin)
+    total_leads = sum(c.get('leads_count', 0) for c in camps) if isinstance(camps, list) else 0
+    active = sum(1 for c in camps if c.get('status') == 1) if isinstance(camps, list) else 0
+    print(json.dumps({'total_leads': total_leads, 'active_campaigns': active, 'total_campaigns': len(camps) if isinstance(camps, list) else 0}))
+except:
+    print(json.dumps({'total_leads': 0, 'active_campaigns': 0, 'total_campaigns': 0}))
+" 2>/dev/null)
+
+# ── Build final KPI JSON ──
+export OPPS_JSON="$OPPS"
+export CAMPS_JSON="$CAMP_STATS"
+
+python3 << 'PYEOF'
+import json, datetime, os
+
+try:
+    opps = json.loads(os.environ.get('OPPS_JSON', '{}'))
+except:
+    opps = {}
+try:
+    camps = json.loads(os.environ.get('CAMPS_JSON', '{}'))
+except:
+    camps = {}
+
+kpi = {
+    'timestamp': datetime.datetime.now(datetime.UTC).strftime('%Y-%m-%dT%H:%M:%SZ'),
+    'pipeline': {
+        'ltv_pipeline': opps.get('ltv_pipeline', 0),
+        'monthly_gross': opps.get('monthly_gross', 0),
+        'hot_leads': opps.get('hot_leads', 0),
+        'ltv_per_account': opps.get('ltv_per_account', 8000),
+        'monthly_per_account': opps.get('monthly_per_account', 750),
+        'formula_ltv': 'hot_leads x $8,000 LTV',
+        'formula_monthly': 'hot_leads x $750/mo',
+        'open': opps.get('open', 0),
+        'lost': opps.get('lost', 0),
+        'won': opps.get('won', 0),
+        'total': opps.get('total', 0),
+        'ghl_monetary_value': opps.get('ghl_monetary_value', 0),
+        'hot_stage_breakdown': opps.get('hot_stage_breakdown', {}),
+        'all_stage_breakdown': opps.get('all_stage_breakdown', {})
+    },
+    'leads': {
+        'total': camps.get('total_leads', 0),
+        'active_campaigns': camps.get('active_campaigns', 0),
+        'total_campaigns': camps.get('total_campaigns', 0)
+    },
+    'demos': {
+        'booked': 0,
+        'target': 30
+    },
+    'email': {
+        'open_rate': 0,
+        'reply_rate': 0
+    },
+    'conversion': {
+        'rate': 0
+    }
+}
+
+out = '/root/str-stack/financial-kpis.json'
+with open(out, 'w') as f:
+    json.dump(kpi, f, indent=2)
+print(json.dumps(kpi, indent=2))
+PYEOF
+
+rm -f "$TMP_OPPS"
