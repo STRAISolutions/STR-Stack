@@ -1,0 +1,40 @@
+{
+  "updated_at": "2026-04-09T16:45:01Z",
+  "summary": {
+    "total_leads": 500,
+    "total_bookings": 197,
+    "active_bookings": 145,
+    "cancelled": 52,
+    "inquiries": 6
+  },
+  "revenue": {
+    "this_year": 143699.1,
+    "this_month": 142114.76,
+    "this_week": 253.02
+  },
+  "payments": {
+    "balance_due": 77276.9,
+    "overdue_count": 1,
+    "overdue_amount": 30.23
+  },
+  "arrivals": {
+    "this_week": 1,
+    "details": [
+      {
+        "guest": "Mauricio Coronado",
+        "checkin": "2026-04-10T16:00:00",
+        "channel": "AIRBNB",
+        "property": "0302ac83"
+      }
+    ]
+  },
+  "channels": {
+    "AIRBNB": 13,
+    "BOOKING_COM": 15,
+    "HOSTFULLY": 116,
+    "WHIMSTAY": 1
+  },
+  "properties": {
+    "total": 44
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "management_filter": {
+    "description": "Detect professional management companies",
+    "prompt": "You are evaluating a short-term rental listing. Determine if this property appears to be managed by a professional property management company (e.g., Vacasa, Evolve, Sonder, Guesty-hosted portfolio, branded management site). If YES return: {\"managed\": true, \"manager_name\": \"company name\"}. If NO return: {\"managed\": false, \"manager_name\": \"none\"}. Only return valid JSON."
+  },
+  "icp_classifier": {
+    "description": "Classify ICP type",
+    "prompt": "Classify this operator into one category: 1 = Side-Hustle Host (1-2 units), 2 = Local Property Manager (3-20 units), 3 = Multi-Unit Pro (6-50+ units), 4 = Boutique Hotel (<100 rooms), 5 = Unknown. Return JSON: {\"icp_type\": number, \"confidence\": percentage}."
+  },
+  "side_hustle_analysis": {
+    "prompt": "Analyze this 1-2 unit Airbnb host. Identify automation gaps, pricing gaps, exposure limitations. Return JSON: {\"primary_pain\": \"\", \"exposure_gap\": \"\", \"automation_gap\": \"\", \"confidence\": \"\"}"
+  },
+  "local_manager_analysis": {
+    "prompt": "Analyze this 3-20 unit independent operator. Identify operational bottlenecks, tech fragmentation, growth constraints. Return JSON: {\"growth_constraint\": \"\", \"tech_gap\": \"\", \"automation_opportunity\": \"\", \"confidence\": \"\"}"
+  },
+  "multi_unit_analysis": {
+    "prompt": "Analyze this 6-50+ unit operator. Identify performance gaps, RevPAR opportunity, exposure ceiling. Return JSON: {\"performance_gap\": \"\", \"revpar_opportunity\": \"\", \"enterprise_gap\": \"\", \"confidence\": \"\"}"
+  },
+  "boutique_hotel_analysis": {
+    "prompt": "Analyze this independent hotel under 100 rooms. Identify distribution gaps, pricing strategy limitations, OTA reliance. Return JSON: {\"distribution_gap\": \"\", \"pricing_gap\": \"\", \"confidence\": \"\"}"
+  },
+  "outbound_score": {
+    "prompt": "Score this lead 0-100 for outbound acquisition. Increase score if revenue > 40000, multiple listings, no manager detected, automation gaps visible. Decrease score if managed by large firm or outside North America. Return JSON: {\"score\": number, \"reason\": \"\"}"
+  }
+}

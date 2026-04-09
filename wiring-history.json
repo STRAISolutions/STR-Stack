@@ -1,0 +1,14 @@
+{
+  "Clay": {
+    "failed_at": "2026-04-04T16:28:32Z",
+    "fail_reason": "HTTP 401 from api.clay.com"
+  },
+  "Slack": {
+    "failed_at": "2026-04-04T16:28:32Z",
+    "fail_reason": "HTTP 200"
+  },
+  "Swarmclaw": {
+    "failed_at": "2026-04-09T16:55:01Z",
+    "fail_reason": "Service active, HTTP 000000"
+  }
+}

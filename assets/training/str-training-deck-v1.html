@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STR Solutions USA — Call Center Training</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{--navy:#1a1a2e;--navy2:#16213e;--gold:#c8a96e;--gold-soft:#e8d5a3;--white:#ffffff;--muted:#8899bb;--green:#27ae60;--red:#e74c3c;--orange:#e67e22;--blue:#3498db;}
+  body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow:hidden;height:100vh;width:100vw;cursor:pointer;-webkit-user-select:none;user-select:none;}
+
+  /* ── Progress Bar ── */
+  #progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-soft));z-index:1000;transition:width .4s ease;}
+  #timer-bar{position:fixed;top:3px;left:0;height:2px;background:var(--gold);opacity:.4;z-index:1000;transition:width linear;}
+
+  /* ── Controls ── */
+  #controls{position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(26,26,46,.95);border-top:1px solid rgba(200,169,110,.2);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;font-size:12px;}
+  #controls button{background:none;border:1px solid rgba(200,169,110,.3);color:var(--gold);padding:6px 16px;border-radius:4px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;transition:all .2s;}
+  #controls button:hover{background:var(--gold);color:var(--navy);}
+  #controls .slide-counter{color:var(--muted);font-size:13px;letter-spacing:.1em;}
+  #controls .auto-label{color:var(--gold);font-size:10px;letter-spacing:.15em;text-transform:uppercase;}
+
+  /* ── Slide Container ── */
+  #deck{position:relative;width:100vw;height:calc(100vh - 40px);overflow:hidden;}
+  .slide{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 80px 80px;opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;pointer-events:none;}
+  .slide.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+
+  /* ── Narration Panel ── */
+  .narration{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:70%;background:rgba(22,33,62,.92);border:1px solid rgba(200,169,110,.25);border-radius:10px;padding:14px 22px;font-size:13px;line-height:1.65;color:var(--muted);font-style:italic;text-align:center;backdrop-filter:blur(8px);opacity:0;animation:fadeNarration .8s ease .6s forwards;}
+  @keyframes fadeNarration{to{opacity:1;}}
+
+  /* ── Animations ── */
+  .reveal{opacity:0;transform:translateY(14px);transition:all .5s ease;}
+  .slide.active .reveal{opacity:1;transform:translateY(0);}
+  .slide.active .reveal:nth-child(1){transition-delay:.2s;}
+  .slide.active .reveal:nth-child(2){transition-delay:.4s;}
+  .slide.active .reveal:nth-child(3){transition-delay:.6s;}
+  .slide.active .reveal:nth-child(4){transition-delay:.8s;}
+  .slide.active .reveal:nth-child(5){transition-delay:1s;}
+  .slide.active .reveal:nth-child(6){transition-delay:1.2s;}
+  .slide.active .reveal:nth-child(7){transition-delay:1.4s;}
+  .slide.active .reveal:nth-child(8){transition-delay:1.6s;}
+  .slide.active .reveal:nth-child(9){transition-delay:1.8s;}
+  .slide.active .reveal:nth-child(10){transition-delay:2s;}
+
+  .spotlight{display:inline;background:linear-gradient(120deg,rgba(200,169,110,.15) 0%,rgba(200,169,110,.15) 100%);background-size:100% 100%;background-position:0 88%;padding:2px 6px;border-radius:3px;color:var(--gold);font-weight:700;}
+  .pulse{animation:goldPulse 2s ease-in-out infinite;}
+  @keyframes goldPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0);}50%{box-shadow:0 0 16px 4px rgba(200,169,110,.25);}}
+
+  /* ── Typography ── */
+  .slide-title{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:700;letter-spacing:.02em;margin-bottom:8px;text-align:center;}
+  .slide-subtitle{font-size:14px;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:30px;text-align:center;}
+  .slide-body{max-width:900px;width:100%;text-align:left;}
+  .slide-body p{font-size:15px;line-height:1.7;margin-bottom:12px;color:rgba(255,255,255,.85);}
+  .slide-body h3{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin:20px 0 8px;font-weight:600;}
+  .slide-body ul{list-style:none;padding:0;}
+  .slide-body ul li{padding:8px 0 8px 28px;position:relative;font-size:14px;line-height:1.6;color:rgba(255,255,255,.8);}
+  .slide-body ul li::before{content:'';position:absolute;left:0;top:14px;width:8px;height:8px;border-radius:50%;background:var(--gold);}
+
+  /* ── Cards / Columns ── */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;width:100%;max-width:900px;}
+  .col-card{background:rgba(22,33,62,.6);border:1px solid rgba(200,169,110,.15);border-radius:10px;padding:24px;}
+  .col-card h3{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);margin:0 0 12px;font-weight:600;}
+  .col-card ul li{font-size:13px;padding:5px 0 5px 22px;}
+  .col-card ul li::before{top:11px;width:6px;height:6px;}
+
+  /* ── Tags ── */
+  .tag{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:600;margin:2px 3px;letter-spacing:.03em;}
+  .tag-red{background:rgba(231,76,60,.2);color:#e74c3c;border:1px solid rgba(231,76,60,.3);}
+  .tag-green{background:rgba(39,174,96,.2);color:#27ae60;border:1px solid rgba(39,174,96,.3);}
+  .tag-blue{background:rgba(52,152,219,.2);color:#3498db;border:1px solid rgba(52,152,219,.3);}
+  .tag-orange{background:rgba(230,126,34,.2);color:#e67e22;border:1px solid rgba(230,126,34,.3);}
+  .tag-gold{background:rgba(200,169,110,.15);color:var(--gold);border:1px solid rgba(200,169,110,.3);}
+
+  /* ── Flow Diagram ── */
+  .flow-row{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;margin:16px 0;}
+  .flow-box{background:var(--navy2);border:1px solid rgba(200,169,110,.2);border-radius:8px;padding:14px 18px;text-align:center;min-width:120px;}
+  .flow-box.active-box{border-color:var(--gold);box-shadow:0 0 12px rgba(200,169,110,.3);}
+  .flow-box .flow-icon{font-size:22px;margin-bottom:4px;}
+  .flow-box .flow-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--white);}
+  .flow-arrow{font-size:18px;color:var(--gold);padding:0 8px;}
+
+  /* ── Pipeline Bar ── */
+  .pipeline-bar{display:flex;width:100%;max-width:900px;border-radius:8px;overflow:hidden;margin:16px 0;}
+  .pipe-stage{flex:1;padding:10px 4px;text-align:center;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;}
+
+  /* ── Timeline ── */
+  .timeline{position:relative;padding-left:40px;max-width:900px;width:100%;}
+  .timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:2px;background:rgba(200,169,110,.3);}
+  .timeline-item{position:relative;padding:0 0 20px 0;}
+  .timeline-dot{position:absolute;left:-34px;top:4px;width:16px;height:16px;border-radius:50%;background:var(--gold);border:3px solid var(--navy);}
+  .timeline-item h4{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold);margin:0 0 4px;}
+  .timeline-item p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.5;}
+
+  /* ── Table ── */
+  .data-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px;}
+  .data-table th{text-align:left;padding:10px 12px;color:var(--gold);font-size:10px;letter-spacing:.12em;text-transform:uppercase;border-bottom:2px solid rgba(200,169,110,.3);font-weight:600;}
+  .data-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.8);}
+  .data-table tr:nth-child(even) td{background:rgba(22,33,62,.4);}
+
+  /* ── Watermark ── */
+  .watermark{position:fixed;bottom:48px;right:24px;opacity:.08;z-index:998;font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:700;letter-spacing:.1em;color:var(--white);}
+
+  /* ── Slide 1 Special ── */
+  .hero-slide{background:linear-gradient(135deg,#0d0d1a 0%,#1a1a2e 40%,#16213e 100%);justify-content:center;text-align:center;}
+  .hero-logo{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#333 0%,#666 50%,#333 100%);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 8px 40px rgba(0,0,0,.4);border:2px solid rgba(200,169,110,.3);}
+  .hero-logo span{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--white);letter-spacing:.08em;}
+  .hero-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;letter-spacing:.04em;margin-bottom:8px;background:linear-gradient(135deg,#fff 0%,#e8d5a3 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .hero-sub{font-size:16px;color:rgba(255,255,255,.7);max-width:600px;margin:0 auto 28px;line-height:1.6;}
+  .hero-badges{display:flex;gap:12px;justify-content:center;}
+  .hero-badge{padding:8px 20px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;}
+  .hero-badge.gold{background:var(--gold);color:var(--navy);}
+  .hero-badge.outline{border:1px solid var(--gold);color:var(--gold);}
+  .hero-line{width:60px;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-soft));margin:20px auto;border-radius:2px;}
+</style>
+</head>
+<body>
+
+<div id="progress-bar" style="width:0%"></div>
+<div id="timer-bar" style="width:0%"></div>
+<div class="watermark">STR</div>
+
+<div id="deck">
+
+<!-- ═══════════════════ SLIDE 1: TITLE ═══════════════════ -->
+<div class="slide hero-slide active" data-narration="Welcome to STR Solutions USA. This training deck covers everything you need to succeed as a call center agent -- from how leads reach you, to closing deals, to tagging and tracking outcomes.">
+  <div class="hero-logo reveal"><span>STR</span></div>
+  <div class="hero-title reveal">STR Solutions USA</div>
+  <div class="hero-sub reveal" style="font-size:13px;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px;">Call Center</div>
+  <div class="hero-line reveal"></div>
+  <div class="hero-sub reveal">Your complete guide to <span class="spotlight">Lead Management &amp; Pipeline Mastery</span>. You are the front line of our sales operation.</div>
+  <div class="hero-badges reveal">
+    <span class="hero-badge gold">Agent Training</span>
+    <span class="hero-badge outline">Week 1 Onboarding</span>
+  </div>
+</div>
+
+<!-- ═══════════════════ SLIDE 2: FRONT LINE ═══════════════════ -->
+<div class="slide" data-narration="You are the connection between our company and property owners. This training covers how leads reach you, every pipeline stage, the tagging system, and your daily workflow. The systems are built to support you.">
+  <div class="slide-subtitle reveal">Your Role</div>
+  <div class="slide-title reveal">You Are the Front Line</div>
+  <div class="slide-body" style="margin-top:20px;">
+    <p class="reveal"><strong>Your Mission:</strong> Connect with property owners, qualify their fit, and book appointments &mdash; all tracked inside the CRM so <span class="spotlight">nothing falls through the cracks</span>.</p>
+    <h3 class="reveal">What This Training Covers</h3>
+    <ul>
+      <li class="reveal">How leads reach your queue</li>
+      <li class="reveal">Every pipeline stage &mdash; what it means and what to do</li>
+      <li class="reveal">Tags, notes, and lead profiles</li>
+      <li class="reveal">Your daily workflow and best practices</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════ SLIDE 3: LEAD FLOW ═══════════════════ -->
+<div class="slide" data-narration="Leads come from three main sources and arrive in your queue pre-qualified with notes, source tags, and context. They're distributed via round-robin -- fair and automatic. Every lead includes the owner's original reply.">
+  <div class="slide-subtitle reveal">Lead Sources</div>
+  <div class="slide-title reveal">How Leads Flow Into Your Queue</div>
+  <div class="flow-row reveal" style="margin-top:24px;">
+    <div class="flow-box"><div class="flow-icon">&#9993;</div><div class="flow-label">Cold Outreach</div></div>
+    <div class="flow-arrow">&#9654;</div>
+    <div class="flow-box"><div class="flow-icon">&#127760;</div><div class="flow-label">Inbound</div></div>
+    <div class="flow-arrow">&#9654;</div>
+    <div class="flow-box"><div class="flow-icon">&#129309;</div><div class="flow-label">Referrals</div></div>
+    <div class="flow-arrow">&#9654;</div>
+    <div class="flow-box active-box pulse"><div class="flow-icon">&#128203;</div><div class="flow-label">Your Queue</div></div>
+  </div>
+  <div class="slide-body" style="margin-top:20px;">
+    <ul>
+      <li class="reveal"><strong>Cold Outreach:</strong> Warm replies from property owners who responded to our emails</li>
+      <li class="reveal"><strong>Inbound:</strong> Owners who reach out via our website or forms</li>
+      <li class="reveal"><strong>Referrals:</strong> Leads from partner networks and trusted sources</li>
+      <li class="reveal">All leads arrive with <span class="spotlight">notes, source tags, and context</span> &mdash; ready for your call</li>
+      <li class="reveal">Distribution is automatic via <span class="spotlight">round-robin</span> &mdash; fair, balanced, instant</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════ SLIDE 4: PIPELINE ═══════════════════ -->
+<div class="slide" data-narration="The Owner Sales Pipeline has 8 stages. Stages 1 through 7 represent forward progress toward a closed deal. Stage 8 captures losses with mandatory reason tracking. Every move requires accurate tagging.">
+  <div class="slide-subtitle reveal">Pipeline Overview</div>
+  <div class="slide-title reveal">Owner Sales Pipeline &mdash; Your Roadmap</div>
+  <div class="pipeline-bar reveal" style="margin-top:30px;">
+    <div class="pipe-stage" style="background:#27ae60;">Call Queue</div>
+    <div class="pipe-stage" style="background:#2ecc71;">Attempted</div>
+    <div class="pipe-stage" style="background:#3498db;">Overflow</div>
+    <div class="pipe-stage" style="background:#2980b9;">Connected-DQ</div>
+    <div class="pipe-stage" style="background:#8e44ad;">Qualified</div>
+    <div class="pipe-stage" style="background:#f39c12;">Booked</div>
+    <div class="pipe-stage" style="background:#e67e22;">Contract</div>
+    <div class="pipe-stage" style="background:#e74c3c;">Lost</div>
+  </div>
+  <div class="slide-body" style="margin-top:20px;">
+    <p class="reveal">Stages 1&ndash;7 represent forward progress toward a <span class="spotlight">closed deal</span>.</p>
+    <p class="reveal">Stage 8 (Closed-Lost) captures deals that didn't convert &mdash; with <span class="spotlight">mandatory reason tracking</span> that shapes company strategy.</p>
+    <p class="reveal" style="color:var(--gold);font-weight:600;">Every move through the pipeline requires accurate tagging.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════ SLIDE 5: CALL QUEUE & ATTEMPTED ═══════════════════ -->
+<div class="slide" data-narration="Every lead starts in the Call Queue. Your goal is to make contact within minutes. Read their notes before you dial. If they don't answer, move them to Attempted and try again at different times. Most deals are won in the follow-up.">
+  <div class="slide-subtitle reveal">Stages 1 &amp; 2</div>
+  <div class="slide-title reveal">Call Queue &amp; Attempted</div>
+  <div class="two-col" style="margin-top:24px;">
+    <div class="col-card reveal">
+      <h3>&#128222; Call Queue</h3>
+      <ul>
+        <li>Every new lead starts here</li>
+        <li>Goal: <span class="spotlight">Contact within minutes</span></li>
+        <li>Read the lead's notes before you dial</li>
+        <li>Check source tags for context</li>
+        <li>If they answer &rarr; qualify<br>If not &rarr; move to Attempted</li>
+      </ul>
+    </div>
+    <div class="col-card reveal">
+      <h3>&#128247; Attempted / No Answer</h3>
+      <ul>
+        <li>Called but no pickup &mdash; that's okay</li>
+        <li>Try again at different times of day</li>
+        <li>Leave a voicemail referencing their inquiry</li>
+        <li>After multiple attempts: tag <span class="tag tag-orange">cc:lost_no_response</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="narration" style="position:relative;bottom:auto;left:auto;transform:none;width:100%;max-width:900px;margin-top:16px;">Most deals are won in the follow-up. Don't give up after one try.</div>
+</div>
+
+<!-- ═══════════════════ SLIDE 6: VAPI ═══════════════════ -->
+<div class="slide" data-narration="When call volume spikes, our AI voice assistant VAPI handles overflow. It conducts initial screening so no lead goes cold. You may receive pre-screened leads -- check their notes for the AI summary, then follow up with a human touch.">
+  <div class="slide-subtitle reveal">Stage 3 &mdash; Overflow</div>
+  <div class="slide-title reveal">VAPI &mdash; Your AI Backup</div>
+  <div class="slide-body" style="margin-top:24px;">
+    <div class="col-card reveal" style="max-width:900px;margin:0 auto 16px;">
+      <h3>&#129302; When Volume Spikes, VAPI Steps In</h3>
+      <p>Our AI voice assistant handles overflow &mdash; conducting initial screening conversations so <span class="spotlight">no lead goes cold</span>.</p>
+    </div>
+    <div class="col-card reveal" style="max-width:900px;margin:0 auto;">
+      <h3>&#128100; What You Do With VAPI Leads</h3>
+      <p>Check their notes for the AI conversation summary, then follow up with a personal, human touch.</p>
+    </div>
+    <p class="reveal" style="text-align:center;color:var(--gold);margin-top:16px;font-weight:600;font-size:14px;">VAPI supports you &mdash; it doesn't replace you. The human connection closes deals.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════ SLIDE 7: DQ ═══════════════════ -->
+<div class="slide" data-narration="When a lead doesn't qualify, you must select exactly one disqualification reason before moving them. This is mandatory -- the system flags it if the tag is missing. Six DQ tags are available, each for a specific scenario.">
+  <div class="slide-subtitle reveal">Stage 4</div>
+  <div class="slide-title reveal">Connected &mdash; Disqualified</div>
+  <div class="slide-body" style="margin-top:20px;">
+    <p class="reveal">You reached the lead but they don't qualify. Select <span class="spotlight">exactly one DQ reason tag</span> before moving:</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;">
+      <div class="reveal"><span class="tag tag-red">cc:dq_no_properties</span> No STR properties</div>
+      <div class="reveal"><span class="tag tag-red">cc:dq_wrong_market</span> Outside our service area</div>
+      <div class="reveal"><span class="tag tag-red">cc:dq_not_interested</span> Not interested</div>
+      <div class="reveal"><span class="tag tag-red">cc:dq_already_managed</span> Already with another PM</div>
+      <div class="reveal"><span class="tag tag-red">cc:dq_budget</span> Pricing doesn't fit</div>
+      <div class="reveal"><span class="tag tag-red">cc:dq_wrong_contact</span> Not the decision maker</div>
+    </div>
+    <p class="reveal" style="margin-top:16px;color:var(--orange);font-weight:600;font-size:13px;">&#9888; Add the DQ tag BEFORE moving the lead. The system will flag a warning if it's missing.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════ SLIDE 8: QUALIFIED & BOOKED ═══════════════════ -->
+<div class="slide" data-narration="These are your hottest leads. Qualified means they're interested but not yet committed -- your goal is to get the appointment. Once booked, prep by reviewing their property details. Handle no-shows and cancellations promptly.">
+  <div class="slide-subtitle reveal">Stages 5 &amp; 6</div>
+  <div class="slide-title reveal">Qualified &amp; Booked</div>
+  <div class="two-col" style="margin-top:24px;">
+    <div class="col-card reveal">
+      <h3>&#127919; Qualified &mdash; Not Booked</h3>
+      <ul>
+        <li>Prospect qualifies &mdash; interested but uncommitted</li>
+        <li>Goal: <span class="spotlight">Get the appointment scheduled</span></li>
+        <li>Use calendar links to remove friction</li>
+        <li>Address objections: timing, pricing, "need to think"</li>
+        <li>Follow up consistently &mdash; this is a hot lead</li>
+      </ul>
+    </div>
+    <div class="col-card reveal">
+      <h3>&#128197; Booked</h3>
+      <ul>
+        <li>Appointment is officially scheduled</li>
+        <li>Confirmations &amp; reminders go out automatically</li>
+        <li>Prep: review property details &amp; market data</li>
+        <li>No-show? Reschedule promptly</li>
+        <li>Cancellation? Understand why &amp; re-engage</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SLIDE 9: CONTRACT SENT ═══════════════════ -->
+<div class="slide" data-narration="When a contract is sent, tags are applied automatically. Most contracts close in 3 to 5 days. Your job is to support and inform, not pressure. Escalate to your supervisor if the prospect raises concerns you can't address.">
+  <div class="slide-subtitle reveal">Stage 7</div>
+  <div class="slide-title reveal">Contract Sent &mdash; Almost There</div>
+  <div class="flow-row reveal" style="margin-top:30px;">
+    <div class="flow-box"><div class="flow-icon">&#128200;</div><div class="flow-label">Escalate</div></div>
+    <div class="flow-arrow">&#9654;</div>
+    <div class="flow-box"><div class="flow-icon">&#128172;</div><div class="flow-label">Nudge Gently</div></div>
+    <div class="flow-arrow">&#9654;</div>
+    <div class="flow-box"><div class="flow-icon">&#10067;</div><div class="flow-label">Answer Q's</div></div>
+    <div class="flow-arrow">&#9654;</div>
+    <div class="flow-box active-box pulse"><div class="flow-icon">&#10004;</div><div class="flow-label">Follow Up</div></div>
+  </div>
+  <div class="slide-body" style="margin-top:24px;">
+    <p class="reveal"><strong>Auto-Applied Tags:</strong> <span class="tag tag-green">cc:contractsent</span> <span class="tag tag-green">docs:contractsent</span> &mdash; no action needed from you.</p>
+    <p class="reveal">Most contracts are signed within <span class="spotlight">3&ndash;5 business days</span>.</p>
+    <p class="reveal">Your role: inform and support &mdash; not pressure. Escalate to your supervisor for concerns you can't address.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════ SLIDE 10: CLOSED LOST ═══════════════════ -->
+<div class="slide" data-narration="When a deal is lost, you must add exactly one lost reason tag. This data directly shapes company strategy -- our pitch, pricing, and targeting all improve based on your input.">
+  <div class="slide-subtitle reveal">Stage 8</div>
+  <div class="slide-title reveal">Closed &mdash; Lost</div>
+  <div class="slide-body" style="margin-top:20px;">
+    <p class="reveal">Add <span class="spotlight">exactly one lost reason tag</span> before moving to Closed-Lost:</p>
+    <table class="data-table reveal" style="margin-top:14px;">
+      <thead><tr><th>Tag</th><th>When to Use</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-orange">cc:lost_no_response</span></td><td>Multiple attempts, never reached</td><td>Called 5+ times, no reply</td></tr>
+        <tr><td><span class="tag tag-orange">cc:lost_timing</span></td><td>Interested but timing is wrong</td><td>"Call me back in 6 months"</td></tr>
+        <tr><td><span class="tag tag-orange">cc:lost_competitor</span></td><td>Chose a competitor</td><td>"We signed with another company"</td></tr>
+        <tr><td><span class="tag tag-orange">cc:lost_price</span></td><td>Pricing too high</td><td>"Your rates are above our budget"</td></tr>
+      </tbody>
+    </table>
+    <p class="reveal" style="color:var(--gold);font-weight:600;margin-top:12px;font-size:13px;">Your input directly shapes our pitch, pricing, and targeting improvements.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════ SLIDE 11: TAGS REFERENCE ═══════════════════ -->
+<div class="slide" data-narration="Here's your quick reference for all tags. Blue source tags and green document tags are applied automatically. Red DQ tags and orange lost tags are your responsibility -- pick exactly one. A lead is either disqualified or lost, never both.">
+  <div class="slide-subtitle reveal">Reference</div>
+  <div class="slide-title reveal">Tags at a Glance</div>
+  <div class="two-col" style="margin-top:24px;">
+    <div class="col-card reveal">
+      <h3>&#128309; Auto-Applied</h3>
+      <p style="margin:8px 0;"><span class="tag tag-blue">src:instantly</span> Email outreach campaign</p>
+      <p style="margin:8px 0;"><span class="tag tag-blue">type:warm_reply</span> Positive response</p>
+      <p style="margin:8px 0;"><span class="tag tag-green">cc:contractsent</span> Contract sent</p>
+      <p style="margin:8px 0;"><span class="tag tag-green">docs:contractsent</span> Document tracking</p>
+    </div>
+    <div class="col-card reveal">
+      <h3>&#128308; Agent-Applied &mdash; Pick ONE</h3>
+      <p style="margin:6px 0;font-size:12px;color:var(--muted);font-weight:600;">DQ TAGS:</p>
+      <p style="margin:4px 0;"><span class="tag tag-red">cc:dq_no_properties</span> <span class="tag tag-red">cc:dq_wrong_market</span></p>
+      <p style="margin:4px 0;"><span class="tag tag-red">cc:dq_not_interested</span> <span class="tag tag-red">cc:dq_already_managed</span></p>
+      <p style="margin:4px 0;"><span class="tag tag-red">cc:dq_budget</span> <span class="tag tag-red">cc:dq_wrong_contact</span></p>
+      <p style="margin:6px 0 0;font-size:12px;color:var(--muted);font-weight:600;">LOST TAGS:</p>
+      <p style="margin:4px 0;"><span class="tag tag-orange">cc:lost_no_response</span> <span class="tag tag-orange">cc:lost_timing</span></p>
+      <p style="margin:4px 0;"><span class="tag tag-orange">cc:lost_competitor</span> <span class="tag tag-orange">cc:lost_price</span></p>
+    </div>
+  </div>
+  <p class="reveal" style="text-align:center;margin-top:14px;color:var(--muted);font-size:13px;">DQ and Lost tags are mutually exclusive &mdash; a lead is either disqualified OR lost, never both.</p>
+</div>
+
+<!-- ═══════════════════ SLIDE 12: ROUND ROBIN ═══════════════════ -->
+<div class="slide" data-narration="Lead distribution is fully automatic. A new lead enters the queue, the system checks your calendar, assigns the next available agent, and you call immediately. Keep your calendar accurate or leads route around you.">
+  <div class="slide-subtitle reveal">Distribution</div>
+  <div class="slide-title reveal">Lead Distribution &mdash; Round Robin</div>
+  <div class="flow-row reveal" style="margin-top:30px;">
+    <div class="flow-box"><div class="flow-icon">&#128229;</div><div class="flow-label">Lead Enters</div></div>
+    <div class="flow-arrow">&#9654;</div>
+    <div class="flow-box"><div class="flow-icon">&#128197;</div><div class="flow-label">Calendar Check</div></div>
+    <div class="flow-arrow">&#9654;</div>
+    <div class="flow-box"><div class="flow-icon">&#128100;</div><div class="flow-label">Auto-Assigned</div></div>
+    <div class="flow-arrow">&#9654;</div>
+    <div class="flow-box active-box pulse"><div class="flow-icon">&#128222;</div><div class="flow-label">Agent Calls</div></div>
+  </div>
+  <div class="slide-body" style="margin-top:24px;">
+    <p class="reveal"><span class="spotlight">Speed to lead</span> &mdash; contact within minutes of assignment.</p>
+    <p class="reveal" style="color:var(--orange);font-weight:600;">Keep your GHL calendar synced and working hours accurate. If your availability is off, leads route around you &mdash; and you miss opportunities.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════ SLIDE 13: LEAD PROFILE ═══════════════════ -->
+<div class="slide" data-narration="Every lead profile has four key areas. Contact info at the top. Tags showing origin and status. Notes containing the owner's original response -- always read this first. And pipeline stage with full activity history.">
+  <div class="slide-subtitle reveal">CRM Navigation</div>
+  <div class="slide-title reveal">What to Look For on Every Lead</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:900px;width:100%;margin-top:24px;">
+    <div class="col-card reveal">
+      <h3>&#128100; Contact Info</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.7);">Name, email, phone &mdash; top of the profile.</p>
+    </div>
+    <div class="col-card reveal">
+      <h3>&#127991; Tags</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.7);">Source tags show origin. Disposition tags show status.</p>
+    </div>
+    <div class="col-card reveal" style="border-color:var(--gold);">
+      <h3>&#128221; Notes &mdash; Read This First</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.7);">Contains the lead's original response. <span class="spotlight">Always read before calling.</span></p>
+    </div>
+    <div class="col-card reveal">
+      <h3>&#128200; Pipeline &amp; Activity</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.7);">Current stage, call logs, emails, and task history.</p>
+    </div>
+  </div>
+  <p class="reveal" style="text-align:center;margin-top:16px;font-size:13px;color:var(--gold);max-width:700px;font-style:italic;">"Hi, I saw you mentioned your Airbnb in Scottsdale &mdash; I'd love to share how we can maximize your bookings." Referencing their note builds instant rapport.</p>
+</div>
+
+<!-- ═══════════════════ SLIDE 14: DAILY WORKFLOW ═══════════════════ -->
+<div class="slide" data-narration="Here's your daily rhythm. Mornings: hit the Call Queue and follow up on Attempted leads. Midday: continue outbound, update stages in real time, tag immediately. Afternoons: push toward bookings and check contracts. End of day: confirm all leads are in the right stage.">
+  <div class="slide-subtitle reveal">Your Routine</div>
+  <div class="slide-title reveal">A Day in the Life</div>
+  <div class="timeline reveal" style="margin-top:30px;">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <h4>&#9728; Morning</h4>
+      <p>Check Call Queue &mdash; prioritize newest leads. Review Attempted leads needing follow-up. Re-engage no-shows from yesterday.</p>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <h4>&#9730; Midday</h4>
+      <p>Continue outbound calls. Update pipeline stages in real-time. Apply DQ or Lost tags immediately &mdash; don't wait.</p>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <h4>&#127749; Afternoon</h4>
+      <p>Push Qualified leads toward appointments. Check Contract Sent leads for questions. Log all calls and notes in the CRM.</p>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <h4>&#127769; End of Day</h4>
+      <p>Confirm all leads are in the correct stage. No lead sits in Call Queue overnight uncontacted. Update calendar for tomorrow.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SLIDE 15: SUCCESS TIPS ═══════════════════ -->
+<div class="slide" data-narration="Four best practices. Speed to lead -- contact within 5 minutes. Read the notes and personalize every call. Follow up relentlessly, 80 percent of deals need 5 plus follow-ups. Tag accurately and escalate early. Your supervisors monitor queue volume, booking rates, and tagging compliance.">
+  <div class="slide-subtitle reveal">Best Practices</div>
+  <div class="slide-title reveal">Tips for Success</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:900px;width:100%;margin-top:24px;">
+    <div class="col-card reveal" style="border-left:3px solid var(--gold);">
+      <h3>1. Speed to Lead</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.7);">Contact new leads within <span class="spotlight">5 minutes</span> &mdash; the #1 predictor of conversion.</p>
+    </div>
+    <div class="col-card reveal" style="border-left:3px solid var(--gold);">
+      <h3>2. Read the Notes</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.7);">Personalize every call using the lead's own words and context.</p>
+    </div>
+    <div class="col-card reveal" style="border-left:3px solid var(--gold);">
+      <h3>3. Follow Up Relentlessly</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.7);"><span class="spotlight">80% of deals</span> require 5+ follow-ups. Stay persistent.</p>
+    </div>
+    <div class="col-card reveal" style="border-left:3px solid var(--gold);">
+      <h3>4. Tag &amp; Escalate</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.7);">Honest tagging drives strategy. Loop in your supervisor on complex objections.</p>
+    </div>
+  </div>
+  <div class="col-card reveal" style="max-width:900px;width:100%;margin-top:16px;text-align:center;background:rgba(200,169,110,.08);border-color:var(--gold);">
+    <h3 style="margin-bottom:8px;">&#128202; Supervisor Dashboard Monitors</h3>
+    <p style="font-size:12px;color:var(--muted);line-height:1.7;">Call Queue volume &bull; Attempted backlog &bull; Booking rate &bull; DQ/Lost tagging compliance &bull; Contract pipeline</p>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ── Controls ── -->
+<div id="controls">
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button onclick="prevSlide()">&#9664; Prev</button>
+    <button onclick="nextSlide()">Next &#9654;</button>
+  </div>
+  <div class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">15</span></div>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <span class="auto-label" id="auto-label">Auto: On</span>
+    <button onclick="toggleAuto()" id="auto-btn">Pause</button>
+    <button onclick="setSpeed(-2)">Faster</button>
+    <button onclick="setSpeed(2)">Slower</button>
+  </div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  let currentIndex = 0;
+  let autoPlay = true;
+  let interval = 14000; // ms per slide
+  let timer = null;
+  let timerStart = 0;
+
+  document.getElementById('total-slides', totalSlides);
+
+  function showSlide(index) {
+    slides.forEach((s, i) => {
+      s.classList.toggle('active', i === index);
+    });
+    currentIndex = index;
+    document.getElementById('current-slide').textContent = index + 1;
+    document.getElementById('progress-bar').style.width = ((index + 1) / totalSlides * 100) + '%';
+    resetTimer();
+  }
+
+  function nextSlide() {
+    if (currentIndex < totalSlides - 1) showSlide(currentIndex + 1);
+    else showSlide(0); // loop
+  }
+
+  function prevSlide() {
+    if (currentIndex > 0) showSlide(currentIndex - 1);
+    else showSlide(totalSlides - 1);
+  }
+
+  function toggleAuto() {
+    autoPlay = !autoPlay;
+    document.getElementById('auto-label').textContent = autoPlay ? 'Auto: On' : 'Auto: Off';
+    document.getElementById('auto-btn').textContent = autoPlay ? 'Pause' : 'Play';
+    if (autoPlay) resetTimer();
+    else { clearInterval(timer); document.getElementById('timer-bar').style.width = '0%'; }
+  }
+
+  function setSpeed(delta) {
+    interval = Math.max(6000, Math.min(30000, interval + delta * 1000));
+    if (autoPlay) resetTimer();
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    if (!autoPlay) return;
+    timerStart = Date.now();
+    document.getElementById('timer-bar').style.transition = 'none';
+    document.getElementById('timer-bar').style.width = '0%';
+    requestAnimationFrame(() => {
+      document.getElementById('timer-bar').style.transition = 'width ' + interval + 'ms linear';
+      document.getElementById('timer-bar').style.width = '100%';
+    });
+    timer = setTimeout(() => {
+      nextSlide();
+    }, interval);
+  }
+
+  // Click to advance (not on controls)
+  document.getElementById('deck').addEventListener('click', (e) => {
+    if (e.target.closest('#controls')) return;
+    nextSlide();
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+    if (e.key === 'p' || e.key === 'P') toggleAuto();
+  });
+
+  // Initialize
+  showSlide(0);
+</script>
+</body>
+</html>

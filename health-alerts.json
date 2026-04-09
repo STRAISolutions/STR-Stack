@@ -1,0 +1,9 @@
+[
+  {
+    "timestamp": "2026-04-08 18:49:29",
+    "type": "failure",
+    "services": [
+      "Vapi_Relay DOWN (HTTP 404, expected 200)"
+    ]
+  }
+]

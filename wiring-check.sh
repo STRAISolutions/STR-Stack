@@ -1,0 +1,479 @@
+#!/usr/bin/env bash
+# ============================================================
+# STR Solutions — Live Wiring Diagram Data Generator
+# Probes every service, API key, and connection in the stack.
+# Writes /srv/str-stack-public/wiring-data.json
+# Usage: bash /root/str-stack/wiring-check.sh
+# Cron:  * * * * * /root/str-stack/wiring-check.sh >/dev/null 2>&1
+# ============================================================
+set -uo pipefail
+
+OUT="/srv/str-stack-public/wiring-data.json"
+HISTORY="/srv/str-stack-public/wiring-history.json"
+SOURCE="/root/str-stack/.env"
+NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+# ── Load previous state for failure tracking ──
+PREV_BREAKS="{}"
+if [ -f "$HISTORY" ]; then
+  PREV_BREAKS=$(cat "$HISTORY" 2>/dev/null || echo "{}")
+fi
+
+# Helper: get previous failure timestamp for a component
+get_prev_failed_at() {
+  local comp="$1"
+  echo "$PREV_BREAKS" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('$comp',{}).get('failed_at',''))" 2>/dev/null || echo ""
+}
+
+# ── Load keys from master .env (safe parse) ──
+get_val() {
+  grep "^${1}=" "$SOURCE" 2>/dev/null | head -1 | sed "s/^${1}=//" | sed 's/^"//;s/"$//'
+}
+
+# ── Probe a local HTTP endpoint ──
+probe_http() {
+  local url="$1" timeout="${2:-5}"
+  local code
+  code=$(curl -s -o /dev/null -w "%{http_code}" --max-time "$timeout" "$url" 2>/dev/null || echo "000")
+  echo "$code"
+}
+
+# ── Probe an external API key ──
+probe_api() {
+  local url="$1" auth="$2" version="${3:-}"
+  local headers="-H \"Authorization: Bearer ${auth}\""
+  [ -n "$version" ] && headers="$headers -H \"Version: ${version}\""
+  local code
+  code=$(eval curl -s -o /dev/null -w '"%{http_code}"' --max-time 8 "$url" "$headers" 2>/dev/null || echo "000")
+  echo "$code"
+}
+
+# ── Mask a key for display (first 8 + last 4) ──
+mask_key() {
+  local k="$1"
+  local len=${#k}
+  if [ "$len" -le 12 ]; then
+    echo "${k:0:4}..."
+  else
+    echo "${k:0:8}...${k: -4}"
+  fi
+}
+
+# ── Status helper: http code -> status word ──
+http_status() {
+  local code="$1"
+  case "$code" in
+    200|201|204) echo "on" ;;
+    401|403)     echo "trouble" ;;
+    000)         echo "off" ;;
+    *)           echo "trouble" ;;
+  esac
+}
+
+# ════════════════════════════════════════
+# 1. SERVICE NODES
+# ════════════════════════════════════════
+
+# Nginx
+nginx_code=$(probe_http "http://127.0.0.1:80" 3)
+nginx_ssl=$(probe_http "https://dashboard.strsolutionsusa.com" 5)
+nginx_status="off"
+[ "$nginx_code" = "301" ] || [ "$nginx_code" = "200" ] || [ "$nginx_code" = "401" ] && nginx_status="on"
+[ "$nginx_status" = "off" ] && [ "$nginx_ssl" = "200" ] || [ "$nginx_ssl" = "401" ] && nginx_status="on"
+
+# Swarmclaw
+swarm_code=$(probe_http "http://127.0.0.1:3456" 5)
+swarm_status=$(http_status "$swarm_code")
+swarm_svc=$(systemctl is-active swarmclaw 2>/dev/null || echo "inactive")
+[ "$swarm_svc" = "active" ] && [ "$swarm_status" = "off" ] && swarm_status="trouble"
+
+# OpenClaw Gateway
+gw_code=$(probe_http "http://127.0.0.1:18789/health" 5)
+gw_status=$(http_status "$gw_code")
+gw_svc=$(XDG_RUNTIME_DIR=/run/user/0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/bus systemctl --user is-active openclaw-gateway 2>/dev/null || systemctl is-active openclaw-gateway 2>/dev/null || echo "inactive")
+[ "$gw_svc" != "active" ] && [ "$gw_code" != "200" ] && gw_status="off"
+
+# Flowise
+fw_code=$(probe_http "http://127.0.0.1:3000" 5)
+fw_status=$(http_status "$fw_code")
+fw_container=$(docker inspect -f '{{.State.Running}}' flowise 2>/dev/null || echo "false")
+[ "$fw_container" != "true" ] && fw_status="off"
+
+# Flowise DB (Postgres)
+fwdb_healthy=$(docker inspect -f '{{.State.Health.Status}}' flowise-db 2>/dev/null || echo "unknown")
+fwdb_status="off"
+[ "$fwdb_healthy" = "healthy" ] && fwdb_status="on"
+[ "$fwdb_healthy" = "unhealthy" ] && fwdb_status="trouble"
+
+# Vapi Relay
+vapi_code=$(probe_http "http://127.0.0.1:8443/health" 5)
+vapi_status=$(http_status "$vapi_code")
+vapi_svc=$(systemctl is-active vapi-relay 2>/dev/null || echo "inactive")
+[ "$vapi_svc" != "active" ] && vapi_status="off"
+
+# Redis
+redis_ping=$(redis-cli ping 2>/dev/null || echo "FAIL")
+redis_status="off"
+[ "$redis_ping" = "PONG" ] && redis_status="on"
+
+# Tailscale
+ts_status_raw=$(tailscale status --json 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('BackendState',''))" 2>/dev/null || echo "")
+ts_status="off"
+[ "$ts_status_raw" = "Running" ] && ts_status="on"
+[ "$ts_status_raw" = "NeedsLogin" ] && ts_status="trouble"
+
+# Paperclip (Multi-Agent Orchestrator)
+pc_code=$(probe_http "http://127.0.0.1:3100" 5)
+pc_status=$(http_status "$pc_code")
+pc_container=$(docker inspect -f '{{.State.Running}}' paperclip 2>/dev/null || echo "false")
+[ "$pc_container" != "true" ] && pc_status="off"
+
+# Discord (check via gateway)
+discord_status="off"
+discord_check=$(openclaw channels status 2>&1 || echo "error")
+echo "$discord_check" | grep -qi "connected" && discord_status="on"
+echo "$discord_check" | grep -qi "error\|fail\|unauthorized" && discord_status="trouble"
+
+# ════════════════════════════════════════
+# 2. EXTERNAL API KEY CHECKS
+# ════════════════════════════════════════
+
+OPENAI_KEY=$(get_val OPENAI_API_KEY)
+GHL_MASTER=$(get_val GHL_MASTER_OAUTH)
+GHL_CC=$(get_val GHL_CALL_CENTER_OAUTH)
+GHL_API=$(get_val GHL_API_KEY)
+INSTANTLY_KEY=$(get_val INSTANTLY_API_KEY)
+CLAY_KEY=$(get_val CLAY_API_KEY)
+APOLLO_KEY=$(get_val APOLLO_API_KEY)
+AIRDNA_KEY=$(get_val AIRDNA_API_KEY)
+SLACK_KEY=$(get_val SLACK_TOKEN)
+VAPI_KEY=$(get_val VAPI_API_KEY)
+DISCORD_TOK=$(get_val DISCORD_TOKEN)
+APIFY_KEY=$(get_val APIFY_API_KEY)
+ELEVENLABS_KEY=$(get_val ELEVENLABS_API_KEY)
+MAKE_TOKEN=$(get_val MAKE_API_TOKEN)
+
+# Test OpenAI
+openai_code="000"
+[ -n "$OPENAI_KEY" ] && openai_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://api.openai.com/v1/models" -H "Authorization: Bearer ${OPENAI_KEY}" 2>/dev/null || echo "000")
+openai_status=$(http_status "$openai_code")
+
+# Test GHL Master
+ghl_master_code="000"
+[ -n "$GHL_MASTER" ] && ghl_master_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://services.leadconnectorhq.com/contacts/?locationId=$(get_val GHL_MASTER_LOCATION)&limit=1" -H "Authorization: Bearer ${GHL_MASTER}" -H "Version: 2021-07-28" 2>/dev/null || echo "000")
+ghl_master_status=$(http_status "$ghl_master_code")
+
+# Test GHL Call Center
+ghl_cc_code="000"
+[ -n "$GHL_CC" ] && ghl_cc_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://services.leadconnectorhq.com/contacts/?locationId=$(get_val GHL_CALL_CENTER_LOCATION)&limit=1" -H "Authorization: Bearer ${GHL_CC}" -H "Version: 2021-07-28" 2>/dev/null || echo "000")
+ghl_cc_status=$(http_status "$ghl_cc_code")
+
+# Test GHL API Key (new pit token for Call Center)
+ghl_api_code="000"
+[ -n "$GHL_API" ] && ghl_api_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://services.leadconnectorhq.com/contacts/?locationId=$(get_val GHL_CALL_CENTER_LOCATION)&limit=1" -H "Authorization: Bearer ${GHL_API}" -H "Version: 2021-07-28" 2>/dev/null || echo "000")
+ghl_api_status=$(http_status "$ghl_api_code")
+
+# Test Instantly
+instantly_code="000"
+[ -n "$INSTANTLY_KEY" ] && instantly_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://api.instantly.ai/api/v2/campaigns?limit=1" -H "Authorization: Bearer ${INSTANTLY_KEY}" 2>/dev/null || echo "000")
+instantly_status=$(http_status "$instantly_code")
+
+# Test Clay
+clay_code="000"
+[ -n "$CLAY_KEY" ] && clay_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://api.clay.com/v3/tables" -H "Authorization: Bearer ${CLAY_KEY}" 2>/dev/null || echo "000")
+clay_status=$(http_status "$clay_code")
+
+# Test Apollo
+apollo_code="000"
+[ -n "$APOLLO_KEY" ] && apollo_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://api.apollo.io/v1/auth/health" -H "X-Api-Key: ${APOLLO_KEY}" 2>/dev/null || echo "000")
+apollo_status=$(http_status "$apollo_code")
+
+# Test Vapi
+vapi_api_code="000"
+[ -n "$VAPI_KEY" ] && vapi_api_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://api.vapi.ai/assistant" -H "Authorization: Bearer ${VAPI_KEY}" 2>/dev/null || echo "000")
+vapi_api_status=$(http_status "$vapi_api_code")
+
+# Test Slack
+slack_code="000"
+[ -n "$SLACK_KEY" ] && slack_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://slack.com/api/auth.test" -H "Authorization: Bearer ${SLACK_KEY}" 2>/dev/null || echo "000")
+slack_status="off"
+if [ "$slack_code" = "200" ]; then
+  slack_ok=$(curl -s --max-time 8 "https://slack.com/api/auth.test" -H "Authorization: Bearer ${SLACK_KEY}" 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin).get('ok','false'))" 2>/dev/null || echo "false")
+  [ "$slack_ok" = "True" ] && slack_status="on" || slack_status="trouble"
+fi
+
+# Apify
+apify_code="000"
+[ -n "$APIFY_KEY" ] && apify_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://api.apify.com/v2/acts?token=${APIFY_KEY}&limit=1" 2>/dev/null || echo "000")
+apify_status=$(http_status "$apify_code")
+
+# ElevenLabs
+elevenlabs_code="000"
+[ -n "$ELEVENLABS_KEY" ] && elevenlabs_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://api.elevenlabs.io/v1/user" -H "xi-api-key: ${ELEVENLABS_KEY}" 2>/dev/null || echo "000")
+elevenlabs_status=$(http_status "$elevenlabs_code")
+
+# Make (Integromat)
+make_code="000"
+[ -n "$MAKE_TOKEN" ] && make_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 8 "https://us1.make.com/api/v2/users/me" -H "Authorization: Token ${MAKE_TOKEN}" 2>/dev/null || echo "000")
+make_status=$(http_status "$make_code")
+
+# ════════════════════════════════════════
+# 3. ACTIVITY DETECTION (recent traffic = active wire)
+# ════════════════════════════════════════
+
+# Check Nginx access log for recent requests (last 60s) to each backend
+nginx_log="/var/log/nginx/access.log"
+one_min_ago=$(date -u -d '1 minute ago' +%d/%b/%Y:%H:%M 2>/dev/null || echo "")
+
+check_recent_traffic() {
+  local pattern="$1"
+  if [ -n "$one_min_ago" ] && [ -f "$nginx_log" ]; then
+    tail -500 "$nginx_log" 2>/dev/null | grep -q "$pattern" && echo "yes" || echo "no"
+  else
+    echo "no"
+  fi
+}
+
+# Detect recent traffic to each backend
+traffic_swarm=$(check_recent_traffic ":3456")
+traffic_flowise=$(check_recent_traffic ":3000")
+traffic_gw=$(check_recent_traffic ":18789")
+
+# Check for recent OpenAI calls (Flowise/Swarmclaw logs)
+traffic_openai="no"
+(docker logs flowise --since 1m 2>&1 | grep -qi "openai\|gpt\|completion") && traffic_openai="yes"
+(journalctl -u swarmclaw --since "1 min ago" --no-pager 2>/dev/null | grep -qi "openai\|gpt\|completion") && traffic_openai="yes"
+
+# Check for recent Discord activity
+traffic_discord="no"
+(journalctl --user -u openclaw-gateway --since "1 min ago" --no-pager 2>/dev/null | grep -qi "message\|command\|interaction") && traffic_discord="yes"
+
+# Check for recent Redis commands
+traffic_redis="no"
+redis_ops=$(redis-cli info stats 2>/dev/null | grep "instantaneous_ops_per_sec" | cut -d: -f2 | tr -d '\r' || echo "0")
+[ "${redis_ops:-0}" -gt 2 ] && traffic_redis="yes"
+
+# Check for recent Paperclip <-> OpenClaw traffic
+traffic_paperclip="no"
+(docker logs paperclip --since 1m 2>&1 | grep -qi "openclaw\|websocket\|connected") && traffic_paperclip="yes"
+
+# Check for recent GHL activity
+traffic_ghl="no"
+(docker logs flowise --since 1m 2>&1 | grep -qi "leadconnector\|ghl\|goHighLevel") && traffic_ghl="yes"
+
+# Check for recent Flowise DB queries
+traffic_fwdb="no"
+[ "$fw_status" = "on" ] && [ "$fwdb_status" = "on" ] && traffic_fwdb="yes"
+
+# ════════════════════════════════════════
+# 3b. CONNECTION / WIRE CHECKS
+# Status: on, off, trouble, idle (connected but quiet), active (traffic flowing)
+# ════════════════════════════════════════
+
+# Wire status logic:
+#   Both endpoints on + recent traffic  -> "active"
+#   Both endpoints on + no traffic      -> "idle" (grey — connected but quiet)
+#   Source on, dest not on              -> "trouble"
+#   Source off                          -> "off"
+
+wire_status() {
+  local src="$1" dst="$2" traffic="$3"
+  if [ "$src" = "on" ] && [ "$dst" = "on" ]; then
+    [ "$traffic" = "yes" ] && echo "active" || echo "idle"
+  elif [ "$src" = "on" ] && [ "$dst" != "on" ]; then
+    echo "trouble"
+  else
+    echo "off"
+  fi
+}
+
+# Nginx -> Swarmclaw
+wire_nginx_swarm=$(wire_status "$nginx_status" "$swarm_status" "$traffic_swarm")
+
+# Nginx -> Flowise
+wire_nginx_flowise=$(wire_status "$nginx_status" "$fw_status" "$traffic_flowise")
+
+# Nginx -> OpenClaw Gateway
+wire_nginx_gw=$(wire_status "$nginx_status" "$gw_status" "$traffic_gw")
+
+# Gateway -> Discord
+wire_gw_discord=$(wire_status "$gw_status" "$discord_status" "$traffic_discord")
+
+# Gateway -> OpenAI
+wire_gw_openai=$(wire_status "$gw_status" "$openai_status" "$traffic_openai")
+
+# Flowise -> Postgres
+wire_fw_db=$(wire_status "$fw_status" "$fwdb_status" "$traffic_fwdb")
+
+# Flowise -> GHL
+wire_fw_ghl=$(wire_status "$fw_status" "$ghl_master_status" "$traffic_ghl")
+
+# Flowise -> OpenAI
+wire_fw_openai=$(wire_status "$fw_status" "$openai_status" "$traffic_openai")
+
+# Vapi Relay -> Gateway
+wire_vapi_gw=$(wire_status "$vapi_status" "$gw_status" "no")
+
+# Swarmclaw -> OpenAI
+wire_swarm_openai=$(wire_status "$swarm_status" "$openai_status" "$traffic_openai")
+
+# Swarmclaw -> Redis
+wire_swarm_redis=$(wire_status "$swarm_status" "$redis_status" "$traffic_redis")
+
+# Paperclip -> OpenClaw Gateway
+wire_pc_gw=$(wire_status "$pc_status" "$gw_status" "$traffic_paperclip")
+
+# ════════════════════════════════════════
+# 4. KEY DEPOSITORY
+# ════════════════════════════════════════
+
+build_key_entry() {
+  local name="$1" value="$2" status="$3" http="$4" target="$5"
+  local masked="(not set)"
+  [ -n "$value" ] && masked=$(mask_key "$value")
+  printf '{"name":"%s","masked":"%s","status":"%s","http":%s,"target":"%s"}' "$name" "$masked" "$status" "$http" "$target"
+}
+
+# ════════════════════════════════════════
+# 5. BUILD JSON
+# ════════════════════════════════════════
+
+cat > "$OUT" << ENDJSON
+{
+  "generated_at": "$NOW",
+  "nodes": {
+    "services": [
+      {"id":"nginx","label":"Nginx","port":"80/443","status":"$nginx_status","type":"proxy"},
+      {"id":"swarmclaw","label":"Swarmclaw","port":"3456","status":"$swarm_status","type":"service","detail":"Next.js AI Runtime"},
+      {"id":"openclaw_gw","label":"OpenClaw Gateway","port":"18789","status":"$gw_status","type":"service","detail":"v2026.4.2"},
+      {"id":"flowise","label":"Flowise","port":"3000","status":"$fw_status","type":"service","detail":"AI Workflow Engine"},
+      {"id":"flowise_db","label":"Flowise DB","port":"5432","status":"$fwdb_status","type":"database","detail":"PostgreSQL"},
+      {"id":"vapi_relay","label":"Vapi Relay","port":"8443","status":"$vapi_status","type":"service","detail":"Webhook Relay"},
+      {"id":"redis","label":"Redis","port":"6379","status":"$redis_status","type":"database","detail":"Cache/Queue"},
+      {"id":"tailscale","label":"Tailscale","port":"VPN","status":"$ts_status","type":"network","detail":"Mesh VPN"},
+      {"id":"paperclip","label":"Paperclip","port":"3100","status":"$pc_status","type":"service","detail":"Multi-Agent Orchestrator"}
+    ],
+    "external": [
+      {"id":"discord","label":"Discord","status":"$discord_status","type":"external","detail":"WebSocket Gateway"},
+      {"id":"openai","label":"OpenAI","status":"$openai_status","type":"external","detail":"GPT / Codex"},
+      {"id":"ghl_master","label":"GHL Master","status":"$ghl_master_status","type":"external","detail":"Loc: $(get_val GHL_MASTER_LOCATION | head -c 8)..."},
+      {"id":"ghl_callcenter","label":"GHL Call Center","status":"$ghl_cc_status","type":"external","detail":"Loc: $(get_val GHL_CALL_CENTER_LOCATION | head -c 8)..."},
+      {"id":"instantly","label":"Instantly","status":"$instantly_status","type":"external","detail":"Email Outreach"},
+      {"id":"clay","label":"Clay","status":"$clay_status","type":"external","detail":"Data Enrichment"},
+      {"id":"apollo","label":"Apollo","status":"$apollo_status","type":"external","detail":"Lead Gen"},
+      {"id":"vapi_cloud","label":"Vapi Cloud","status":"$vapi_api_status","type":"external","detail":"Voice AI"},
+      {"id":"slack","label":"Slack","status":"$slack_status","type":"external","detail":"Notifications"},
+      {"id":"apify","label":"Apify","status":"$apify_status","type":"external","detail":"Web Scraping"},
+      {"id":"elevenlabs","label":"ElevenLabs","status":"$elevenlabs_status","type":"external","detail":"Voice Clone"},
+      {"id":"make","label":"Make","status":"$make_status","type":"external","detail":"Automation"},
+      {"id":"gamma","label":"Gamma","status":"on","type":"external","detail":"Presentations"},
+      {"id":"heygen","label":"HeyGen","status":"standby","type":"external","detail":"AI Video"},
+      {"id":"loom","label":"Loom","status":"standby","type":"external","detail":"Screen Recording"}
+    ]
+  },
+  "wires": [
+    {"from":"nginx","to":"swarmclaw","label":"proxy :3456","status":"$wire_nginx_swarm"},
+    {"from":"nginx","to":"flowise","label":"proxy :3000","status":"$wire_nginx_flowise"},
+    {"from":"nginx","to":"openclaw_gw","label":"proxy :18789","status":"$wire_nginx_gw"},
+    {"from":"openclaw_gw","to":"discord","label":"WebSocket","status":"$wire_gw_discord"},
+    {"from":"openclaw_gw","to":"openai","label":"API (OAuth)","status":"$wire_gw_openai"},
+    {"from":"flowise","to":"flowise_db","label":"pg:5432","status":"$wire_fw_db"},
+    {"from":"flowise","to":"ghl_master","label":"GHL API","status":"$wire_fw_ghl"},
+    {"from":"flowise","to":"openai","label":"API Key","status":"$wire_fw_openai"},
+    {"from":"vapi_relay","to":"openclaw_gw","label":"webhook","status":"$wire_vapi_gw"},
+    {"from":"swarmclaw","to":"openai","label":"API (OAuth)","status":"$wire_swarm_openai"},
+    {"from":"swarmclaw","to":"redis","label":"cache","status":"$wire_swarm_redis"},
+    {"from":"paperclip","to":"openclaw_gw","label":"WebSocket :18789","status":"$wire_pc_gw"}
+  ],
+  "keys": [
+    $(build_key_entry "OPENAI_API_KEY" "$OPENAI_KEY" "$openai_status" "$openai_code" "OpenClaw, Flowise, Swarmclaw"),
+    $(build_key_entry "GHL_MASTER_OAUTH" "$GHL_MASTER" "$ghl_master_status" "$ghl_master_code" "KPI Script, OpenClaw"),
+    $(build_key_entry "GHL_CALL_CENTER_OAUTH" "$GHL_CC" "$ghl_cc_status" "$ghl_cc_code" "Call Center Flows"),
+    $(build_key_entry "GHL_API_KEY" "$GHL_API" "$ghl_api_status" "$ghl_api_code" "Flowise Tools, MCP"),
+    $(build_key_entry "DISCORD_TOKEN" "$DISCORD_TOK" "$discord_status" "0" "OpenClaw Gateway"),
+    $(build_key_entry "INSTANTLY_API_KEY" "$INSTANTLY_KEY" "$instantly_status" "$instantly_code" "Email Campaigns"),
+    $(build_key_entry "CLAY_API_KEY" "$CLAY_KEY" "$clay_status" "$clay_code" "Data Enrichment"),
+    $(build_key_entry "APOLLO_API_KEY" "$APOLLO_KEY" "$apollo_status" "$apollo_code" "Lead Generation"),
+    $(build_key_entry "VAPI_API_KEY" "$VAPI_KEY" "$vapi_api_status" "$vapi_api_code" "Voice AI / PAM"),
+    $(build_key_entry "SLACK_TOKEN" "$SLACK_KEY" "$slack_status" "$slack_code" "Notifications"),
+    $(build_key_entry "APIFY_API_KEY" "$APIFY_KEY" "$apify_status" "$apify_code" "Web Scraping"),
+    $(build_key_entry "ELEVENLABS_API_KEY" "$ELEVENLABS_KEY" "$elevenlabs_status" "$elevenlabs_code" "Voice Clone"),
+    $(build_key_entry "MAKE_API_TOKEN" "$MAKE_TOKEN" "$make_status" "$make_code" "Automation"),
+    $(build_key_entry "AIRDNA_API_KEY" "$AIRDNA_KEY" "standby" "0" "Market Data")
+  ],
+  "breakpoints": [
+$(
+  # Detect breakpoints with failure timestamps
+  BP=""
+  add_bp() {
+    local comp="$1" issue="$2" sev="$3" reason="$4"
+    local failed_at
+    failed_at=$(get_prev_failed_at "$comp")
+    [ -z "$failed_at" ] && failed_at="$NOW"
+    BP="${BP}    {\"component\":\"${comp}\",\"issue\":\"${issue}\",\"severity\":\"${sev}\",\"failed_at\":\"${failed_at}\",\"fail_reason\":\"${reason}\"},\n"
+  }
+  [ "$nginx_status" != "on" ] && add_bp "Nginx" "Reverse proxy down - all external access blocked" "critical" "HTTP ${nginx_code} - process not responding"
+[ "$gw_svc" != "active" ] && [ "$gw_code" != "200" ] && gw_status="off"
+  [ "$fw_status" != "on" ] && add_bp "Flowise" "Flowise ${fw_status} (HTTP ${fw_code}) - AI workflows down" "critical" "Container ${fw_container}, HTTP ${fw_code}"
+  [ "$fwdb_status" != "on" ] && add_bp "Flowise DB" "Postgres ${fwdb_healthy} - Flowise data inaccessible" "critical" "Health: ${fwdb_healthy}"
+  [ "$swarm_status" != "on" ] && add_bp "Swarmclaw" "Swarmclaw ${swarm_status} (HTTP ${swarm_code})" "high" "Service ${swarm_svc}, HTTP ${swarm_code}"
+  [ "$vapi_status" != "on" ] && add_bp "Vapi Relay" "Vapi relay ${vapi_status} - voice calls won't route" "high" "Service ${vapi_svc}, HTTP ${vapi_code}"
+  [ "$redis_status" != "on" ] && add_bp "Redis" "Redis down - cache/queue unavailable" "medium" "PING returned: ${redis_ping}"
+  [ "$discord_status" != "on" ] && add_bp "Discord" "Discord bot ${discord_status}" "high" "Channel check output truncated"
+  [ "$openai_status" != "on" ] && add_bp "OpenAI API" "Key ${openai_status} (HTTP ${openai_code}) - AI features broken" "critical" "HTTP ${openai_code} from api.openai.com"
+  [ "$ghl_master_status" != "on" ] && add_bp "GHL Master" "Master OAuth ${ghl_master_status} (HTTP ${ghl_master_code}) - KPIs won't update" "high" "HTTP ${ghl_master_code} from leadconnectorhq.com"
+  [ "$ghl_cc_status" != "on" ] && add_bp "GHL Call Center" "Call Center OAuth ${ghl_cc_status} (HTTP ${ghl_cc_code})" "high" "HTTP ${ghl_cc_code} from leadconnectorhq.com"
+  [ "$instantly_status" != "on" ] && add_bp "Instantly" "API key ${instantly_status} (HTTP ${instantly_code}) - email campaigns paused" "medium" "HTTP ${instantly_code} from api.instantly.ai"
+  [ "$clay_status" != "on" ] && add_bp "Clay" "API key ${clay_status} (HTTP ${clay_code}) - enrichment unavailable" "medium" "HTTP ${clay_code} from api.clay.com"
+  [ "$slack_status" != "on" ] && add_bp "Slack" "Token ${slack_status} - notifications blocked" "low" "HTTP ${slack_code}"
+  # Remove trailing comma+newline
+  if [ -n "$BP" ]; then
+    printf '%b' "$BP" | sed '$ s/,$//'
+  else
+    echo '    {"component":"none","issue":"All systems operational","severity":"info","failed_at":"","fail_reason":""}'
+  fi
+)
+  ],
+  "summary": {
+    "total_services": 9,
+    "services_up": $(echo "$nginx_status $swarm_status $gw_status $fw_status $fwdb_status $vapi_status $redis_status $ts_status $pc_status" | tr ' ' '\n' | grep -c "on"),
+    "total_apis": 12,
+    "apis_healthy": $(echo "$openai_status $ghl_master_status $ghl_cc_status $ghl_api_status $instantly_status $clay_status $apollo_status $vapi_api_status $slack_status $apify_status $elevenlabs_status $make_status" | tr ' ' '\n' | grep -c "on"),
+    "total_wires": 12,
+    "wires_ok": $(echo "$wire_nginx_swarm $wire_nginx_flowise $wire_nginx_gw $wire_gw_discord $wire_gw_openai $wire_fw_db $wire_fw_ghl $wire_fw_openai $wire_vapi_gw $wire_swarm_openai $wire_swarm_redis $wire_pc_gw" | tr ' ' '\n' | grep -cE "on|active|idle"),
+    "critical_breaks": $(echo "$nginx_status $gw_status $fw_status $fwdb_status $openai_status" | tr ' ' '\n' | grep -vc "on" || true)
+  }
+}
+ENDJSON
+
+# ── Save failure history for timestamp tracking ──
+python3 -c "
+import json, sys
+try:
+    with open('$OUT') as f:
+        data = json.load(f)
+    history = {}
+    try:
+        with open('$HISTORY') as f:
+            history = json.load(f)
+    except: pass
+    current_comps = set()
+    for bp in data.get('breakpoints', []):
+        comp = bp.get('component', '')
+        if comp == 'none': continue
+        current_comps.add(comp)
+        if comp not in history:
+            history[comp] = {'failed_at': bp.get('failed_at', '$NOW'), 'fail_reason': bp.get('fail_reason', '')}
+        else:
+            history[comp]['fail_reason'] = bp.get('fail_reason', '')
+    # Remove components that are now healthy
+    for comp in list(history.keys()):
+        if comp not in current_comps:
+            del history[comp]
+    with open('$HISTORY', 'w') as f:
+        json.dump(history, f, indent=2)
+except Exception as e:
+    print(f'History update error: {e}', file=sys.stderr)
+" 2>/dev/null
+
+echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Wiring check complete -> $OUT"

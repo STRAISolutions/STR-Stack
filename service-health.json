@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-04-09T16:55:01Z",
+  "services": {
+    "openclaw": {"status":"up","http":200,"port":18789},
+    "vapi_relay": {"status":"up","http":200,"port":8443},
+    "flowise": {"status":"up","http":200,"port":3000},
+    "funnel": {"status":"up","port":443},
+    "discord": {"status":"up","port":"ws"},
+    "paperclip": {"status":"up","http":200,"port":3100}
+  },
+  "disk": {"used_pct":63,"available":"59G"}
+}

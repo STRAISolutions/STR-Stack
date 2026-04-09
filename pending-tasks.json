@@ -1,0 +1,81 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "subject": "Memo Tracking System",
+      "detail": "Build tracking pixel service, memo ledger, dashboard panel, dedicated email (memos@strincsolutions.com)",
+      "priority": "high",
+      "added": "2026-04-06"
+    },
+    {
+      "id": 2,
+      "subject": "HeyGen video pipeline",
+      "detail": "Scheduled 3pm ET today \u2014 AI video + ElevenLabs voice",
+      "priority": "high",
+      "added": "2026-04-06"
+    },
+    {
+      "id": 3,
+      "subject": "Commission schedule",
+      "detail": "Add to KPI projections from G Drive",
+      "priority": "medium",
+      "added": "2026-04-06"
+    },
+    {
+      "id": 4,
+      "subject": "Clay API key",
+      "detail": "Needs admin scope \u2014 app.clay.com > Settings > API",
+      "priority": "high",
+      "added": "2026-04-06"
+    },
+    {
+      "id": 5,
+      "subject": "Make API token",
+      "detail": "Verify/regenerate at app.make.com > Profile > API",
+      "priority": "medium",
+      "added": "2026-04-06"
+    },
+    {
+      "id": 6,
+      "subject": "Pamela Colorado duplicates",
+      "detail": "Consolidate duplicate GHL accounts",
+      "priority": "low",
+      "added": "2026-04-06"
+    },
+    {
+      "id": 7,
+      "subject": "GHL webhook registration",
+      "detail": "Set up webhook endpoints",
+      "priority": "medium",
+      "added": "2026-04-06"
+    },
+    {
+      "id": 8,
+      "subject": "Discord webhook URLs",
+      "detail": "Per-channel webhooks needed in .env",
+      "priority": "low",
+      "added": "2026-04-06"
+    },
+    {
+      "id": 9,
+      "subject": "GHL Acknowledgment Form",
+      "detail": "Build for agent onboarding",
+      "priority": "medium",
+      "added": "2026-04-06"
+    },
+    {
+      "id": 10,
+      "subject": "Slack bot token",
+      "detail": "Fix server-side token or confirm MCP-only approach",
+      "priority": "low",
+      "added": "2026-04-06"
+    },
+    {
+      "id": 11,
+      "subject": "Luxury hero images",
+      "detail": "Source vacation rental images for future newsletters",
+      "priority": "low",
+      "added": "2026-04-06"
+    }
+  ]
+}

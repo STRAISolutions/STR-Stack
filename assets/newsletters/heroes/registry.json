@@ -1,0 +1,14 @@
+{
+  "generated": [
+    {
+      "file": "hero-20260407-012108.png",
+      "timestamp": "2026-04-07T01:21:09.290821Z",
+      "prompt": "A breathtaking oceanfront luxury villa at sunset with an infinity pool overlooking turquoise waters, modern minimalist architecture, warm golden light, professional real estate photography, ultra deta",
+      "revised_prompt": "An exquisitely designed luxurious oceanfront villa, featuring modern minimalist architecture, basks in the sun's enchanting golden hue as it descends towards the horizon. The villa's infinity pool, seemingly merging with the vast turquoise waters of the ocean, enhances the picture's grandeur. This s",
+      "size": "1792x1024",
+      "model": "dall-e-3",
+      "cost_usd": 0.08
+    }
+  ],
+  "latest": "hero-20260407-012108.png"
+}

@@ -1,0 +1,184 @@
+{
+  "log": [
+    {
+      "time": "2026-04-06 06:01",
+      "subject": "Newsletter Vol 01 sent",
+      "detail": "Management Briefing \u2014 12 recipients via Gmail API"
+    },
+    {
+      "time": "2026-04-06 09:32",
+      "subject": "Newsletter Vol 02 sent",
+      "detail": "CRM Cleanup newsletter \u2014 12 recipients via Gmail API"
+    },
+    {
+      "time": "2026-04-06 10:15",
+      "subject": "Training deck deployed",
+      "detail": "15-slide auto-play HTML deck at /assets/training/"
+    },
+    {
+      "time": "2026-04-06 10:30",
+      "subject": "Brand assets hosted",
+      "detail": "9 images at /assets/brand/ \u2014 nginx public, CORS enabled"
+    },
+    {
+      "time": "2026-04-06 10:45",
+      "subject": "Dashboard Patch 1",
+      "detail": "initClocks fix, chromatic logo, wiring layout 4-row, collapsible config"
+    },
+    {
+      "time": "2026-04-06 11:00",
+      "subject": "KPI pipeline fix",
+      "detail": "Switched to CC GHL only \u2014 86 hot leads, $688K LTV, pagination bug fixed"
+    },
+    {
+      "time": "2026-04-06 11:10",
+      "subject": "Wiring cron updated",
+      "detail": "Added Gamma, HeyGen, Loom permanently to wiring-check.sh"
+    },
+    {
+      "time": "2026-04-06 11:15",
+      "subject": "Instantly API v2",
+      "detail": "Switched from v1 to v2 Bearer auth in kpi-update.sh + wiring-check.sh"
+    },
+    {
+      "time": "2026-04-06 11:20",
+      "subject": "Dashboard Patch 2",
+      "detail": "Global clock, drag-and-drop wiring, snap-to-grid, 23-node tooltips"
+    },
+    {
+      "time": "2026-04-06 11:22",
+      "subject": "Newsletter archive",
+      "detail": "Dashboard newsletter sub-panel with registry.json feed"
+    },
+    {
+      "time": "2026-04-06 11:24",
+      "subject": "CONTEXT.md updated",
+      "detail": "April 4 \u2192 April 6, accurate blockers, KPIs, active work"
+    },
+    {
+      "time": "2026-04-06 11:25",
+      "subject": "OpenClaw GW fix",
+      "detail": "Wiring script systemctl --user bug \u2014 now checks HTTP 200 fallback"
+    },
+    {
+      "time": "2026-04-06 11:30",
+      "subject": "Lead counts \u2192 GHL",
+      "detail": "KPI leads.total now from GHL opps (86) instead of Instantly (0)"
+    },
+    {
+      "time": "2026-04-06 11:35",
+      "subject": "HeyGen pipeline scheduled",
+      "detail": "One-time task at 3pm ET \u2014 video pipeline check-in"
+    },
+    {
+      "time": "2026-04-06 11:36",
+      "subject": "Recipient list created",
+      "detail": "13 recipients \u2014 added Kristine@strincsolutions.com"
+    },
+    {
+      "time": "2026-04-06 11:37",
+      "subject": "Change log created",
+      "detail": "Activity tab changelog with server-side JSON feed"
+    },
+    {
+      "time": "2026-04-06 11:40",
+      "subject": "Recipients list updated",
+      "detail": "17 recipients \u2014 added 3 CNX staff + Mike. Kristine already added."
+    },
+    {
+      "time": "2026-04-06 11:42",
+      "subject": "Training deck sent to Slack",
+      "detail": "Posted to #mgmt__cnx_str_grthtoday + #cnx_bdr with link"
+    },
+    {
+      "time": "2026-04-06 11:45",
+      "subject": "KPI tab overhaul",
+      "detail": "3-row layout: Gross Profit/Commission/Demo ratio, Ops metrics, 8 CC pipeline stages"
+    },
+    {
+      "time": "2026-04-06 11:46",
+      "subject": "Header condensed",
+      "detail": "Command Center merged into title line, freed header space"
+    },
+    {
+      "time": "2026-04-06 11:47",
+      "subject": "Task list created",
+      "detail": "Activity tab: numbered daily completion list, replaces changelog"
+    },
+    {
+      "time": "2026-04-06 11:48",
+      "subject": "KPI formulas updated",
+      "detail": "Gross Profit = leads x 2,500 x 12%. LTV updated to 2,500. Demo ratio 33%"
+    },
+    {
+      "time": "2026-04-06 11:40",
+      "subject": "Recipients list updated",
+      "detail": "17 recipients - added 3 CNX staff + Mike"
+    },
+    {
+      "time": "2026-04-06 11:42",
+      "subject": "Training deck sent to Slack",
+      "detail": "Posted to #mgmt + #cnx_bdr with link"
+    },
+    {
+      "time": "2026-04-06 11:45",
+      "subject": "KPI tab overhaul",
+      "detail": "3-row layout: projections, ops metrics, 8 CC stages"
+    },
+    {
+      "time": "2026-04-06 11:46",
+      "subject": "Header condensed",
+      "detail": "Command Center merged into title line"
+    },
+    {
+      "time": "2026-04-06 11:47",
+      "subject": "Task list created",
+      "detail": "Numbered daily completion list on Activity tab"
+    },
+    {
+      "time": "2026-04-06 11:48",
+      "subject": "KPI formulas updated",
+      "detail": "Gross = leads x 12500 x 12%. Demo ratio 33%"
+    },
+    {
+      "time": "2026-04-06 12:15",
+      "subject": "Wiring diagram regrouped",
+      "detail": "5 rows by purpose: AI layer, Infra, Services, CRM, Lead Gen. SwarmClaw at top"
+    },
+    {
+      "time": "2026-04-06 12:16",
+      "subject": "Tooltip font fix",
+      "detail": "Changed tooltip text from grey to white for visibility"
+    },
+    {
+      "time": "2026-04-06 12:17",
+      "subject": "Pending tasks panel",
+      "detail": "Activity tab now shows pending + completed tasks side by side"
+    },
+    {
+      "time": "2026-04-06 12:18",
+      "subject": "SwarmClaw confirmed active",
+      "detail": "11 swarm agents running, port 3456, Next.js AI runtime"
+    },
+    {
+      "time": "2026-04-06 12:19",
+      "subject": "ClaWhip confirmed active",
+      "detail": "GHL event router on port 8085. Slack token needs fix"
+    },
+    {
+      "time": "2026-04-06 13:18",
+      "subject": "Row 1 KPI Overhaul",
+      "detail": "Replaced Gross Profit with MRR (leads x 1% x \u0002,500), Commission @( placeholder, added Actual Conversion card (4 cards total)"
+    },
+    {
+      "time": "2026-04-06 14:51",
+      "subject": "GHL Warm Reply Cleanup",
+      "detail": "Removed 57 false-warm contacts from GHL. Now 32 verified warm leads using Instantly AI classification (ai_interest_value=1). Added concentrix.com + strincsolutions.com to domain blocklist."
+    },
+    {
+      "time": "2026-04-06 14:51",
+      "subject": "Instantly Filter Upgrade",
+      "detail": "Switched from custom regex classifier to Instantly ai_interest_value field. Only ai_interest_value=1 leads push to GHL. Fallback classifier used only when Instantly has no AI score."
+    }
+  ]
+}

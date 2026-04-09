@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-04-09 16:55:01 UTC",
+  "containers": [
+    {
+      "id": "3852c4ed98fe",
+      "image": "flowiseai/flowise:latest",
+      "name": "flowise",
+      "status": "Up 22 hours",
+      "ports": "0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp"
+    },
+    {
+      "id": "55784393894a",
+      "image": "postgres:16-alpine",
+      "name": "flowise-db",
+      "status": "Up 5 days (healthy)",
+      "ports": "5432/tcp"
+    }
+  ],
+  "http_probe": {
+    "url": "http://localhost:3000",
+    "status_code": "200"
+  }
+}

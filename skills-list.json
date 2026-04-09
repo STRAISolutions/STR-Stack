@@ -1,0 +1,84 @@
+{
+  "total": 16,
+  "categories": [
+    {
+      "name": "Operations",
+      "icon": "🏠",
+      "color": "#1dd1a1",
+      "skills": [
+        {"name": "01-hostfully", "description": "Monitor STR bookings, guest check-ins/outs, maintenance alerts, owner updates from Hostfully PMS. Heartbeat every 15 min.", "trigger": "Automatic every 15 min + on command"},
+        {"name": "02-property-manager", "description": "Maintenance triage, housekeeping coordination, vacancy alerts, vendor management. Classify EMERGENCY/URGENT/ROUTINE/COSMETIC.", "trigger": "On maintenance request or vacancy alert"}
+      ]
+    },
+    {
+      "name": "Sales & Lead Gen",
+      "icon": "🎯",
+      "color": "#ff6b6b",
+      "skills": [
+        {"name": "ppd-pipeline", "description": "AirDNA PPD lead pipeline. Filters by bedrooms, revenue, country. Enriches via Apollo/Clay, pushes to Instantly campaigns.", "trigger": "\"run PPD pipeline\", \"process AirDNA file\", \"push leads\""},
+        {"name": "03-agent-browser", "description": "Autonomous web browsing, Airbnb/VRBO competitor price scraping, listing monitoring. Daily 6am comp check.", "trigger": "\"comp check\", \"scrape listings\", \"market rates\""}
+      ]
+    },
+    {
+      "name": "CRM & Outreach",
+      "icon": "📞",
+      "color": "#5c8dff",
+      "skills": [
+        {"name": "stu-agent", "description": "STU command router on Flowise. GHL contact lookups, Make.com triggers, Instantly campaign status, Apollo enrichment, system health.", "trigger": "\"check status\", \"look up contact\", \"campaign status\""}
+      ]
+    },
+    {
+      "name": "Voice & Communication",
+      "icon": "🗣️",
+      "color": "#a55eea",
+      "skills": [
+        {"name": "13-voice", "description": "Vapi inbound/outbound calls with ElevenLabs TTS. Discord voice commands. PAM agent active.", "trigger": "Inbound calls via Vapi webhook, Discord voice"},
+        {"name": "12-slack", "description": "Bi-directional Slack integration. Pipeline updates and booking alerts. Team commands STU from Slack.", "trigger": "Pipeline events, booking alerts, Slack commands"},
+        {"name": "14-pdf-documents", "description": "Generate PDF reports, client performance summaries, franchise proposals from live data. Delivers via Discord or Gmail.", "trigger": "\"generate report\", \"client summary\", 1st of month"}
+      ]
+    },
+    {
+      "name": "Research & Intelligence",
+      "icon": "🔍",
+      "color": "#ffb020",
+      "skills": [
+        {"name": "04-tavily", "description": "AI-native web research, prospect research, market intelligence. Structured results replace standard web search.", "trigger": "\"research\", \"look up\", \"find information about\""}
+      ]
+    },
+    {
+      "name": "Planning & Productivity",
+      "icon": "📋",
+      "color": "#0abde3",
+      "skills": [
+        {"name": "05-mission-control", "description": "Aggregate tasks across GHL, Hostfully, GitHub, blockers into one daily brief. Runs 7:30am and 5pm.", "trigger": "\"daily brief\", \"priorities\", \"what's pending\""},
+        {"name": "07-adhd-founder-planner", "description": "Prioritized time-blocked daily plan from GHL, Hostfully, blockers. Built for ADHD founder workflow.", "trigger": "\"plan my day\", \"morning planning\", \"what should I focus on\""}
+      ]
+    },
+    {
+      "name": "Security & Compliance",
+      "icon": "🔐",
+      "color": "#ee5a24",
+      "skills": [
+        {"name": "09-secureclaw", "description": "Harden STU, detect prompt injection, audit skills for vulnerabilities. Sunday 2am scan. Discord alerts on threats.", "trigger": "On install, Sunday 2am, threat detection"},
+        {"name": "10-audit-trail", "description": "Tamper-evident hash-chained log of every STU action. Silent always. Action history and compliance reports.", "trigger": "\"action history\", \"compliance report\", \"verify\""}
+      ]
+    },
+    {
+      "name": "Analytics & Monitoring",
+      "icon": "📊",
+      "color": "#10ac84",
+      "skills": [
+        {"name": "08-agent-audit", "description": "Audit STU performance, credit consumption, ROI across all skills. Monday 8am. Flags idle or costly skills.", "trigger": "Monday 8am auto, \"audit performance\", \"skill ROI\""}
+      ]
+    },
+    {
+      "name": "Platform & Infrastructure",
+      "icon": "⚙️",
+      "color": "#8395a7",
+      "skills": [
+        {"name": "06-capability-evolver", "description": "STU autonomously improves itself by analyzing command gaps and writing new skills. Runs 3am nightly.", "trigger": "3am nightly auto-evolution cycle"},
+        {"name": "11-cron-backup", "description": "Daily automated backups of SOUL.md, CONTEXT.md, dashboard, Flowise flows, all skill files. 30-day retention.", "trigger": "2am daily, Discord confirmation on completion"}
+      ]
+    }
+  ]
+}

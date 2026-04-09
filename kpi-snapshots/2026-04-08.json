@@ -1,0 +1,114 @@
+{
+  "timestamp": "2026-04-08T23:55:26Z",
+  "pipeline": {
+    "ltv_pipeline": 500000,
+    "monthly_gross": 30000,
+    "hot_leads": 40,
+    "ltv_per_account": 12500,
+    "monthly_per_account": 750,
+    "formula_ltv": "hot_leads x $12,500 LTV",
+    "formula_monthly": "hot_leads x $750/mo",
+    "open": 40,
+    "lost": 0,
+    "won": 0,
+    "total": 40,
+    "ghl_monetary_value": 0,
+    "hot_stage_breakdown": {
+      "other": 40
+    },
+    "all_stage_breakdown": {
+      "Call Queue": 34,
+      "Overflow - VAPI": 6
+    },
+    "stage_pipeline": [
+      {
+        "name": "Call Queue",
+        "count": 34,
+        "stage_id": "6e6ba196-949c-4403-b156-eb30cfeb858c"
+      },
+      {
+        "name": "Attempted",
+        "count": 0,
+        "stage_id": "b8e9a517-89f5-4b25-a4cb-4ef8b59f178d"
+      },
+      {
+        "name": "Overflow - VAPI",
+        "count": 6,
+        "stage_id": "29554f80-6207-4320-8570-a28aa382aeb4"
+      },
+      {
+        "name": "Connected - DQ",
+        "count": 0,
+        "stage_id": "953891d6-4e51-4f0b-848d-23169e795da1"
+      },
+      {
+        "name": "Qualified - Not Booked",
+        "count": 0,
+        "stage_id": "0e9f79c3-94b7-4f04-b858-bdee3a5eb450"
+      },
+      {
+        "name": "BOOKED",
+        "count": 0,
+        "stage_id": "da39d074-9fc9-4895-85d2-1b31e03491c2"
+      },
+      {
+        "name": "Contract Sent",
+        "count": 0,
+        "stage_id": "a0e745ad-1a58-4fee-9911-c035d521f32b"
+      },
+      {
+        "name": "Closed - Lost",
+        "count": 0,
+        "stage_id": "454f919b-49b3-4206-a9e1-f68896144e5f"
+      }
+    ]
+  },
+  "operations": {
+    "leads_waiting": 34,
+    "leads_stale_1hr": 40,
+    "lead_sources": {
+      "Instantly Warm Reply": 34,
+      "Direct/Unknown": 6
+    },
+    "lead_types": {
+      "name via lookup": 3,
+      "couldn't find caller name": 2,
+      "src:instantly": 34,
+      "type:warm_reply": 34
+    }
+  },
+  "projections": {
+    "gross_profit_potential": 60000.0,
+    "demo_to_customer_ratio": 0.33,
+    "revenue_per_conversion": 12500,
+    "conversion_goal_pct": 12,
+    "commission_pending": 0,
+    "commission_schedule": "TBD"
+  },
+  "leads": {
+    "total": 40,
+    "active_campaigns": 1,
+    "total_campaigns": 16
+  },
+  "demos": {
+    "booked": 0,
+    "target": 30
+  },
+  "email": {
+    "open_rate": 0,
+    "reply_rate": 0
+  },
+  "conversion": {
+    "rate": 0
+  },
+  "yesterday": {
+    "new_leads": 39,
+    "new_leads_delta": "39 total",
+    "appointments": 0,
+    "demos": 0,
+    "demos_delta": "vs 30 target",
+    "responses": 34,
+    "lead_sources": 2,
+    "top_source": "Instantly Warm Reply (34)"
+  }
+}

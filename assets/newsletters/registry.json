@@ -1,0 +1,22 @@
+{
+  "newsletters": [
+    {
+      "vol": "01",
+      "date": "2026-04-06",
+      "time": "06:01 AM PST",
+      "subject": "STR Solutions \u2014 Management Briefing \u2014 Sunday, April 06, 2026",
+      "file": "vol-01-management-briefing-2026-04-06.html",
+      "recipients": 12,
+      "status": "delivered"
+    },
+    {
+      "vol": "02",
+      "date": "2026-04-06",
+      "time": "09:32 AM PST",
+      "subject": "STR Solutions \u2014 CRM Cleanup \u2014 What\u0027s New \u2014 April 06, 2026",
+      "file": "vol-02-crm-cleanup-2026-04-06.html",
+      "recipients": 12,
+      "status": "delivered"
+    }
+  ]
+}
