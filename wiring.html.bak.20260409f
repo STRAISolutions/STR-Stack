@@ -400,6 +400,5 @@
   loadData();
   setInterval(loadData, 60000);
   </script>
-<script src="voice-widget.js"></script>
 </body>
 </html>

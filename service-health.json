@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-04-09T16:58:01Z",
+  "checked_at": "2026-04-09T17:59:01Z",
   "services": {
     "openclaw": {"status":"up","http":200,"port":18789},
     "vapi_relay": {"status":"up","http":200,"port":8443},
@@ -8,5 +8,5 @@
     "discord": {"status":"up","port":"ws"},
     "paperclip": {"status":"up","http":200,"port":3100}
   },
-  "disk": {"used_pct":61,"available":"61G"}
+  "disk": {"used_pct":66,"available":"54G"}
 }

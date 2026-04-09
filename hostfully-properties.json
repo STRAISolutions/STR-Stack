@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-09T16:45:01Z",
-  "count": 48,
+  "updated_at": "2026-04-09T17:45:02Z",
+  "count": 47,
   "properties": [
     {
       "uid": "8752740c-b020-43be-b5bc-74eebc105bca",
@@ -117,17 +117,6 @@
       "name": "3 Bedroom home - San Antonio, TX",
       "isActive": false,
       "propertyType": "HOUSE",
-      "bedrooms": 3,
-      "bathrooms": "2.5",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
-    },
-    {
-      "uid": "08344f94-4f83-44e1-8bca-506d7a44e530",
-      "name": "Breckenridge Alpine Residence #13",
-      "isActive": true,
-      "propertyType": "HOLIDAY_HOME",
       "bedrooms": 3,
       "bathrooms": "2.5",
       "city": "",

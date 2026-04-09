@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-04-09 16:55:01 UTC",
+  "checked_at": "2026-04-09 17:55:02 UTC",
   "containers": [
     {
       "id": "3852c4ed98fe",
       "image": "flowiseai/flowise:latest",
       "name": "flowise",
-      "status": "Up 22 hours",
+      "status": "Up 23 hours",
       "ports": "0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp"
     },
     {

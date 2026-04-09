@@ -1,61 +1,43 @@
 #!/bin/bash
-# Full stack off-site archive
-# Runs: daily at 4am
-# Creates a compressed archive of the entire stack
-# TODO: Add upload to DO Spaces or S3 when credentials are available
-
-BACKUP_DIR="/root/str-stack/backups"
+# Off-site backup to DigitalOcean Spaces
 TIMESTAMP=$(date +%Y%m%d)
-ARCHIVE="${BACKUP_DIR}/str-full-archive_${TIMESTAMP}.tar.gz"
+ARCHIVE="/tmp/str-stack-backup-${TIMESTAMP}.tar.gz"
+BUCKET="s3://str-backup-key/backups"
 
-echo "[$(date)] Starting full stack archive..."
+echo "[$(date)] Starting off-site archive..."
 
+# Create compressed archive of critical directories
 tar -czf "$ARCHIVE" \
-    --exclude="*.duckdb" \
-    --exclude="*.duckdb.wal" \
-    --exclude="Stack/" \
-    --exclude="filtered_output/" \
-    --exclude="node_modules/" \
-    --exclude="venv/" \
-    --exclude=".venv/" \
-    --exclude="__pycache__/" \
-    --exclude="backups/db-dumps/" \
-    --exclude="backups/configs/" \
-    --exclude="backups/docker-volumes/" \
-    --exclude="backups/str-full-archive_*" \
-    --exclude="*.log" \
-    /srv/str-stack-public/ \
-    /root/str-stack/ \
-    /root/clawhip/ \
-    /root/.openclaw/ \
-    /opt/paperclip/ \
-    /opt/ghl-mcp/ \
-    /etc/nginx/sites-enabled/ \
-    2>/dev/null
+  --exclude="*.log" \
+  --exclude="node_modules" \
+  --exclude="__pycache__" \
+  --exclude="*.pyc" \
+  --exclude="venv" \
+  --exclude="Stack" \
+  --exclude="filtered_output" \
+  --exclude="*.duckdb" \
+  /srv/str-stack-public/ \
+  /root/clawhip/ \
+  /root/.openclaw/ \
+  /opt/paperclip/data/ \
+  /opt/ghl-mcp/ \
+  /etc/nginx/sites-enabled/ \
+  2>/dev/null
 
-if [ -s "$ARCHIVE" ]; then
-    SIZE=$(du -h "$ARCHIVE" | cut -f1)
-    echo "[$(date)] Archive created: $ARCHIVE ($SIZE)"
-else
-    echo "[$(date)] ERROR: Archive creation failed!"
-    exit 1
-fi
+SIZE=$(du -sh "$ARCHIVE" 2>/dev/null | cut -f1)
+echo "[$(date)] Archive created: $ARCHIVE ($SIZE)"
 
-# Keep only last 3 archives
-ls -1t "${BACKUP_DIR}"/str-full-archive_*.tar.gz 2>/dev/null | tail -n +4 | xargs rm -f 2>/dev/null
+# Upload to DO Spaces
+s3cmd put "$ARCHIVE" "$BUCKET/" 2>&1
+echo "[$(date)] Uploaded to $BUCKET/"
 
-# =============================================
-# TODO: UPLOAD TO OFF-SITE STORAGE
-# =============================================
-# Option A: DigitalOcean Spaces (S3-compatible)
-#   apt install -y s3cmd
-#   s3cmd put "$ARCHIVE" s3://your-bucket/backups/
-#
-# Option B: AWS S3
-#   aws s3 cp "$ARCHIVE" s3://your-bucket/str-backups/
-#
-# Option C: rsync to another server
-#   rsync -avz "$ARCHIVE" user@backup-server:/backups/
-# =============================================
+# Keep only last 3 archives in Spaces
+ARCHIVES=$(s3cmd ls "$BUCKET/" | grep "str-stack-backup" | sort | head -n -3 | awk "{print \$4}")
+for OLD in $ARCHIVES; do
+  s3cmd del "$OLD" 2>&1
+  echo "[$(date)] Deleted old archive: $OLD"
+done
 
-echo "[$(date)] Off-site archive complete. (Local only - add upload destination)"
+# Cleanup local
+rm -f "$ARCHIVE"
+echo "[$(date)] Off-site archive complete."

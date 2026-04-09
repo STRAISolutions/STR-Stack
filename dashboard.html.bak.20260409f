@@ -951,7 +951,6 @@
         <div class="drop-label">AI Agents</div>
         <button class="tab-btn" data-tab="skills">Skills</button>
         <button class="tab-btn" data-tab="cowork">Cowork</button>
-        <button class="tab-btn" data-tab="paperclip">Paperclip</button>
       </div>
     </div>
 
@@ -2225,120 +2224,6 @@
       </div>
     </section>
 
-
-    <!-- ─── PAPERCLIP TAB ───────────────────────────────────── -->
-    <section id="tab-paperclip" class="tab-panel">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-        <div>
-          <h2 style="margin:0; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); font-family:'DM Sans',sans-serif;">Paperclip Orchestrator &middot; <span id="pc-version" style="color:var(--text);">--</span></h2>
-          <div class="subline">AI Agent Orchestration Platform &middot; Port 3100</div>
-        </div>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <span id="pc-last-poll" style="font-size:10px; color:var(--muted);">Last poll: --</span>
-          <button class="refresh" onclick="loadPaperclip()">Refresh</button>
-        </div>
-      </div>
-
-      <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:18px;">
-        <div class="node-card" id="pc-tile-status">
-          <div class="nc-val" id="pc-status-dot" style="font-size:22px;">&#9679;</div>
-          <div class="nc-label">Service Status</div>
-          <div class="nc-sub" id="pc-status-text">Checking...</div>
-        </div>
-        <div class="node-card">
-          <div class="nc-val" style="color:var(--gold);" id="pc-deploy-mode">--</div>
-          <div class="nc-label">Deploy Mode</div>
-          <div class="nc-sub" id="pc-deploy-exposure">--</div>
-        </div>
-        <div class="node-card">
-          <div class="nc-val" id="pc-bootstrap">--</div>
-          <div class="nc-label">Bootstrap</div>
-          <div class="nc-sub" id="pc-bootstrap-invite">--</div>
-        </div>
-        <div class="node-card">
-          <div class="nc-val" id="pc-uptime">--</div>
-          <div class="nc-label">Uptime</div>
-          <div class="nc-sub">Container runtime</div>
-        </div>
-        <div class="node-card">
-          <div class="nc-val" id="pc-resources">--</div>
-          <div class="nc-label">Resources</div>
-          <div class="nc-sub" id="pc-resources-sub">CPU / Memory</div>
-        </div>
-      </div>
-
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px;">
-        <div style="background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <span style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted);">Adapter Registry</span>
-            <span style="font-size:10px; color:var(--muted);" id="pc-adapter-count">--</span>
-          </div>
-          <div id="pc-adapter-list" style="display:grid; gap:8px; max-height:200px; overflow-y:auto;">
-            <div style="color:var(--muted); font-size:12px;">Loading adapters...</div>
-          </div>
-        </div>
-
-        <div style="background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <span style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted);">OpenClaw Gateway</span>
-            <span id="pc-openclaw-status" style="font-size:10px; padding:2px 8px; border-radius:8px; background:var(--panel-alt); color:var(--muted);">--</span>
-          </div>
-          <div style="display:grid; gap:6px;">
-            <div style="display:flex; justify-content:space-between; font-size:12px;">
-              <span style="color:var(--muted);">WebSocket Endpoint</span>
-              <span style="color:var(--text); font-family:monospace; font-size:11px;">ws://127.0.0.1:18789</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:12px;">
-              <span style="color:var(--muted);">Gateway Port</span>
-              <span style="color:var(--text);" id="pc-oc-port">18789</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:12px;">
-              <span style="color:var(--muted);">Proxy Status</span>
-              <span id="pc-oc-proxy" style="color:var(--text);">--</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:12px;">
-              <span style="color:var(--muted);">Docker Status</span>
-              <span id="pc-oc-docker" style="color:var(--text);">--</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-        <div style="background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px;">
-          <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:10px;">Features &amp; Config</div>
-          <div id="pc-features" style="display:grid; gap:6px;">
-            <div style="color:var(--muted); font-size:12px;">Loading...</div>
-          </div>
-        </div>
-
-        <div style="background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px;">
-          <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:10px;">Container Info</div>
-          <div id="pc-container-info" style="display:grid; gap:6px;">
-            <div style="display:flex; justify-content:space-between; font-size:12px;">
-              <span style="color:var(--muted);">Image</span>
-              <span style="color:var(--text); font-family:monospace; font-size:11px;">ghcr.io/paperclipai/paperclip:latest</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:12px;">
-              <span style="color:var(--muted);">Port</span>
-              <span style="color:var(--text);">3100</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:12px;">
-              <span style="color:var(--muted);">Node Version</span>
-              <span style="color:var(--text);" id="pc-node-ver">24.14.1</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:12px;">
-              <span style="color:var(--muted);">Public URL</span>
-              <a href="http://paperclip.strsolutionsusa.com" target="_blank" style="color:var(--gold); font-size:11px; text-decoration:none;">paperclip.strsolutionsusa.com</a>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:12px;">
-              <span style="color:var(--muted);">Auth Mode</span>
-              <span style="color:var(--text);" id="pc-auth-mode">--</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- ─── MISSION CONTROL TAB ──────────────────────────────── -->
     <section id="tab-mission" class="tab-panel">
@@ -4109,78 +3994,6 @@
     function markTabSync(tabId) {} // no-op, kept for compatibility
     function markTabError(tabId) {} // no-op, kept for compatibility
 
-    // ── Paperclip Orchestrator ──────────────────────────
-    async function loadPaperclip() {
-      const now = new Date().toLocaleTimeString();
-      const el = id => document.getElementById(id);
-      try {
-        const res = await fetch('/api/paperclip/health');
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const d = await res.json();
-        const isOk = d.status === 'ok';
-        el('pc-status-dot').style.color = isOk ? 'var(--good)' : 'var(--bad)';
-        el('pc-status-text').textContent = isOk ? 'Healthy' : (d.status || 'Unknown');
-        el('pc-version').textContent = 'v' + (d.version || '--');
-        el('pc-deploy-mode').textContent = (d.deploymentMode || '--').replace(/_/g,' ');
-        el('pc-deploy-exposure').textContent = (d.deploymentExposure || '--').replace(/_/g,' ');
-        const bsStatus = d.bootstrapStatus || '--';
-        el('pc-bootstrap').textContent = bsStatus.replace(/_/g,' ');
-        el('pc-bootstrap').style.color = bsStatus === 'ready' ? 'var(--good)' : 'var(--warn)';
-        el('pc-bootstrap-invite').textContent = d.bootstrapInviteActive ? 'Invite active' : 'No invite';
-        el('pc-auth-mode').textContent = (d.deploymentMode || '--').replace(/_/g, ' ');
-        // Features
-        const features = d.features || {};
-        let featHtml = '';
-        for (const [k, v] of Object.entries(features)) {
-          const label = k.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
-          const dot = v ? '\u25CF' : '\u25CB';
-          const color = v ? 'var(--good)' : 'var(--muted)';
-          featHtml += '<div style="display:flex;justify-content:space-between;font-size:12px;"><span style="color:var(--muted);">' + label + '</span><span style="color:' + color + ';">' + dot + ' ' + (v ? 'Enabled' : 'Disabled') + '</span></div>';
-        }
-        if (d.devServer) {
-          featHtml += '<div style="display:flex;justify-content:space-between;font-size:12px;margin-top:6px;border-top:1px solid var(--border);padding-top:6px;"><span style="color:var(--muted);">Dev Server</span><span style="color:var(--text);">' + (d.devServer.status || '--') + '</span></div>';
-        }
-        el('pc-features').innerHTML = featHtml || '<div style="color:var(--muted);font-size:12px;">No features reported</div>';
-        // Adapters
-        const adapters = [
-          { name: 'Claude Local', type: 'claude-local', icon: '\ud83e\udde0' },
-          { name: 'Codex Local', type: 'codex-local', icon: '\ud83d\udcbb' },
-          { name: 'Cursor Local', type: 'cursor-local', icon: '\u2728' },
-          { name: 'Gemini Local', type: 'gemini-local', icon: '\ud83d\udc8e' },
-          { name: 'OpenClaw Gateway', type: 'openclaw-gateway', icon: '\ud83e\udd9e' },
-          { name: 'OpenCode Local', type: 'opencode-local', icon: '\ud83d\udd27' },
-          { name: 'Pi Local', type: 'pi-local', icon: '\u03c0' }
-        ];
-        el('pc-adapter-count').textContent = adapters.length + ' adapters';
-        let adHtml = '';
-        adapters.forEach(a => {
-          adHtml += '<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:var(--panel-alt);border-radius:6px;"><span style="font-size:14px;">' + a.icon + '</span><div><div style="font-size:12px;font-weight:600;color:var(--text);">' + a.name + '</div><div style="font-size:10px;color:var(--muted);font-family:monospace;">' + a.type + '</div></div></div>';
-        });
-        el('pc-adapter-list').innerHTML = adHtml;
-        el('pc-last-poll').textContent = 'Last poll: ' + now;
-      } catch(e) {
-        el('pc-status-dot').style.color = 'var(--bad)';
-        el('pc-status-text').textContent = 'Unreachable';
-        el('pc-last-poll').textContent = 'Failed: ' + now;
-      }
-      // OpenClaw check
-      try {
-        const ocRes = await fetch('/clawhip/health');
-        const ocOk = ocRes.ok;
-        el('pc-oc-proxy').textContent = ocOk ? 'Proxied OK' : 'HTTP ' + ocRes.status;
-        el('pc-oc-proxy').style.color = ocOk ? 'var(--good)' : 'var(--warn)';
-        el('pc-openclaw-status').textContent = ocOk ? 'Connected' : 'Error';
-        el('pc-openclaw-status').style.background = ocOk ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)';
-        el('pc-openclaw-status').style.color = ocOk ? 'var(--good)' : 'var(--bad)';
-      } catch(e) {
-        el('pc-oc-proxy').textContent = 'Unreachable';
-        el('pc-oc-proxy').style.color = 'var(--bad)';
-        el('pc-openclaw-status').textContent = 'Down';
-        el('pc-openclaw-status').style.background = 'rgba(239,68,68,0.15)';
-        el('pc-openclaw-status').style.color = 'var(--bad)';
-      }
-    }
-
     function autoRefresh() {
       // Initial load - all data sources
       loadKPIs();
@@ -4202,7 +4015,6 @@
       loadConfigData();
       loadMissionControl();
       loadAgentManagement();
-      loadPaperclip();
 
       // Refresh cycle - all data sources every 60s
       setInterval(() => {
@@ -4224,7 +4036,6 @@
         loadConfigData();
         loadMissionControl();
         loadAgentManagement();
-        loadPaperclip();
       }, refreshInterval);
     }
     initClocks();
@@ -5020,6 +4831,5 @@
     function loadAgentManagement(){updateAgentSummaryKPIs();renderAgentHierarchy();renderAgentGrid();renderAgentIssues();var ts=document.getElementById("am-last-updated");if(ts){var now=new Date();ts.textContent="Updated: "+now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",second:"2-digit"});}}
 
     </script>
-<script src="voice-widget.js"></script>
 </body>
 </html>
