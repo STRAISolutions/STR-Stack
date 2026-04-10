@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-09T23:45:01Z",
-  "count": 56,
+  "updated_at": "2026-04-10T05:45:01Z",
+  "count": 57,
   "properties": [
     {
       "uid": "8752740c-b020-43be-b5bc-74eebc105bca",
@@ -570,6 +570,17 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2.5",
+      "city": "",
+      "state": "",
+      "maxGuests": "?"
+    },
+    {
+      "uid": "e94c425c-dac2-4ce9-a3c1-14ccc29d7296",
+      "name": "WALK TO THE BEACH RETREAT",
+      "isActive": true,
+      "propertyType": "HOUSE",
+      "bedrooms": 4,
+      "bathrooms": "2",
       "city": "",
       "state": "",
       "maxGuests": "?"

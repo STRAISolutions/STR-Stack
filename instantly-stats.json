@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-09T23:55:01Z",
+  "updated_at": "2026-04-10T05:55:02Z",
   "campaigns": {
     "total": 20,
     "active": 2,
@@ -114,7 +114,7 @@
   },
   "overview": {
     "emails_sent": 19639,
-    "contacted": 13856,
+    "contacted": 15008,
     "new_leads": 7436,
     "opened": 1018,
     "replied": 146,
@@ -128,7 +128,7 @@
     "id": "d637ffed-b225-48a9-8369-867bea05ae62",
     "name": "GT | CAMPAIGN 1: Side-Hustle Host",
     "emails_sent": 19639,
-    "contacted": 13856,
+    "contacted": 15008,
     "new_leads": 7436,
     "opened": 1018,
     "replied": 146,

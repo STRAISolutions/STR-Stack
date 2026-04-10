@@ -1,7 +1,29 @@
 {
-  "updated_at": "2026-04-09T23:45:01Z",
-  "count": 147,
+  "updated_at": "2026-04-10T05:45:01Z",
+  "count": 149,
   "bookings": [
+    {
+      "uid": "d46a65e5-47d3-4bce-95ba-637838910456",
+      "guest": "Rainstar Roque",
+      "email": "rroque.327014@guest.booking.com",
+      "phone": "+632035640799",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-08-07T15:00:00",
+      "checkout": "2026-08-08T11:00:00",
+      "property": "8752740c-b020-43be-b5bc-74eebc105bca",
+      "status": "BOOKED"
+    },
+    {
+      "uid": "838d1fff-9eeb-46a7-bfb4-ce26bf69254c",
+      "guest": "Jennifer Penner",
+      "email": "jpenne.164704@guest.booking.com",
+      "phone": "+18125213965",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-05-22T15:00:00",
+      "checkout": "2026-05-24T11:00:00",
+      "property": "f34c94e0-f4f9-4b9d-b37d-d1c09efc9f64",
+      "status": "BOOKED"
+    },
     {
       "uid": "f89b89f2-8d9b-4ee4-86e1-d9d3b5ace409",
       "guest": "Paul Welzel",
