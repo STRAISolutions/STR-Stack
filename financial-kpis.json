@@ -1,24 +1,24 @@
 {
-  "timestamp": "2026-04-09T17:55:02Z",
+  "timestamp": "2026-04-09T23:55:02Z",
   "pipeline": {
-    "ltv_pipeline": 500000,
-    "monthly_gross": 30000,
-    "hot_leads": 40,
+    "ltv_pipeline": 512500,
+    "monthly_gross": 30750,
+    "hot_leads": 41,
     "ltv_per_account": 12500,
     "monthly_per_account": 750,
     "formula_ltv": "hot_leads x $12,500 LTV",
     "formula_monthly": "hot_leads x $750/mo",
-    "open": 40,
+    "open": 41,
     "lost": 0,
     "won": 0,
-    "total": 40,
+    "total": 41,
     "ghl_monetary_value": 0,
     "hot_stage_breakdown": {
-      "other": 40
+      "other": 41
     },
     "all_stage_breakdown": {
       "Call Queue": 34,
-      "Overflow - VAPI": 6
+      "Overflow - VAPI": 7
     },
     "stage_pipeline": [
       {
@@ -33,7 +33,7 @@
       },
       {
         "name": "Overflow - VAPI",
-        "count": 6,
+        "count": 7,
         "stage_id": "29554f80-6207-4320-8570-a28aa382aeb4"
       },
       {
@@ -65,20 +65,21 @@
   },
   "operations": {
     "leads_waiting": 34,
-    "leads_stale_1hr": 40,
+    "leads_stale_1hr": 41,
     "lead_sources": {
       "Instantly Warm Reply": 34,
-      "Direct/Unknown": 6
+      "Direct/Unknown": 7
     },
     "lead_types": {
-      "name via lookup": 3,
+      "name via lookup": 4,
+      "spam likely": 1,
       "couldn't find caller name": 2,
       "src:instantly": 34,
       "type:warm_reply": 34
     }
   },
   "projections": {
-    "gross_profit_potential": 60000.0,
+    "gross_profit_potential": 61500.0,
     "demo_to_customer_ratio": 0.33,
     "revenue_per_conversion": 12500,
     "conversion_goal_pct": 12,
@@ -86,8 +87,8 @@
     "commission_schedule": "TBD"
   },
   "leads": {
-    "total": 40,
-    "active_campaigns": 1,
+    "total": 41,
+    "active_campaigns": 2,
     "total_campaigns": 20
   },
   "demos": {

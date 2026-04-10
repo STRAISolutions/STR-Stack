@@ -1,12 +1,13 @@
 {
-  "updated_at": "2026-04-09T17:55:01Z",
+  "updated_at": "2026-04-09T23:55:01Z",
   "campaigns": {
     "total": 20,
-    "active": 1,
+    "active": 2,
     "paused": 2,
-    "completed": 9,
+    "completed": 8,
     "active_names": [
-      "GT | CAMPAIGN 1: Side-Hustle Host"
+      "GT | CAMPAIGN 1: Side-Hustle Host",
+      "ICP 5 - Franchisee"
     ],
     "all_campaigns": [
       {
@@ -32,7 +33,7 @@
       {
         "name": "ICP 5 - Franchisee",
         "id": "bdc34b52-511b-45e7-9919-724a7e8741c1",
-        "status": 3
+        "status": 1
       },
       {
         "name": "ICP 1 - Side-Hustle Host (Apollo copy)",
@@ -116,7 +117,7 @@
     "contacted": 13856,
     "new_leads": 7436,
     "opened": 1018,
-    "replied": 145,
+    "replied": 146,
     "bounced": 685,
     "interested": 33,
     "opportunities": 33,
@@ -130,7 +131,7 @@
     "contacted": 13856,
     "new_leads": 7436,
     "opened": 1018,
-    "replied": 145,
+    "replied": 146,
     "bounced": 685,
     "interested": 33,
     "opportunities": 33

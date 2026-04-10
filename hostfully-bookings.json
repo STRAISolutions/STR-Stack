@@ -1,7 +1,40 @@
 {
-  "updated_at": "2026-04-09T17:45:02Z",
-  "count": 146,
+  "updated_at": "2026-04-09T23:45:01Z",
+  "count": 147,
   "bookings": [
+    {
+      "uid": "f89b89f2-8d9b-4ee4-86e1-d9d3b5ace409",
+      "guest": "Paul Welzel",
+      "email": "pwelze.846104@guest.booking.com",
+      "phone": "+13023315254",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-04-23T15:00:00",
+      "checkout": "2026-04-26T11:00:00",
+      "property": "866378ce-ac3c-4712-9124-cb737795271c",
+      "status": "BOOKED"
+    },
+    {
+      "uid": "1c37cd8d-bd40-464d-841e-cdd86548dafa",
+      "guest": "Dennis Sheppard",
+      "email": "dshepp.860091@guest.booking.com",
+      "phone": "+17094221581",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-07-17T15:00:00",
+      "checkout": "2026-07-20T11:00:00",
+      "property": "f34c94e0-f4f9-4b9d-b37d-d1c09efc9f64",
+      "status": "BOOKED"
+    },
+    {
+      "uid": "d52d0ab9-3138-4022-b30d-d21d1adfbe39",
+      "guest": "Natalee Kazor",
+      "email": "user-47413166@relay.whimstay.com",
+      "phone": "+14166696357",
+      "channel": "WHIMSTAY",
+      "checkin": "2026-04-17T16:00:00",
+      "checkout": "2026-04-19T10:00:00",
+      "property": "e81cbaa6-38a9-4e9a-82fb-102834ef253a",
+      "status": "BOOKED"
+    },
     {
       "uid": "c5e6ab17-397d-4363-99b5-deec04dd3792",
       "guest": "Maciej Rybi\u0144ski",
@@ -44,17 +77,6 @@
       "checkin": "2026-09-18T15:00:00",
       "checkout": "2026-09-20T11:00:00",
       "property": "adc545bf-2dc1-4683-9720-e6fca5133901",
-      "status": "BOOKED"
-    },
-    {
-      "uid": "b411c4e7-fd66-416a-b6b2-3b883ceaebc1",
-      "guest": "Rainstar Roque",
-      "email": "rroque.409841@guest.booking.com",
-      "phone": "+632035640799",
-      "channel": "BOOKING_COM",
-      "checkin": "2026-08-07T15:00:00",
-      "checkout": "2026-08-08T11:00:00",
-      "property": "8752740c-b020-43be-b5bc-74eebc105bca",
       "status": "BOOKED"
     },
     {
@@ -806,17 +828,6 @@
       "status": "BOOKED"
     },
     {
-      "uid": "097bff56-91cf-4d78-8fa4-1920b2d7895f",
-      "guest": "Nikki Bartholomew",
-      "email": "the4bartholomews@hotmail.com",
-      "phone": "+14239201017",
-      "channel": "HOSTFULLY",
-      "checkin": "2026-06-11T15:00:00",
-      "checkout": "2026-06-12T11:00:00",
-      "property": "29c561dd-6c59-477c-975f-2afec9841864",
-      "status": "BOOKED"
-    },
-    {
       "uid": "29b8cdfd-356b-4e3e-86f4-fa4d0ba29d27",
       "guest": "Greg Gleeson",
       "email": "gregjgleeson@outlook.com",
@@ -879,7 +890,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-07-17T15:00:00",
       "checkout": "2026-07-20T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -890,7 +901,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-06-13T15:00:00",
       "checkout": "2026-06-14T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -901,7 +912,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-08-21T15:00:00",
       "checkout": "2026-08-24T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -912,7 +923,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-07-26T15:00:00",
       "checkout": "2026-07-28T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -923,7 +934,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-07-04T15:00:00",
       "checkout": "2026-07-07T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -934,7 +945,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-06-25T15:00:00",
       "checkout": "2026-07-02T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -945,7 +956,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-08-28T15:00:00",
       "checkout": "2026-08-30T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -956,7 +967,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-09-05T15:00:00",
       "checkout": "2026-09-07T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -978,7 +989,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-07-11T15:00:00",
       "checkout": "2026-07-13T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -989,7 +1000,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-08-14T15:00:00",
       "checkout": "2026-08-17T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1000,7 +1011,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-09-16T15:00:00",
       "checkout": "2026-09-20T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1011,7 +1022,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-07-03T15:00:00",
       "checkout": "2026-07-04T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1022,7 +1033,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-06-01T15:00:00",
       "checkout": "2026-06-02T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1044,7 +1055,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-06-20T15:00:00",
       "checkout": "2026-06-22T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1055,7 +1066,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-08-06T15:00:00",
       "checkout": "2026-08-07T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1066,7 +1077,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-06-10T15:00:00",
       "checkout": "2026-06-12T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1077,7 +1088,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-05-31T15:00:00",
       "checkout": "2026-06-01T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1088,7 +1099,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-08-12T15:00:00",
       "checkout": "2026-08-14T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1099,7 +1110,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-08-01T15:00:00",
       "checkout": "2026-08-04T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1110,7 +1121,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-09-14T15:00:00",
       "checkout": "2026-09-16T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1121,7 +1132,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-07-07T15:00:00",
       "checkout": "2026-07-08T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1132,7 +1143,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-07-23T15:00:00",
       "checkout": "2026-07-25T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1143,7 +1154,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-07-16T15:00:00",
       "checkout": "2026-07-17T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1154,7 +1165,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-06-12T15:00:00",
       "checkout": "2026-06-13T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1165,7 +1176,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-07-29T15:00:00",
       "checkout": "2026-08-01T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1176,7 +1187,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-09-07T15:00:00",
       "checkout": "2026-09-10T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1187,7 +1198,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-08-05T15:00:00",
       "checkout": "2026-08-06T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1198,7 +1209,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-06-14T15:00:00",
       "checkout": "2026-06-15T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1209,7 +1220,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-06-15T15:00:00",
       "checkout": "2026-06-16T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {
@@ -1534,12 +1545,12 @@
     {
       "uid": "86ca26f6-566a-4a50-b6bc-f6069277c7b1",
       "guest": "Deb Meacham",
-      "email": "dmeach.425378@guest.booking.com",
+      "email": "dgmeacham@gmail.com",
       "phone": "+17581511191",
       "channel": "HOSTFULLY",
       "checkin": "2026-07-21T15:00:00",
       "checkout": "2026-07-23T11:00:00",
-      "property": "03809a16-13f4-4eae-99f8-3ee9f233641f",
+      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
     {

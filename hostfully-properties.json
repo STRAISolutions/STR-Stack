@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-09T17:45:02Z",
-  "count": 47,
+  "updated_at": "2026-04-09T23:45:01Z",
+  "count": 56,
   "properties": [
     {
       "uid": "8752740c-b020-43be-b5bc-74eebc105bca",
@@ -212,6 +212,17 @@
       "maxGuests": "?"
     },
     {
+      "uid": "b8ab3fe7-908c-4d32-be26-89a2d98bede0",
+      "name": "Clifton Hill Party Pad",
+      "isActive": false,
+      "propertyType": "HOUSE",
+      "bedrooms": 4,
+      "bathrooms": "3",
+      "city": "",
+      "state": "",
+      "maxGuests": "?"
+    },
+    {
       "uid": "866378ce-ac3c-4712-9124-cb737795271c",
       "name": "CLIFTON WALK B1A",
       "isActive": true,
@@ -289,12 +300,34 @@
       "maxGuests": "?"
     },
     {
+      "uid": "254c9329-cf62-465b-a893-ddb8c5e22ec9",
+      "name": "Crystal Beach Bungalow",
+      "isActive": false,
+      "propertyType": "BUNGALOW",
+      "bedrooms": 2,
+      "bathrooms": "1",
+      "city": "",
+      "state": "",
+      "maxGuests": "?"
+    },
+    {
       "uid": "bd127660-dd9c-4053-a273-a3b6837d50b7",
       "name": "FALLS RUN SANCTUARY",
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "2.5",
+      "city": "",
+      "state": "",
+      "maxGuests": "?"
+    },
+    {
+      "uid": "8863242e-7e0d-4c87-a330-a1b13a03080e",
+      "name": "Fort Erie Beach House",
+      "isActive": false,
+      "propertyType": "HOUSE",
+      "bedrooms": 3,
+      "bathrooms": "2",
       "city": "",
       "state": "",
       "maxGuests": "?"
@@ -313,17 +346,6 @@
     {
       "uid": "c04f6fc8-8e07-48df-8205-507936c8e34d",
       "name": "JACKSON HAVEN RETREAT",
-      "isActive": true,
-      "propertyType": "HOUSE",
-      "bedrooms": 3,
-      "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
-    },
-    {
-      "uid": "03809a16-13f4-4eae-99f8-3ee9f233641f",
-      "name": "JACKSON HIDEAWAY",
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 3,
@@ -377,12 +399,45 @@
       "maxGuests": "?"
     },
     {
+      "uid": "ca442f86-5448-43bc-8434-b28d98dad35d",
+      "name": "Lundys Lane Motor Lodge",
+      "isActive": false,
+      "propertyType": "BOUTIQUE_HOTEL",
+      "bedrooms": 1,
+      "bathrooms": "1",
+      "city": "",
+      "state": "",
+      "maxGuests": "?"
+    },
+    {
       "uid": "08c098b6-5e9f-4452-8df1-8ed907c62dd1",
       "name": "Misty Retreat",
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "2",
+      "city": "",
+      "state": "",
+      "maxGuests": "?"
+    },
+    {
+      "uid": "9f3d812d-a30a-4537-80f8-4d40acf8e638",
+      "name": "Niagara Falls Grand View Suite",
+      "isActive": false,
+      "propertyType": "CONDO",
+      "bedrooms": 2,
+      "bathrooms": "2",
+      "city": "",
+      "state": "",
+      "maxGuests": "?"
+    },
+    {
+      "uid": "d65eec03-f165-4e6e-a3d5-69c911b00dac",
+      "name": "NOTL Heritage Townhouse",
+      "isActive": false,
+      "propertyType": "TOWNHOUSE",
+      "bedrooms": 3,
+      "bathrooms": "2.5",
       "city": "",
       "state": "",
       "maxGuests": "?"
@@ -405,6 +460,17 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2.5",
+      "city": "",
+      "state": "",
+      "maxGuests": "?"
+    },
+    {
+      "uid": "d9dda438-88a2-4371-8a82-fbcfafad6f24",
+      "name": "Port Colborne Lakefront Cabin",
+      "isActive": false,
+      "propertyType": "CABIN",
+      "bedrooms": 2,
+      "bathrooms": "1",
       "city": "",
       "state": "",
       "maxGuests": "?"
@@ -449,6 +515,17 @@
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "3",
+      "city": "",
+      "state": "",
+      "maxGuests": "?"
+    },
+    {
+      "uid": "12360b75-0e61-4406-a5c8-924c27b2f973",
+      "name": "St. Catharines Wine Country Villa",
+      "isActive": false,
+      "propertyType": "VILLA",
+      "bedrooms": 5,
+      "bathrooms": "4",
       "city": "",
       "state": "",
       "maxGuests": "?"
@@ -515,6 +592,28 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "1",
+      "city": "",
+      "state": "",
+      "maxGuests": "?"
+    },
+    {
+      "uid": "e8549d1b-aa28-4b77-a390-6d5616130010",
+      "name": "Welland Canal Loft",
+      "isActive": false,
+      "propertyType": "LOFT",
+      "bedrooms": 1,
+      "bathrooms": "1",
+      "city": "",
+      "state": "",
+      "maxGuests": "?"
+    },
+    {
+      "uid": "30d2220d-9c25-4d67-ad88-982acdfd7135",
+      "name": "Whirlpool Rapids Cottage",
+      "isActive": false,
+      "propertyType": "COTTAGE",
+      "bedrooms": 3,
+      "bathrooms": "2",
       "city": "",
       "state": "",
       "maxGuests": "?"
