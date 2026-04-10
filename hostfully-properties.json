@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-10T11:45:01Z",
-  "count": 57,
+  "updated_at": "2026-04-10T17:45:01Z",
+  "count": 56,
   "properties": [
     {
       "uid": "8752740c-b020-43be-b5bc-74eebc105bca",
@@ -577,17 +577,6 @@
     {
       "uid": "e94c425c-dac2-4ce9-a3c1-14ccc29d7296",
       "name": "WALK TO THE BEACH RETREAT",
-      "isActive": true,
-      "propertyType": "HOUSE",
-      "bedrooms": 4,
-      "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
-    },
-    {
-      "uid": "ff6935ee-3e4b-49fe-9bce-0f78a3bbd7e1",
-      "name": "WALK TO THE BEACH-BEECHWOOD",
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 4,
