@@ -1027,6 +1027,7 @@
         <div class="drop-label">AI Agents</div>
         <button class="tab-btn" data-tab="skills">Skills</button>
         <button class="tab-btn" data-tab="cowork">Cowork</button>
+        <button class="tab-btn" data-tab="paperclip">Paperclip</button>
       </div>
     </div>
 
@@ -1035,7 +1036,6 @@
       <button class="nav-top" data-group="command">Command <span class="arrow">&#9662;</span></button>
       <div class="nav-drop">
         <button class="tab-btn" data-tab="mission">Mission Control</button>
-        <button class="tab-btn" data-tab="paperclip">Paperclip</button>
         <button class="tab-btn" data-tab="agents">Agent Management</button>
       </div>
     </div>
@@ -1907,6 +1907,7 @@
               </div>
             </div>
           </div>
+        </div>
       </div>
 
       <!-- Gmail Sub-Panel -->
@@ -4087,13 +4088,13 @@
     }
 
     function restoreAllDragOrders() {
-      // v3: scope per-parent so cross-subpanel groups don't collapse into one container
+      // v2: Clear stale drag orders from before group-fix
       var dragVersion = localStorage.getItem('drag-version');
-      if (dragVersion !== 'v3') {
+      if (dragVersion !== 'v2') {
         Object.keys(localStorage).forEach(function(k) {
           if (k.startsWith('drag-order-')) localStorage.removeItem(k);
         });
-        localStorage.setItem('drag-version', 'v3');
+        localStorage.setItem('drag-version', 'v2');
       }
 
       const groups = new Set();
@@ -4105,19 +4106,13 @@
         if (!saved) return;
         try {
           const order = JSON.parse(saved);
-          // Collect unique parent containers that hold sections of this group
-          const parentSet = new Set();
-          document.querySelectorAll('.drag-section[data-drag-group="' + group + '"]').forEach(s => {
-            parentSet.add(s.parentNode);
-          });
-          parentSet.forEach(parent => {
-            const scoped = parent.querySelectorAll(':scope > .drag-section[data-drag-group="' + group + '"]');
-            if (!scoped.length) return;
-            const sectionMap = {};
-            scoped.forEach(s => { sectionMap[s.dataset.dragId] = s; });
-            order.forEach(id => {
-              if (sectionMap[id]) parent.appendChild(sectionMap[id]);
-            });
+          const sections = document.querySelectorAll('.drag-section[data-drag-group="' + group + '"]');
+          if (!sections.length) return;
+          const parent = sections[0].parentNode;
+          const sectionMap = {};
+          sections.forEach(s => { sectionMap[s.dataset.dragId] = s; });
+          order.forEach(id => {
+            if (sectionMap[id]) parent.appendChild(sectionMap[id]);
           });
         } catch(e) {}
       });
@@ -4746,14 +4741,14 @@
 
     // ── Agent Management ──────────────────────────────────────
     var agentRoster = [
-      {name:"STRBOSS",id:"9fc29412",role:"coordinator",status:"live",statusDetail:"LIVE",model:"gpt-4o-mini",gateway:"gateway-a8028e86",delegation:"ENABLED",orchestrator:"ENABLED",governance:"approval-required",wake:"5m",heartbeat:"enabled",parent:null,team:"STR Command",tools:["shell","files","edit_file","web","delegate","browser","memory","wallet","monitor","email","manage_platform","manage_agents","manage_tasks","manage_documents","delegate_to_agent"],kpi:"Task delegation accuracy; SLA <4hr",priority:"HIGH",issues:[],summary:"Central coordinator. Delegates to 6 specialists."},
-      {name:"GHL Operations Analyst",id:"agent-ghl-ops-analyst",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents"],kpi:"Reduce lead-to-action 30%",priority:"HIGH",issues:[],summary:"Monitors GHL pipelines. Flags stale leads."},
-      {name:"Sales Strategy Coach",id:"agent-sales-strategist",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents"],kpi:"Call score trending up",priority:"MEDIUM",issues:[],summary:"Scores calls. Weekly training brief."},
-      {name:"Communications Router",id:"agent-comms-router",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"ENABLED",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents","email"],kpi:"Response <4hr",priority:"MEDIUM",issues:[],summary:"Classifies inbound comms. Routes to templates."},
-      {name:"GHL Master Account Manager",id:"agent-ghl-master",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents"],kpi:"Master location health",priority:"MEDIUM",issues:[],summary:"Manages Master sub-account. Lead enrichment."},
-      {name:"GHL Call Center Manager",id:"agent-ghl-cc-manager",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents"],kpi:"Outbound call throughput",priority:"MEDIUM",issues:[],summary:"Manages Call Center sub-account. Outbound pipelines."},
-      {name:"STR Ops Agent",id:"377fb845",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-5.1-codex",gateway:"none",delegation:"disabled",orchestrator:"disabled",governance:"autonomous",wake:"5m",heartbeat:"enabled",parent:"9fc29412",team:"SECOND TIER",tools:["memory","files","shell","web_search","web_fetch","manage_tasks","manage_schedules","manage_connectors"],kpi:"Uptime >99.5%",priority:"LOW",issues:[],summary:"Infrastructure specialist. Health checks 5min."},
-      {name:"Assistant",id:"default",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"disabled",governance:"autonomous",wake:"n/a",heartbeat:"disabled",parent:null,team:"none",tools:["memory","files","web_search","web_fetch","browser","claude_code","codex_cli"],kpi:"n/a",priority:"NONE",issues:[],summary:"SwarmClaw built-in assistant."}
+      {name:"STRBOSS",id:"9fc29412",role:"coordinator",status:"live",statusDetail:"LIVE - needs config fixes",model:"gpt-4o-mini / gpt-5.1-codex",gateway:"gateway-a8028e86",delegation:"ENABLED",orchestrator:"ENABLED",governance:"approval-required",wake:"5m",heartbeat:"enabled",parent:null,team:"STR Command",tools:["shell","files","edit_file","web","delegate","browser","memory","wallet","monitor","email","manage_platform","manage_agents","manage_tasks"],kpi:"Task delegation accuracy; SLA <4hr",priority:"HIGH",issues:[{sev:"high",text:"orgChart children not wired"},{sev:"medium",text:"Tiered routing may cause PUT 500"}],summary:"Central coordinator. Delegates to 4 specialists."},
+      {name:"GHL Ops Analyst",id:"agent-ghl-ops",role:"worker",status:"config",statusDetail:"LIVE - needs tool + prompt updates",model:"gpt-4o-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"disabled",parent:"9fc29412",team:"STR Command",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions"],kpi:"Reduce lead-to-action 30%",priority:"CRITICAL",issues:[{sev:"critical",text:"Missing manage_documents tool"},{sev:"high",text:"orgChart.parentId not set to STRBOSS"},{sev:"high",text:"No GHL API endpoints in prompt"},{sev:"medium",text:"Needs webhook routing"}],summary:"Monitor GHL pipelines. Flag stale leads >48hr."},
+      {name:"Sales Strategy Coach",id:"agent-sales",role:"worker",status:"config",statusDetail:"LIVE - needs tool + prompt updates",model:"gpt-4o-mini",gateway:"none",delegation:"disabled",orchestrator:"disabled",governance:"autonomous",wake:"5m",heartbeat:"disabled",parent:"9fc29412",team:"STR Command",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions"],kpi:"Call score trending up",priority:"MEDIUM",issues:[{sev:"high",text:"Orchestrator disabled (should be enabled)"},{sev:"high",text:"orgChart.parentId not set"},{sev:"medium",text:"No GHL Call Center PIT token"},{sev:"medium",text:"Needs manage_documents tool"}],summary:"Score calls 1-10. Weekly training brief."},
+      {name:"Comms Router",id:"agent-comms",role:"worker",status:"config",statusDetail:"LIVE - needs tool + prompt updates",model:"gpt-4o-mini",gateway:"none",delegation:"disabled",orchestrator:"disabled",governance:"autonomous",wake:"5m",heartbeat:"disabled",parent:"9fc29412",team:"STR Command",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions"],kpi:"Response <4hr; zero missed deadlines",priority:"MEDIUM",issues:[{sev:"critical",text:"Missing email tool (critical for role)"},{sev:"high",text:"Orchestrator disabled"},{sev:"high",text:"orgChart.parentId not set"},{sev:"medium",text:"No GHL Master PIT; needs manage_documents"}],summary:"Classify inbound comms. Route to templates."},
+      {name:"STR Ops Agent",id:"377fb845",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-5.1-codex",gateway:"gateway-a8028e86",delegation:"ENABLED",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"enabled",parent:"9fc29412",team:"STR Command",tools:["memory","files","shell","web_search","web_fetch","manage_agents","manage_tasks","manage_schedules","manage_connectors"],kpi:"Uptime >99.5%",priority:"LOW",issues:[{sev:"medium",text:"Delegation should be disabled (scope creep)"},{sev:"medium",text:"Has manage_agents (STRBOSS-only)"},{sev:"low",text:"orgChart.parentId not set"}],summary:"Infrastructure specialist. Health checks 5min."},
+      {name:"STR Ops (orphan)",id:"61a91c22",role:"worker",status:"delete",statusDetail:"SHOULD BE DELETED",model:"gpt-5.1-codex",gateway:"gateway-4e180703",delegation:"ENABLED",orchestrator:"disabled",governance:"autonomous",wake:"n/a",heartbeat:"enabled",parent:null,team:"none",tools:["memory","files","shell","manage_agents","manage_tasks"],kpi:"n/a",priority:"DELETE",issues:[{sev:"critical",text:"Orphaned duplicate. Discord connector still points here"},{sev:"high",text:"Delete will break Discord until connector re-pointed"}],summary:"Superseded by 377fb845."},
+      {name:"Assistant",id:"default",role:"worker",status:"live",statusDetail:"LIVE - keep as-is",model:"gpt-4o-mini",gateway:"none",delegation:"disabled",orchestrator:"disabled",governance:"autonomous",wake:"n/a",heartbeat:"disabled",parent:null,team:"none",tools:["memory","files","web_search","web_fetch","browser","claude_code","codex_cli"],kpi:"n/a",priority:"NONE",issues:[],summary:"SwarmClaw built-in assistant."},
+      {name:"Placeholder (empty)",id:"cd42afbe",role:"worker",status:"delete",statusDetail:"SHOULD BE DELETED",model:"gpt-4o-mini",gateway:"none",delegation:"disabled",orchestrator:"disabled",governance:"n/a",wake:"n/a",heartbeat:"disabled",parent:null,team:"none",tools:["shell","files","edit_file","web","delegate","browser","memory"],kpi:"n/a",priority:"DELETE",issues:[{sev:"critical",text:"Empty prompt. No purpose. Excessive permissions (security risk)"}],summary:"Empty placeholder."}
     ];
 
     // ── Agent data (computed from agentRoster) ──

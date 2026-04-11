@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-11T11:45:02Z",
-  "count": 56,
+  "updated_at": "2026-04-11T17:45:01Z",
+  "count": 55,
   "properties": [
     {
       "uid": "8752740c-b020-43be-b5bc-74eebc105bca",
@@ -53,17 +53,6 @@
       "propertyType": "APARTMENT",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
-    },
-    {
-      "uid": "4b20ecfc-7672-418f-935a-0f5c3820b350",
-      "name": "*RIVERSIDE STAY",
-      "isActive": true,
-      "propertyType": "HOLIDAY_HOME",
-      "bedrooms": 4,
-      "bathrooms": "2.5",
       "city": "",
       "state": "",
       "maxGuests": "?"

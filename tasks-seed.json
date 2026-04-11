@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "updated_at": "2026-04-10T19:30:00Z",
+  "tasks": [
+    {"id": "seed-001", "text": "Social Media Optimization - Blaze.ai + GHL integration"},
+    {"id": "seed-002", "text": "GHL Social Lead Tags & Workflows"},
+    {"id": "seed-003", "text": "Zapier Workflow - Hostfully -> Blaze content generation"},
+    {"id": "seed-004", "text": "Dashboard Social Metrics Section"},
+    {"id": "seed-005", "text": "Meta Ads Connection via DeCube.com"},
+    {"id": "seed-006", "text": "WordPress Connector Test - GHL Blog API"},
+    {"id": "seed-007", "text": "Payment Processor API integration (Hostfully orders)"},
+    {"id": "seed-008", "text": "Memo Tracking System"},
+    {"id": "seed-009", "text": "Microsoft 365 Migration"},
+    {"id": "seed-010", "text": "Slack Cleanup (32 members)"},
+    {"id": "seed-011", "text": "HeyGen Video Pipeline"},
+    {"id": "seed-012", "text": "ClaWhip Slack/Discord Fix"},
+    {"id": "seed-013", "text": "Clay API Renewal"},
+    {"id": "seed-014", "text": "Make API Verification"},
+    {"id": "seed-015", "text": "GHL Webhook Registration"},
+    {"id": "seed-016", "text": "Discord Webhooks Setup"},
+    {"id": "seed-017", "text": "Gmail Action Items review"},
+    {"id": "seed-018", "text": "Master GHL 173 Leads Investigation"},
+    {"id": "seed-019", "text": "GHL Workflow Deletions (13 flagged)"},
+    {"id": "seed-020", "text": "Daily Newsletter Draft Task verification"},
+    {"id": "seed-021", "text": "Newsletter Vol 03 Blast confirmation (April 7)"}
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-11T11:55:02Z",
+  "updated_at": "2026-04-11T17:55:01Z",
   "campaigns": {
     "total": 20,
     "active": 2,
@@ -113,12 +113,12 @@
     ]
   },
   "overview": {
-    "emails_sent": 20953,
+    "emails_sent": 22140,
     "contacted": 16411,
     "new_leads": 7601,
     "opened": 1018,
-    "replied": 154,
-    "bounced": 693,
+    "replied": 163,
+    "bounced": 696,
     "interested": 34,
     "opportunities": 34,
     "opp_value": 5950,
@@ -127,12 +127,12 @@
   "gt_icp1": {
     "id": "d637ffed-b225-48a9-8369-867bea05ae62",
     "name": "GT | CAMPAIGN 1: Side-Hustle Host",
-    "emails_sent": 20953,
+    "emails_sent": 22140,
     "contacted": 16411,
     "new_leads": 7601,
     "opened": 1018,
-    "replied": 154,
-    "bounced": 693,
+    "replied": 163,
+    "bounced": 696,
     "interested": 34,
     "opportunities": 34
   }
