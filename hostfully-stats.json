@@ -1,15 +1,15 @@
 {
-  "updated_at": "2026-04-10T23:45:01Z",
+  "updated_at": "2026-04-11T05:45:01Z",
   "summary": {
     "total_leads": 500,
-    "total_bookings": 203,
-    "active_bookings": 148,
+    "total_bookings": 204,
+    "active_bookings": 149,
     "cancelled": 55,
     "inquiries": 6
   },
   "revenue": {
-    "this_year": 148168.93,
-    "this_month": 146584.59,
+    "this_year": 148547.94,
+    "this_month": 146963.6,
     "this_week": 253.02
   },
   "payments": {
@@ -29,9 +29,9 @@
     ]
   },
   "channels": {
+    "AIRBNB": 14,
     "BOOKING_COM": 18,
     "WHIMSTAY": 2,
-    "AIRBNB": 13,
     "HOSTFULLY": 115
   },
   "properties": {

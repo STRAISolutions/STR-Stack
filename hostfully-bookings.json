@@ -1,7 +1,18 @@
 {
-  "updated_at": "2026-04-10T23:45:01Z",
-  "count": 148,
+  "updated_at": "2026-04-11T05:45:01Z",
+  "count": 149,
   "bookings": [
+    {
+      "uid": "3e9b9a88-da3e-4a11-a1fd-6150ef81ca6d",
+      "guest": "Iba Abbasi",
+      "email": null,
+      "phone": "+14169893500",
+      "channel": "AIRBNB",
+      "checkin": "2026-04-24T16:00:00",
+      "checkout": "2026-04-25T10:00:00",
+      "property": "625ce688-f5e3-4236-9c5a-22cfa48b7502",
+      "status": "BOOKED"
+    },
     {
       "uid": "d46a65e5-47d3-4bce-95ba-637838910456",
       "guest": "Rainstar Roque",
