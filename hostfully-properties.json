@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-10T17:45:01Z",
+  "updated_at": "2026-04-10T23:45:01Z",
   "count": 56,
   "properties": [
     {
@@ -487,8 +487,8 @@
       "maxGuests": "?"
     },
     {
-      "uid": "a62202dd-bcc6-45dc-b889-908c2879821c",
-      "name": "Riverside Cottage Escape ",
+      "uid": "878e3abd-d809-44c8-a6c8-0d770b44537e",
+      "name": "Riverside Cottage Retreat",
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 4,
@@ -510,7 +510,7 @@
     },
     {
       "uid": "59c96c35-f767-43e4-bba7-445ec7e6357f",
-      "name": "Riverview Cottage Escape",
+      "name": "Riverview Cottage Escape1",
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 4,

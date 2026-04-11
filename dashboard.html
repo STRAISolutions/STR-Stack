@@ -144,6 +144,81 @@
     .tab-panel.active { display:block; animation:fade .3s ease-in; }
     @keyframes fade { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
+    /* ── Tasks Tab ── */
+    .task-board { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .task-col {
+      background:var(--glass); border:1px solid var(--glass-border);
+      border-radius:10px; padding:20px;
+      box-shadow:0 2px 20px rgba(0,0,0,0.3);
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+      display:flex; flex-direction:column; min-height:75vh;
+    }
+    .task-col-head {
+      display:flex; justify-content:space-between; align-items:center;
+      margin-bottom:14px; padding-bottom:12px;
+      border-bottom:1px solid var(--glass-border);
+    }
+    .task-col-head h2 {
+      margin:0; font-size:14px; letter-spacing:0.16em; text-transform:uppercase;
+      color:#ffffff; font-weight:500; font-family:'DM Sans',sans-serif;
+    }
+    .task-count {
+      font-size:11px; color:var(--gold); background:var(--gold-soft);
+      padding:3px 10px; border-radius:10px; letter-spacing:0.08em;
+    }
+    .task-input-row { display:flex; gap:8px; margin-bottom:14px; }
+    .task-input {
+      flex:1; background:var(--panel-alt); border:1px solid var(--border);
+      border-radius:6px; padding:10px 12px; color:#fff; font-family:'DM Sans',sans-serif;
+      font-size:13px; outline:none;
+    }
+    .task-input:focus { border-color:var(--gold); }
+    .task-add-btn {
+      background:var(--gold); color:#0a0a0a; border:none; border-radius:6px;
+      padding:0 18px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif;
+      font-size:12px; letter-spacing:0.06em; text-transform:uppercase;
+    }
+    .task-add-btn:hover { background:#d4c8a8; }
+    .task-list {
+      flex:1; overflow-y:auto; max-height:65vh;
+      display:flex; flex-direction:column; gap:8px; padding-right:6px;
+    }
+    .task-list::-webkit-scrollbar { width:6px; }
+    .task-list::-webkit-scrollbar-track { background:transparent; }
+    .task-list::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+    .task-item {
+      background:var(--panel-alt); border:1px solid var(--border);
+      border-left:3px solid var(--gold);
+      border-radius:6px; padding:10px 12px;
+      cursor:pointer; transition:all .15s ease;
+      display:flex; align-items:flex-start; gap:10px;
+    }
+    .task-item:hover { border-color:var(--gold); background:#1f1f1f; }
+    .task-item.completed { border-left-color:var(--success); opacity:0.7; }
+    .task-item.completed .task-text { text-decoration:line-through; color:rgba(255,255,255,0.55); }
+    .task-check {
+      flex-shrink:0; width:16px; height:16px; border-radius:3px;
+      border:1px solid var(--gold); margin-top:2px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:11px; color:#0a0a0a;
+    }
+    .task-item.completed .task-check { background:var(--success); border-color:var(--success); color:#fff; }
+    .task-body { flex:1; min-width:0; }
+    .task-text {
+      font-size:13px; color:#fff; line-height:1.4;
+      display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;
+      overflow:hidden; word-break:break-word;
+    }
+    .task-meta {
+      font-size:10px; color:rgba(255,255,255,0.4);
+      margin-top:4px; letter-spacing:0.04em;
+    }
+    .task-empty {
+      text-align:center; padding:40px 20px;
+      color:rgba(255,255,255,0.35); font-size:12px;
+      font-style:italic;
+    }
+
     /* ── Cards ── */
     .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; }
     .card {
@@ -901,6 +976,7 @@
       <div class="nav-drop">
         <button class="tab-btn active" data-tab="financials">KPI &amp; Revenue</button>
         <button class="tab-btn" data-tab="activity">Activity Log</button>
+        <button class="tab-btn" data-tab="tasks">Tasks</button>
       </div>
     </div>
 
@@ -2561,6 +2637,31 @@
       <div style="margin-top:24px;">
         <div class="section-title" style="margin-bottom:12px;">Critical Issues &amp; Actions</div>
         <div id="am-issues" class="card" style="max-height:400px; overflow-y:auto;"></div>
+      </div>
+    </section>
+
+    <!-- ─── TASKS TAB ────────────────────────────────────────── -->
+    <section id="tab-tasks" class="tab-panel">
+      <div class="section-title" style="margin-bottom:14px;">Task Board</div>
+      <div class="task-input-row">
+        <input type="text" id="task-input" class="task-input" placeholder="Add a task and press Enter..." maxlength="240" />
+        <button class="task-add-btn" onclick="addTask()">Add</button>
+      </div>
+      <div class="task-board">
+        <div class="task-col">
+          <div class="task-col-head">
+            <h2>Active</h2>
+            <span class="task-count" id="task-active-count">0</span>
+          </div>
+          <div class="task-list" id="task-active-list"></div>
+        </div>
+        <div class="task-col">
+          <div class="task-col-head">
+            <h2>Completed</h2>
+            <span class="task-count" id="task-done-count">0</span>
+          </div>
+          <div class="task-list" id="task-done-list"></div>
+        </div>
       </div>
     </section>
 
@@ -5018,6 +5119,84 @@
     function renderAgentIssues(){var el=document.getElementById("am-issues");if(!el)return;var all=[];agentRoster.forEach(function(a){a.issues.forEach(function(i){all.push({agent:a.name,sev:i.sev,text:i.text});});});var so={critical:0,high:1,medium:2,low:3};all.sort(function(a,b){return(so[a.sev]||4)-(so[b.sev]||4);});var html="";all.forEach(function(i){html+="<div class=\"am-issue-row\"><span class=\"am-issue-sev "+i.sev+"\">"+i.sev+"</span><span class=\"am-issue-agent\">"+i.agent+"</span><span class=\"am-issue-text\">"+i.text+"</span></div>";});el.innerHTML=html||"<div style=\"padding:16px;color:var(--muted);\">No issues.</div>";}
     function updateAgentSummaryKPIs(){var t=agentRoster.length;var l=agentRoster.filter(function(a){return a.status==="live";}).length;var c=agentRoster.filter(function(a){return a.status==="config";}).length;var d=agentRoster.filter(function(a){return a.status==="delete";}).length;var o=agentRoster.filter(function(a){return a.orchestrator==="ENABLED";}).length;var e=function(id){return document.getElementById(id);};if(e("am-total"))e("am-total").textContent=t;if(e("am-live"))e("am-live").textContent=l;if(e("am-config"))e("am-config").textContent=c;if(e("am-delete"))e("am-delete").textContent=d;if(e("am-orch"))e("am-orch").textContent=o+"/"+t;}
     function loadAgentManagement(){updateAgentSummaryKPIs();renderAgentHierarchy();renderAgentGrid();renderAgentIssues();var ts=document.getElementById("am-last-updated");if(ts){var now=new Date();ts.textContent="Updated: "+now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",second:"2-digit"});}}
+
+    /* ── Tasks Tab ── */
+    var TASKS_KEY = 'str_dashboard_tasks_v1';
+    function loadTasks(){
+      try { return JSON.parse(localStorage.getItem(TASKS_KEY)) || []; }
+      catch(e){ return []; }
+    }
+    function saveTasks(tasks){ localStorage.setItem(TASKS_KEY, JSON.stringify(tasks)); }
+    function escapeHTML(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+    function formatTaskDate(ts){
+      var d = new Date(ts), now = new Date();
+      var diff = (now - d) / 1000;
+      if (diff < 60) return 'just now';
+      if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+      if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+      if (diff < 604800) return Math.floor(diff/86400) + 'd ago';
+      return d.toLocaleDateString();
+    }
+    function renderTasks(){
+      var tasks = loadTasks();
+      var active = tasks.filter(function(t){ return !t.done; }).sort(function(a,b){ return b.created - a.created; });
+      var done   = tasks.filter(function(t){ return t.done; }).sort(function(a,b){ return (b.completed||0) - (a.completed||0); });
+      var aEl = document.getElementById('task-active-list');
+      var dEl = document.getElementById('task-done-list');
+      if (!aEl || !dEl) return;
+      document.getElementById('task-active-count').textContent = active.length;
+      document.getElementById('task-done-count').textContent = done.length;
+      function row(t, isDone){
+        return '<div class="task-item' + (isDone?' completed':'') + '" onclick="toggleTask(\'' + t.id + '\')">' +
+          '<div class="task-check">' + (isDone?'&#10003;':'') + '</div>' +
+          '<div class="task-body">' +
+            '<div class="task-text">' + escapeHTML(t.text) + '</div>' +
+            '<div class="task-meta">' + (isDone ? 'Done ' + formatTaskDate(t.completed) : 'Added ' + formatTaskDate(t.created)) + '</div>' +
+          '</div></div>';
+      }
+      aEl.innerHTML = active.length ? active.map(function(t){ return row(t,false); }).join('') : '<div class="task-empty">No active tasks. Add one above.</div>';
+      dEl.innerHTML = done.length ? done.map(function(t){ return row(t,true); }).join('') : '<div class="task-empty">No completed tasks yet.</div>';
+    }
+    function addTask(){
+      var input = document.getElementById('task-input');
+      if (!input) return;
+      var text = input.value.trim();
+      if (!text) return;
+      var tasks = loadTasks();
+      tasks.push({ id: 't_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), text: text, done: false, created: Date.now() });
+      saveTasks(tasks);
+      input.value = '';
+      renderTasks();
+    }
+    function toggleTask(id){
+      var tasks = loadTasks();
+      var t = tasks.find(function(x){ return x.id === id; });
+      if (!t) return;
+      t.done = !t.done;
+      t.completed = t.done ? Date.now() : null;
+      saveTasks(tasks);
+      renderTasks();
+    }
+    function initTasksTab(){
+      try {
+        renderTasks();
+        var inp = document.getElementById('task-input');
+        if (inp && !inp._taskHandler){
+          inp._taskHandler = true;
+          inp.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); addTask(); } });
+        }
+      } catch(err){ console.error('initTasksTab error:', err); }
+    }
+    if (document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', initTasksTab);
+    } else {
+      initTasksTab();
+    }
+    // Also re-init when Tasks tab is clicked (handles cache + tab switching)
+    document.addEventListener('click', function(e){
+      var btn = e.target.closest && e.target.closest('.tab-btn[data-tab="tasks"]');
+      if (btn) setTimeout(initTasksTab, 50);
+    });
 
     </script>
 <script src="voice-widget.js"></script>

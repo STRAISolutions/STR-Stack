@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-10T17:45:01Z",
-  "count": 149,
+  "updated_at": "2026-04-10T23:45:01Z",
+  "count": 148,
   "bookings": [
     {
       "uid": "d46a65e5-47d3-4bce-95ba-637838910456",
@@ -110,17 +110,6 @@
       "checkin": "2027-01-18T15:00:00",
       "checkout": "2027-01-24T11:00:00",
       "property": "8752740c-b020-43be-b5bc-74eebc105bca",
-      "status": "BOOKED"
-    },
-    {
-      "uid": "175076a7-92d0-4e63-a4e4-e11682ada925",
-      "guest": "Sin Yee",
-      "email": "sma.397309@guest.booking.com",
-      "phone": "+14378080886",
-      "channel": "BOOKING_COM",
-      "checkin": "2026-06-13T15:00:00",
-      "checkout": "2026-06-14T11:00:00",
-      "property": "ceb47f7a-4974-48af-aad6-4a6436672725",
       "status": "BOOKED"
     },
     {
