@@ -3789,6 +3789,18 @@
     };
 
     async function loadWiringData() {
+      // Clear stale collapsed state (wiring panel is no longer collapsible)
+      localStorage.removeItem('collapse-wiring-styled-1');
+      localStorage.removeItem('collapse-service-topology');
+      // Unwrap any leftover card-body-collapsible wrapper inside wiring panel
+      var wp = document.getElementById('wiring-diagram-panel');
+      if (wp) {
+        var staleWrapper = wp.querySelector('.card-body-collapsible');
+        if (staleWrapper) {
+          while (staleWrapper.firstChild) wp.appendChild(staleWrapper.firstChild);
+          staleWrapper.remove();
+        }
+      }
       try {
         const r = await fetch('wiring-data.json?t=' + Date.now());
         if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -4673,6 +4685,8 @@
         if (!h2) return;
         // Skip cards that are chat interfaces (have textareas/inputs for interaction)
         if (card.querySelector('textarea') || card.querySelector('input[type="text"]')) return;
+        // Skip wiring diagram panel (interactive topology — must not be collapsible)
+        if (card.id === 'wiring-diagram-panel') return;
         // Skip if already initialized
         if (h2.classList.contains('collapsible-toggle')) return;
         
@@ -4746,13 +4760,13 @@
 
     // ── Agent Management ──────────────────────────────────────
     var agentRoster = [
-      {name:"STRBOSS",id:"9fc29412",role:"coordinator",status:"live",statusDetail:"LIVE",model:"gpt-4o-mini",gateway:"gateway-a8028e86",delegation:"ENABLED",orchestrator:"ENABLED",governance:"approval-required",wake:"5m",heartbeat:"enabled",parent:null,team:"STR Command",tools:["shell","files","edit_file","web","delegate","browser","memory","wallet","monitor","email","manage_platform","manage_agents","manage_tasks","manage_documents","delegate_to_agent"],kpi:"Task delegation accuracy; SLA <4hr",priority:"HIGH",issues:[],summary:"Central coordinator. Delegates to 6 specialists."},
-      {name:"GHL Operations Analyst",id:"agent-ghl-ops-analyst",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents"],kpi:"Reduce lead-to-action 30%",priority:"HIGH",issues:[],summary:"Monitors GHL pipelines. Flags stale leads."},
-      {name:"Sales Strategy Coach",id:"agent-sales-strategist",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents"],kpi:"Call score trending up",priority:"MEDIUM",issues:[],summary:"Scores calls. Weekly training brief."},
-      {name:"Communications Router",id:"agent-comms-router",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"ENABLED",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents","email"],kpi:"Response <4hr",priority:"MEDIUM",issues:[],summary:"Classifies inbound comms. Routes to templates."},
-      {name:"GHL Master Account Manager",id:"agent-ghl-master",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents"],kpi:"Master location health",priority:"MEDIUM",issues:[],summary:"Manages Master sub-account. Lead enrichment."},
-      {name:"GHL Call Center Manager",id:"agent-ghl-cc-manager",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents"],kpi:"Outbound call throughput",priority:"MEDIUM",issues:[],summary:"Manages Call Center sub-account. Outbound pipelines."},
-      {name:"STR Ops Agent",id:"377fb845",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-5.1-codex",gateway:"none",delegation:"disabled",orchestrator:"disabled",governance:"autonomous",wake:"5m",heartbeat:"enabled",parent:"9fc29412",team:"SECOND TIER",tools:["memory","files","shell","web_search","web_fetch","manage_tasks","manage_schedules","manage_connectors"],kpi:"Uptime >99.5%",priority:"LOW",issues:[],summary:"Infrastructure specialist. Health checks 5min."},
+      {name:"STRBOSS",id:"9fc29412",role:"coordinator",status:"live",statusDetail:"LIVE",model:"gpt-4.1",gateway:"gateway-a8028e86",delegation:"ENABLED",orchestrator:"ENABLED",governance:"approval-required",wake:"5m",heartbeat:"enabled",parent:null,team:"STR Command",tools:["shell","files","edit_file","web","delegate","browser","memory","wallet","monitor","email","manage_platform","manage_agents","manage_tasks","manage_documents","delegate_to_agent"],kpi:"Task delegation accuracy; SLA <4hr",priority:"HIGH",issues:[],summary:"Central coordinator. Delegates to 6 specialists."},
+      {name:"GHL Operations Analyst",id:"agent-ghl-ops-analyst",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents","ghl_master_mcp","ghl_cc_mcp"],kpi:"Reduce lead-to-action 30%",priority:"HIGH",issues:[],summary:"Monitors both GHL pipelines via MCP. Flags stale leads."},
+      {name:"Sales Strategy Coach",id:"agent-sales-strategist",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents"],kpi:"Call score trending up",priority:"MEDIUM",issues:[],summary:"Scores calls. Weekly training brief."},
+      {name:"Communications Router",id:"agent-comms-router",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents","email"],kpi:"Response <4hr",priority:"MEDIUM",issues:[],summary:"Classifies inbound comms. Routes to templates."},
+      {name:"GHL Master Account Manager",id:"agent-ghl-master",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents","ghl_master_mcp"],kpi:"Master location health",priority:"MEDIUM",issues:[],summary:"Manages Master sub-account via GHL MCP."},
+      {name:"GHL Call Center Manager",id:"agent-ghl-cc-manager",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents","ghl_cc_mcp"],kpi:"Outbound call throughput",priority:"MEDIUM",issues:[],summary:"Manages Call Center sub-account via GHL MCP."},
+      {name:"STR Ops Agent",id:"377fb845",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-5.1-codex",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"enabled",parent:"9fc29412",team:"SECOND TIER",tools:["memory","files","shell","web_search","web_fetch","manage_tasks","manage_schedules","manage_connectors"],kpi:"Uptime >99.5%",priority:"LOW",issues:[],summary:"Infrastructure specialist. Now orchestrator-visible."},
       {name:"Assistant",id:"default",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"disabled",governance:"autonomous",wake:"n/a",heartbeat:"disabled",parent:null,team:"none",tools:["memory","files","web_search","web_fetch","browser","claude_code","codex_cli"],kpi:"n/a",priority:"NONE",issues:[],summary:"SwarmClaw built-in assistant."}
     ];
 

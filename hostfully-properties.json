@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-12T11:45:02Z",
-  "count": 54,
+  "updated_at": "2026-04-12T17:45:01Z",
+  "count": 53,
   "properties": [
     {
       "uid": "8752740c-b020-43be-b5bc-74eebc105bca",
@@ -355,17 +355,6 @@
       "maxGuests": "?"
     },
     {
-      "uid": "c2c5f1c7-435e-4689-9703-de3024bf6f18",
-      "name": "Jackson Pearl",
-      "isActive": true,
-      "propertyType": "HOUSE",
-      "bedrooms": 3,
-      "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
-    },
-    {
       "uid": "058e7cd6-ac76-4d17-8a35-91541ad291eb",
       "name": "Jackson Pearl Retreat",
       "isActive": true,
@@ -421,8 +410,8 @@
       "maxGuests": "?"
     },
     {
-      "uid": "cfacbc67-f07f-483c-b33c-b2e1de3d1665",
-      "name": "PARK RETREAT",
+      "uid": "f10c45dc-38f8-4272-9900-7b3cc19c4bf1",
+      "name": "PARK CITY RETREAT",
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 3,
@@ -531,8 +520,8 @@
       "maxGuests": "?"
     },
     {
-      "uid": "a68e3720-b844-4413-92b1-cb639d215d94",
-      "name": "Telluride Retreat",
+      "uid": "de892b73-d226-4b63-b44e-26c7cf357e64",
+      "name": "Telluride Stay",
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 4,

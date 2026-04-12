@@ -1,7 +1,29 @@
 {
-  "updated_at": "2026-04-12T11:45:02Z",
-  "count": 148,
+  "updated_at": "2026-04-12T17:45:01Z",
+  "count": 149,
   "bookings": [
+    {
+      "uid": "384bbb69-f937-4c76-afd3-1b17758dd6ff",
+      "guest": "Syed Khadir",
+      "email": "sahmed.150613@guest.booking.com",
+      "phone": "+14374291225",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-04-19T15:00:00",
+      "checkout": "2026-04-20T11:00:00",
+      "property": "f34c94e0-f4f9-4b9d-b37d-d1c09efc9f64",
+      "status": "BOOKED"
+    },
+    {
+      "uid": "9cf555f5-45ce-474b-87e1-64c629e1240d",
+      "guest": "Mouna Vanpoucke",
+      "email": "mvanpo.286592@guest.booking.com",
+      "phone": "+32479911758",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-07-22T16:00:00",
+      "checkout": "2026-07-24T10:00:00",
+      "property": "878e3abd-d809-44c8-a6c8-0d770b44537e",
+      "status": "BOOKED"
+    },
     {
       "uid": "280e50ef-f45d-4648-b436-f2a8d8425802",
       "guest": "Samir Mbirik",
@@ -285,7 +307,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-09-24T15:00:00",
       "checkout": "2026-09-27T11:00:00",
-      "property": "a68e3720-b844-4413-92b1-cb639d215d94",
+      "property": "de892b73-d226-4b63-b44e-26c7cf357e64",
       "status": "BOOKED"
     },
     {
@@ -296,7 +318,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-08-07T15:00:00",
       "checkout": "2026-08-09T11:00:00",
-      "property": "a68e3720-b844-4413-92b1-cb639d215d94",
+      "property": "de892b73-d226-4b63-b44e-26c7cf357e64",
       "status": "BOOKED"
     },
     {
@@ -450,17 +472,6 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-09-06T15:00:00",
       "checkout": "2026-09-08T11:00:00",
-      "property": "29c561dd-6c59-477c-975f-2afec9841864",
-      "status": "BOOKED"
-    },
-    {
-      "uid": "409b678c-611a-4b25-87ea-fe0226e97056",
-      "guest": "Gary Bextermueller",
-      "email": "bextnews@aol.com",
-      "phone": "+16364853062",
-      "channel": "HOSTFULLY",
-      "checkin": "2026-09-04T15:00:00",
-      "checkout": "2026-09-06T11:00:00",
       "property": "29c561dd-6c59-477c-975f-2afec9841864",
       "status": "BOOKED"
     },
