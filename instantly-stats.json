@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-12T05:55:01Z",
+  "updated_at": "2026-04-12T11:55:01Z",
   "campaigns": {
     "total": 20,
     "active": 2,
@@ -117,11 +117,11 @@
     "contacted": 17647,
     "new_leads": 7601,
     "opened": 1018,
-    "replied": 165,
+    "replied": 166,
     "bounced": 696,
-    "interested": 34,
-    "opportunities": 34,
-    "opp_value": 5950,
+    "interested": 35,
+    "opportunities": 35,
+    "opp_value": 6100,
     "meetings_booked": 0
   },
   "gt_icp1": {
@@ -131,9 +131,9 @@
     "contacted": 17647,
     "new_leads": 7601,
     "opened": 1018,
-    "replied": 165,
+    "replied": 166,
     "bounced": 696,
-    "interested": 34,
-    "opportunities": 34
+    "interested": 35,
+    "opportunities": 35
   }
 }
