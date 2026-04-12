@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-11T17:55:01Z",
+  "updated_at": "2026-04-11T23:55:01Z",
   "campaigns": {
     "total": 20,
     "active": 2,
@@ -117,7 +117,7 @@
     "contacted": 16411,
     "new_leads": 7601,
     "opened": 1018,
-    "replied": 163,
+    "replied": 164,
     "bounced": 696,
     "interested": 34,
     "opportunities": 34,
@@ -131,7 +131,7 @@
     "contacted": 16411,
     "new_leads": 7601,
     "opened": 1018,
-    "replied": 163,
+    "replied": 164,
     "bounced": 696,
     "interested": 34,
     "opportunities": 34

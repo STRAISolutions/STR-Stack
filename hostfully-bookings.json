@@ -1,7 +1,29 @@
 {
-  "updated_at": "2026-04-11T17:45:01Z",
-  "count": 149,
+  "updated_at": "2026-04-11T23:45:01Z",
+  "count": 147,
   "bookings": [
+    {
+      "uid": "fc7f1596-9aef-4ce7-a975-88edc38bb1d0",
+      "guest": "Azariah Brooks",
+      "email": "abrook.198028@guest.booking.com",
+      "phone": "+12899412796",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-08-14T15:00:00",
+      "checkout": "2026-08-15T11:00:00",
+      "property": "f34c94e0-f4f9-4b9d-b37d-d1c09efc9f64",
+      "status": "BOOKED"
+    },
+    {
+      "uid": "33d456c9-6f61-4ada-94ca-a6fc0a60f798",
+      "guest": "Khalil Makarika",
+      "email": "kmakar.394340@guest.booking.com",
+      "phone": "+22247431085",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-07-26T15:00:00",
+      "checkout": "2026-07-30T11:00:00",
+      "property": "86e6a569-1ba3-4514-a412-480f05860aab",
+      "status": "BOOKED"
+    },
     {
       "uid": "3e9b9a88-da3e-4a11-a1fd-6150ef81ca6d",
       "guest": "Iba Abbasi",
@@ -11,17 +33,6 @@
       "checkin": "2026-04-24T16:00:00",
       "checkout": "2026-04-25T10:00:00",
       "property": "625ce688-f5e3-4236-9c5a-22cfa48b7502",
-      "status": "BOOKED"
-    },
-    {
-      "uid": "d46a65e5-47d3-4bce-95ba-637838910456",
-      "guest": "Rainstar Roque",
-      "email": "rroque.327014@guest.booking.com",
-      "phone": "+632035640799",
-      "channel": "BOOKING_COM",
-      "checkin": "2026-08-07T15:00:00",
-      "checkout": "2026-08-08T11:00:00",
-      "property": "8752740c-b020-43be-b5bc-74eebc105bca",
       "status": "BOOKED"
     },
     {
@@ -44,17 +55,6 @@
       "checkin": "2026-04-23T15:00:00",
       "checkout": "2026-04-26T11:00:00",
       "property": "866378ce-ac3c-4712-9124-cb737795271c",
-      "status": "BOOKED"
-    },
-    {
-      "uid": "1c37cd8d-bd40-464d-841e-cdd86548dafa",
-      "guest": "Dennis Sheppard",
-      "email": "dshepp.860091@guest.booking.com",
-      "phone": "+17094221581",
-      "channel": "BOOKING_COM",
-      "checkin": "2026-07-17T15:00:00",
-      "checkout": "2026-07-20T11:00:00",
-      "property": "f34c94e0-f4f9-4b9d-b37d-d1c09efc9f64",
       "status": "BOOKED"
     },
     {
@@ -828,17 +828,6 @@
       "status": "BOOKED"
     },
     {
-      "uid": "7c73c620-fe23-46e9-b60c-8675b6bb8430",
-      "guest": "Roberto Otto",
-      "email": "Bob.otto18@gmail.com",
-      "phone": "+13038274710",
-      "channel": "HOSTFULLY",
-      "checkin": "2026-06-14T15:00:00",
-      "checkout": "2026-06-16T11:00:00",
-      "property": "29c561dd-6c59-477c-975f-2afec9841864",
-      "status": "BOOKED"
-    },
-    {
       "uid": "bd10494c-12ae-47e3-9246-33278c20f6fe",
       "guest": "Lisa Wiedower",
       "email": "limiwilkins@gmail.com",
@@ -912,17 +901,6 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-07-17T15:00:00",
       "checkout": "2026-07-20T11:00:00",
-      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
-      "status": "BOOKED"
-    },
-    {
-      "uid": "c9e1e59d-9ccd-4897-8d31-5a3da6335ee3",
-      "guest": "Shibuya Kenichi",
-      "email": "kenichi.shibuya@shi-g.com",
-      "phone": "+17579498223",
-      "channel": "HOSTFULLY",
-      "checkin": "2026-06-13T15:00:00",
-      "checkout": "2026-06-14T11:00:00",
       "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },
