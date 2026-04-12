@@ -1,7 +1,18 @@
 {
-  "updated_at": "2026-04-11T23:45:01Z",
-  "count": 147,
+  "updated_at": "2026-04-12T05:45:01Z",
+  "count": 148,
   "bookings": [
+    {
+      "uid": "280e50ef-f45d-4648-b436-f2a8d8425802",
+      "guest": "Samir Mbirik",
+      "email": null,
+      "phone": "+15148839234",
+      "channel": "AIRBNB",
+      "checkin": "2026-07-08T16:00:00",
+      "checkout": "2026-07-15T10:00:00",
+      "property": "0302ac83-b6c9-4974-8adc-a9326d0955b8",
+      "status": "BOOKED"
+    },
     {
       "uid": "fc7f1596-9aef-4ce7-a975-88edc38bb1d0",
       "guest": "Azariah Brooks",
