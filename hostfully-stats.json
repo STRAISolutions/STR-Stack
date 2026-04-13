@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-04-12T17:45:01Z",
+  "updated_at": "2026-04-12T23:45:01Z",
   "summary": {
     "total_leads": 500,
     "total_bookings": 209,
-    "active_bookings": 149,
-    "cancelled": 60,
+    "active_bookings": 148,
+    "cancelled": 61,
     "inquiries": 6
   },
   "revenue": {
-    "this_year": 149645.82,
-    "this_month": 148061.48,
+    "this_year": 148696.73,
+    "this_month": 147112.39,
     "this_week": 253.02
   },
   "payments": {
-    "balance_due": 76365.84,
+    "balance_due": 75859.84,
     "overdue_count": 2,
     "overdue_amount": 280.48
   },
@@ -32,7 +32,7 @@
     "BOOKING_COM": 20,
     "AIRBNB": 15,
     "WHIMSTAY": 2,
-    "HOSTFULLY": 112
+    "HOSTFULLY": 111
   },
   "properties": {
     "total": 44

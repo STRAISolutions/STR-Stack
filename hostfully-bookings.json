@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-12T17:45:01Z",
-  "count": 149,
+  "updated_at": "2026-04-12T23:45:02Z",
+  "count": 148,
   "bookings": [
     {
       "uid": "384bbb69-f937-4c76-afd3-1b17758dd6ff",
@@ -340,7 +340,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-12-30T15:00:00",
       "checkout": "2027-01-02T11:00:00",
-      "property": "151face0-7340-41d8-84cf-11e8663fe0b3",
+      "property": "a6613f40-e839-49f2-9bff-dbfe01c82b30",
       "status": "BOOKED"
     },
     {
@@ -351,7 +351,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-12-24T15:00:00",
       "checkout": "2026-12-27T11:00:00",
-      "property": "151face0-7340-41d8-84cf-11e8663fe0b3",
+      "property": "a6613f40-e839-49f2-9bff-dbfe01c82b30",
       "status": "BOOKED"
     },
     {
@@ -362,7 +362,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-07-23T15:00:00",
       "checkout": "2026-07-24T11:00:00",
-      "property": "151face0-7340-41d8-84cf-11e8663fe0b3",
+      "property": "a6613f40-e839-49f2-9bff-dbfe01c82b30",
       "status": "BOOKED"
     },
     {
@@ -703,7 +703,7 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-08-05T15:00:00",
       "checkout": "2026-08-06T11:00:00",
-      "property": "151face0-7340-41d8-84cf-11e8663fe0b3",
+      "property": "a6613f40-e839-49f2-9bff-dbfe01c82b30",
       "status": "BOOKED"
     },
     {
@@ -1110,17 +1110,6 @@
       "channel": "HOSTFULLY",
       "checkin": "2026-05-31T15:00:00",
       "checkout": "2026-06-01T11:00:00",
-      "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
-      "status": "BOOKED"
-    },
-    {
-      "uid": "6be1ae0c-8866-49bf-8371-333d15b2a558",
-      "guest": "Loretta Hyden",
-      "email": "lhyden123@msn.com",
-      "phone": "+12152197392",
-      "channel": "HOSTFULLY",
-      "checkin": "2026-08-12T15:00:00",
-      "checkout": "2026-08-14T11:00:00",
       "property": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
       "status": "BOOKED"
     },

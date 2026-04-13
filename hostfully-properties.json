@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-12T17:45:01Z",
+  "updated_at": "2026-04-12T23:45:02Z",
   "count": 53,
   "properties": [
     {
@@ -421,8 +421,8 @@
       "maxGuests": "?"
     },
     {
-      "uid": "151face0-7340-41d8-84cf-11e8663fe0b3",
-      "name": "PINECREST MAMMOTH LAKES",
+      "uid": "a6613f40-e839-49f2-9bff-dbfe01c82b30",
+      "name": "PINECREST MAMMOTH LAKES STAY",
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 3,
@@ -443,8 +443,8 @@
       "maxGuests": "?"
     },
     {
-      "uid": "da58872f-294c-4686-aefd-a14bdfac226c",
-      "name": "PRAIRIE SKY ESCAPE",
+      "uid": "904c5a49-e6c2-49d4-b8f9-19d1f8e55b4d",
+      "name": "PRAIRIE SKY STAY",
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 3,
