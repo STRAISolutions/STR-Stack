@@ -1,16 +1,60 @@
 {
-  "updated_at": "2026-04-12T23:45:02Z",
-  "count": 148,
+  "updated_at": "2026-04-13T05:45:02Z",
+  "count": 150,
   "bookings": [
     {
-      "uid": "384bbb69-f937-4c76-afd3-1b17758dd6ff",
-      "guest": "Syed Khadir",
-      "email": "sahmed.150613@guest.booking.com",
-      "phone": "+14374291225",
+      "uid": "255181cb-cfc7-4f21-ad94-98bdfbe982da",
+      "guest": "Yamaguchi Tomoyuki",
+      "email": "tyamag.754418@guest.booking.com",
+      "phone": "+13366538627",
       "channel": "BOOKING_COM",
-      "checkin": "2026-04-19T15:00:00",
-      "checkout": "2026-04-20T11:00:00",
+      "checkin": "2026-07-31T15:00:00",
+      "checkout": "2026-08-02T11:00:00",
       "property": "f34c94e0-f4f9-4b9d-b37d-d1c09efc9f64",
+      "status": "BOOKED"
+    },
+    {
+      "uid": "6bac090b-8323-405d-9f34-77b6465e9d1b",
+      "guest": "Araceli L\u00f3pez",
+      "email": null,
+      "phone": "+525537127090",
+      "channel": "AIRBNB",
+      "checkin": "2026-05-01T16:00:00",
+      "checkout": "2026-05-03T10:00:00",
+      "property": "625ce688-f5e3-4236-9c5a-22cfa48b7502",
+      "status": "BOOKED"
+    },
+    {
+      "uid": "517dd942-6cbb-4134-8f2a-8b788eeb2170",
+      "guest": "Elitsa Nikolova",
+      "email": "enikol.239893@guest.booking.com",
+      "phone": "+19422035640799",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-07-31T15:00:00",
+      "checkout": "2026-08-02T11:00:00",
+      "property": "94b7040c-36e9-442e-9094-523555c6ccb4",
+      "status": "BOOKED"
+    },
+    {
+      "uid": "2d3f497a-2b22-4129-b031-3c430d794610",
+      "guest": "Alina Chislova",
+      "email": "achisl.877038@guest.booking.com",
+      "phone": "+19179411781",
+      "channel": "BOOKING_COM",
+      "checkin": "2027-02-20T15:00:00",
+      "checkout": "2027-02-21T11:00:00",
+      "property": "8752740c-b020-43be-b5bc-74eebc105bca",
+      "status": "BOOKED"
+    },
+    {
+      "uid": "39cc5fe4-045a-42d7-b4d3-9527e896a378",
+      "guest": "Anastasia Hamm",
+      "email": "ahamm.394899@guest.booking.com",
+      "phone": "+19189463138",
+      "channel": "BOOKING_COM",
+      "checkin": "2027-02-19T15:00:00",
+      "checkout": "2027-02-20T11:00:00",
+      "property": "8752740c-b020-43be-b5bc-74eebc105bca",
       "status": "BOOKED"
     },
     {
@@ -33,28 +77,6 @@
       "checkin": "2026-07-08T16:00:00",
       "checkout": "2026-07-15T10:00:00",
       "property": "0302ac83-b6c9-4974-8adc-a9326d0955b8",
-      "status": "BOOKED"
-    },
-    {
-      "uid": "fc7f1596-9aef-4ce7-a975-88edc38bb1d0",
-      "guest": "Azariah Brooks",
-      "email": "abrook.198028@guest.booking.com",
-      "phone": "+12899412796",
-      "channel": "BOOKING_COM",
-      "checkin": "2026-08-14T15:00:00",
-      "checkout": "2026-08-15T11:00:00",
-      "property": "f34c94e0-f4f9-4b9d-b37d-d1c09efc9f64",
-      "status": "BOOKED"
-    },
-    {
-      "uid": "33d456c9-6f61-4ada-94ca-a6fc0a60f798",
-      "guest": "Khalil Makarika",
-      "email": "kmakar.394340@guest.booking.com",
-      "phone": "+22247431085",
-      "channel": "BOOKING_COM",
-      "checkin": "2026-07-26T15:00:00",
-      "checkout": "2026-07-30T11:00:00",
-      "property": "86e6a569-1ba3-4514-a412-480f05860aab",
       "status": "BOOKED"
     },
     {

@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GHL Workflow Dashboard - STR Solutions USA</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; scroll-behavior: smooth; }
+body {
+  background: #0a0c0f;
+  color: #c8cdd5;
+  font-family: 'DM Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4, h5 { font-family: 'Syne', sans-serif; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #111418; }
+::-webkit-scrollbar-thumb { background: #2a2f38; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3f48; }
+
+/* ===== COLORS ===== */
+:root {
+  --bg-body: #0a0c0f;
+  --bg-panel: #111418;
+  --bg-card: #171b21;
+  --green: #22c984;
+  --amber: #f5a623;
+  --red: #f05353;
+  --blue: #4a9eff;
+  --purple: #a78bfa;
+  --gold: #C8A456;
+  --text-primary: #e2e6ec;
+  --text-secondary: #8a919c;
+  --border: #1e2329;
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--green);
+  letter-spacing: -0.5px;
+}
+.logo-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  background: rgba(34,201,132,0.08);
+  border: 1px solid rgba(34,201,132,0.15);
+  padding: 3px 10px;
+  border-radius: 4px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.clock {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+.btn-refresh, .btn-toggle {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.btn-refresh:hover, .btn-toggle:hover {
+  background: #1e2329;
+  color: var(--text-primary);
+  border-color: #2a2f38;
+}
+
+/* ===== HEALTH WIDGET ===== */
+.health-widget {
+  position: relative;
+  display: inline-block;
+}
+.health-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.health-btn:hover { background: #1e2329; color: var(--text-primary); }
+.health-dot-mini {
+  width: 7px; height: 7px; border-radius: 50%;
+  display: inline-block;
+}
+.health-dot-mini.ok { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.health-dot-mini.err { background: var(--red); box-shadow: 0 0 6px var(--red); }
+.health-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  min-width: 280px;
+  z-index: 200;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+}
+.health-dropdown.open { display: block; }
+.health-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.health-row:last-child { border-bottom: none; }
+.health-row:hover { background: rgba(255,255,255,0.02); }
+.health-row-left { display: flex; align-items: center; gap: 10px; }
+.health-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+}
+.health-dot.ok { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.health-dot.err { background: var(--red); box-shadow: 0 0 8px var(--red); }
+.health-dot.warn { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+.health-label { color: var(--text-primary); font-size: 0.8rem; }
+.health-time { color: var(--text-secondary); font-size: 0.7rem; }
+.health-detail {
+  display: none;
+  padding: 6px 0 2px 19px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+/* ===== SUMMARY BAR ===== */
+.summary-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 20px 24px;
+}
+.kpi-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+}
+.kpi-card:nth-child(1)::before { background: var(--green); }
+.kpi-card:nth-child(2)::before { background: var(--blue); }
+.kpi-card:nth-child(3)::before { background: var(--purple); }
+.kpi-card:nth-child(4)::before { background: var(--amber); }
+.kpi-label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.kpi-value {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+.kpi-sub {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+.kpi-sub span { font-weight: 500; }
+.kpi-sub .up { color: var(--green); }
+.kpi-sub .down { color: var(--red); }
+
+/* ===== CONTROLS BAR ===== */
+.controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px 16px;
+}
+.controls-left {
+  display: flex;
+  gap: 8px;
+}
+
+/* ===== WORKFLOW PANELS ===== */
+.workflows-container {
+  padding: 0 24px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wf-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.wf-panel:hover { border-color: #2a2f38; }
+
+.wf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+.wf-header:hover { background: rgba(255,255,255,0.015); }
+.wf-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.wf-color-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.wf-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+.wf-desc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-left: 4px;
+}
+.wf-source-badge {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-secondary);
+}
+.wf-header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.wf-status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.wf-count-badge {
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.wf-chevron {
+  color: var(--text-secondary);
+  transition: transform 0.3s;
+  font-size: 0.8rem;
+}
+.wf-panel.open .wf-chevron { transform: rotate(180deg); }
+
+/* ===== WORKFLOW BODY ===== */
+.wf-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.wf-panel.open .wf-body {
+  max-height: 2000px;
+}
+.wf-body-inner {
+  padding: 10px 20px 24px;
+  overflow-x: auto;
+}
+
+/* ===== FLOW DIAGRAM ===== */
+.flow-container {
+  position: relative;
+  min-height: 120px;
+}
+.flow-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-width: max-content;
+  padding: 10px 0;
+}
+.flow-node {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  min-width: 140px;
+  max-width: 200px;
+  position: relative;
+  transition: all 0.25s;
+  flex-shrink: 0;
+  cursor: default;
+}
+.flow-node:hover {
+  border-color: #3a3f48;
+  transform: translateY(-2px);
+  z-index: 10;
+}
+.flow-node:hover .node-tooltip { display: block; }
+.flow-node.highlighted {
+  border-color: #4a9eff;
+  box-shadow: 0 0 20px rgba(74,158,255,0.15);
+}
+.flow-node .node-border-left {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 8px 0 0 8px;
+}
+.flow-node .node-name {
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.flow-node .node-pipeline {
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+.flow-node .node-count {
+  display: inline-block;
+  font-size: 0.6rem;
+  padding: 1px 7px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-secondary);
+}
+
+/* Terminal node */
+.flow-node.terminal {
+  border-width: 2px;
+}
+
+/* Diamond branch node */
+.flow-diamond {
+  width: 44px; height: 44px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  cursor: default;
+  transition: all 0.25s;
+}
+.flow-diamond:hover {
+  border-color: #3a3f48;
+  z-index: 10;
+}
+.flow-diamond .diamond-icon {
+  transform: rotate(-45deg);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+/* Connector arrow */
+.flow-connector {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  height: 2px;
+  width: 50px;
+}
+.flow-connector svg {
+  width: 100%;
+  height: 20px;
+  overflow: visible;
+}
+
+/* Node tooltip */
+.node-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e2329;
+  border: 1px solid #2a2f38;
+  border-radius: 6px;
+  padding: 8px 12px;
+  min-width: 200px;
+  z-index: 500;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  pointer-events: none;
+}
+.node-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #1e2329;
+}
+.tt-title { font-size: 0.7rem; color: var(--text-primary); font-weight: 600; margin-bottom: 3px; }
+.tt-pipeline { font-size: 0.6rem; color: var(--text-secondary); }
+.tt-desc { font-size: 0.6rem; color: var(--text-secondary); margin-top: 3px; font-style: italic; }
+
+/* Branch section */
+.branch-section {
+  margin-top: 12px;
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.branch-label {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  padding: 2px 8px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 2px;
+  border-left: 2px solid;
+}
+.branch-flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-width: max-content;
+}
+
+/* ===== ANIMATED SVG LINES ===== */
+@keyframes flowDash {
+  to { stroke-dashoffset: -20; }
+}
+@keyframes flowDashReverse {
+  to { stroke-dashoffset: 20; }
+}
+
+.flow-line {
+  stroke-dasharray: 6 4;
+  animation: flowDash 1s linear infinite;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .summary-bar { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .summary-bar { grid-template-columns: 1fr; }
+  .topbar { flex-wrap: wrap; gap: 10px; }
+  .topbar-right { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo">STR Solutions</div>
+    <div class="logo-sub">GHL Workflow Map</div>
+  </div>
+  <div class="topbar-right">
+    <div class="clock" id="liveClock">--:--:-- --</div>
+
+    <!-- Health Widget -->
+    <div class="health-widget" id="healthWidget">
+      <button class="health-btn" onclick="toggleHealth()">
+        <span class="health-dot-mini ok" id="healthMasterDot"></span>
+        Handler Health
+      </button>
+      <div class="health-dropdown" id="healthDropdown">
+        <div class="health-row" onclick="toggleHealthDetail('hd1')">
+          <div class="health-row-left">
+            <div class="health-dot ok"></div>
+            <span class="health-label">WF Handler (port 8500)</span>
+          </div>
+          <span class="health-time">42ms</span>
+        </div>
+        <div class="health-detail" id="hd1">Last check: 12s ago &mdash; HTTP 200 OK</div>
+        <div class="health-row" onclick="toggleHealthDetail('hd2')">
+          <div class="health-row-left">
+            <div class="health-dot ok"></div>
+            <span class="health-label">GHL API</span>
+          </div>
+          <span class="health-time">118ms</span>
+        </div>
+        <div class="health-detail" id="hd2">Last check: 8s ago &mdash; HTTP 200 OK, Rate: 14/100</div>
+        <div class="health-row" onclick="toggleHealthDetail('hd3')">
+          <div class="health-row-left">
+            <div class="health-dot ok"></div>
+            <span class="health-label">Hostfully Webhook</span>
+          </div>
+          <span class="health-time">87ms</span>
+        </div>
+        <div class="health-detail" id="hd3">Last check: 5s ago &mdash; HTTP 200 OK, Events queued: 0</div>
+      </div>
+    </div>
+
+    <button class="btn-refresh" onclick="refreshDashboard()">&#x21bb; Refresh</button>
+  </div>
+</div>
+
+<!-- ===== SUMMARY BAR ===== -->
+<div class="summary-bar">
+  <div class="kpi-card">
+    <div class="kpi-label">Total Contacts</div>
+    <div class="kpi-value" id="kpiContacts">332</div>
+    <div class="kpi-sub"><span class="up">+12</span> last 7 days</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Active Opportunities</div>
+    <div class="kpi-value" id="kpiOpps">189</div>
+    <div class="kpi-sub">Across all pipelines</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Workflows Active</div>
+    <div class="kpi-value" id="kpiWF">6</div>
+    <div class="kpi-sub"><span class="up">6/6</span> running</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Handler Health</div>
+    <div class="kpi-value" style="color:var(--green)" id="kpiHealth">100%</div>
+    <div class="kpi-sub">All endpoints responding</div>
+  </div>
+</div>
+
+<!-- ===== CONTROLS ===== -->
+<div class="controls-bar">
+  <div class="controls-left">
+    <button class="btn-toggle" onclick="expandAll()">+ Expand All</button>
+    <button class="btn-toggle" onclick="collapseAll()">- Collapse All</button>
+  </div>
+  <div style="font-size:0.7rem; color:var(--text-secondary)">6 workflow chains mapped</div>
+</div>
+
+<!-- ===== WORKFLOW PANELS ===== -->
+<div class="workflows-container" id="workflowsContainer">
+
+  <!-- =============================== WF-INSTANTLY =============================== -->
+  <div class="wf-panel" id="wf-instantly">
+    <div class="wf-header" onclick="togglePanel('wf-instantly')">
+      <div class="wf-header-left">
+        <div class="wf-color-dot" style="background:var(--blue);box-shadow:0 0 8px var(--blue)"></div>
+        <span class="wf-name">WF-INSTANTLY</span>
+        <span class="wf-desc">Leads from Instantly &rarr; Master Pipeline</span>
+        <span class="wf-source-badge">Source: Instantly Campaigns</span>
+      </div>
+      <div class="wf-header-right">
+        <div class="wf-status-dot"></div>
+        <span class="wf-count-badge">189 contacts</span>
+        <span class="wf-chevron">&#9660;</span>
+      </div>
+    </div>
+    <div class="wf-body">
+      <div class="wf-body-inner">
+        <div class="flow-container">
+          <div class="flow-row" id="flow-instantly"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================== WF-WEBSITE =============================== -->
+  <div class="wf-panel" id="wf-website">
+    <div class="wf-header" onclick="togglePanel('wf-website')">
+      <div class="wf-header-left">
+        <div class="wf-color-dot" style="background:var(--green);box-shadow:0 0 8px var(--green)"></div>
+        <span class="wf-name">WF-WEBSITE</span>
+        <span class="wf-desc">Website Contact Form &rarr; Master Pipeline</span>
+        <span class="wf-source-badge">Source: GHL Website Form</span>
+      </div>
+      <div class="wf-header-right">
+        <div class="wf-status-dot"></div>
+        <span class="wf-count-badge">47 contacts</span>
+        <span class="wf-chevron">&#9660;</span>
+      </div>
+    </div>
+    <div class="wf-body">
+      <div class="wf-body-inner">
+        <div class="flow-container">
+          <div class="flow-row" id="flow-website"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================== WF2-HOSTFULLY =============================== -->
+  <div class="wf-panel" id="wf-hostfully">
+    <div class="wf-header" onclick="togglePanel('wf-hostfully')">
+      <div class="wf-header-left">
+        <div class="wf-color-dot" style="background:var(--amber);box-shadow:0 0 8px var(--amber)"></div>
+        <span class="wf-name">WF2-HOSTFULLY</span>
+        <span class="wf-desc">Hostfully Booking Events</span>
+        <span class="wf-source-badge">Source: Hostfully PMS (port 8500/wf2)</span>
+      </div>
+      <div class="wf-header-right">
+        <div class="wf-status-dot"></div>
+        <span class="wf-count-badge">142 contacts</span>
+        <span class="wf-chevron">&#9660;</span>
+      </div>
+    </div>
+    <div class="wf-body">
+      <div class="wf-body-inner">
+        <div class="flow-container">
+          <div class="flow-row" id="flow-hostfully-main"></div>
+          <div class="branch-section" id="flow-hostfully-branches"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================== WF3-DISCOVERY =============================== -->
+  <div class="wf-panel" id="wf-discovery">
+    <div class="wf-header" onclick="togglePanel('wf-discovery')">
+      <div class="wf-header-left">
+        <div class="wf-color-dot" style="background:var(--purple);box-shadow:0 0 8px var(--purple)"></div>
+        <span class="wf-name">WF3-DISCOVERY</span>
+        <span class="wf-desc">Discovery Form &rarr; ICP Router + Qualification</span>
+        <span class="wf-source-badge">Source: Franchise Page (port 8500/wf3)</span>
+      </div>
+      <div class="wf-header-right">
+        <div class="wf-status-dot"></div>
+        <span class="wf-count-badge">58 contacts</span>
+        <span class="wf-chevron">&#9660;</span>
+      </div>
+    </div>
+    <div class="wf-body">
+      <div class="wf-body-inner">
+        <div class="flow-container">
+          <div class="flow-row" id="flow-discovery-main"></div>
+          <div class="branch-section" id="flow-discovery-branches"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================== WF-ACTIVATION =============================== -->
+  <div class="wf-panel" id="wf-activation">
+    <div class="wf-header" onclick="togglePanel('wf-activation')">
+      <div class="wf-header-left">
+        <div class="wf-color-dot" style="background:var(--gold);box-shadow:0 0 8px var(--gold)"></div>
+        <span class="wf-name">WF-ACTIVATION</span>
+        <span class="wf-desc">Customer Activation Pipeline</span>
+        <span class="wf-source-badge">Source: A1 Closed Won &rarr; A2</span>
+      </div>
+      <div class="wf-header-right">
+        <div class="wf-status-dot"></div>
+        <span class="wf-count-badge">1 contact</span>
+        <span class="wf-chevron">&#9660;</span>
+      </div>
+    </div>
+    <div class="wf-body">
+      <div class="wf-body-inner">
+        <div class="flow-container">
+          <div class="flow-row" id="flow-activation"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================== WF-CALLCENTER =============================== -->
+  <div class="wf-panel" id="wf-callcenter">
+    <div class="wf-header" onclick="togglePanel('wf-callcenter')">
+      <div class="wf-header-left">
+        <div class="wf-color-dot" style="background:var(--red);box-shadow:0 0 8px var(--red)"></div>
+        <span class="wf-name">WF-CALLCENTER</span>
+        <span class="wf-desc">Master &rarr; Call Center Push</span>
+        <span class="wf-source-badge">Source: A1 Master Pipeline</span>
+      </div>
+      <div class="wf-header-right">
+        <div class="wf-status-dot"></div>
+        <span class="wf-count-badge">189 contacts</span>
+        <span class="wf-chevron">&#9660;</span>
+      </div>
+    </div>
+    <div class="wf-body">
+      <div class="wf-body-inner">
+        <div class="flow-container">
+          <div class="flow-row" id="flow-callcenter-main"></div>
+          <div class="branch-section" id="flow-callcenter-branches"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /workflows-container -->
+
+<script>
+/* ===== CLOCK ===== */
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours();
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  document.getElementById('liveClock').textContent = h12 + ':' + m + ':' + s + ' ' + ampm;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+/* ===== PANEL TOGGLE ===== */
+function togglePanel(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+function expandAll() {
+  document.querySelectorAll('.wf-panel').forEach(p => p.classList.add('open'));
+}
+function collapseAll() {
+  document.querySelectorAll('.wf-panel').forEach(p => p.classList.remove('open'));
+}
+
+/* ===== HEALTH TOGGLE ===== */
+function toggleHealth() {
+  document.getElementById('healthDropdown').classList.toggle('open');
+}
+function toggleHealthDetail(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+document.addEventListener('click', function(e) {
+  if (!document.getElementById('healthWidget').contains(e.target)) {
+    document.getElementById('healthDropdown').classList.remove('open');
+  }
+});
+
+/* ===== REFRESH ===== */
+function refreshDashboard() {
+  const btn = document.querySelector('.btn-refresh');
+  btn.textContent = '... Refreshing';
+  btn.style.color = 'var(--green)';
+  setTimeout(() => { btn.innerHTML = '&#x21bb; Refresh'; btn.style.color = ''; }, 800);
+}
+
+/* ===== FLOW RENDERER ===== */
+function makeConnectorSVG(color) {
+  const filterId = 'glow_' + Math.random().toString(36).slice(2,8);
+  return '<svg viewBox="0 0 50 20" style="width:50px;height:20px;flex-shrink:0;overflow:visible">' +
+    '<defs><filter id="' + filterId + '"><feGaussianBlur stdDeviation="2" result="blur"/>' +
+    '<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>' +
+    '<line x1="0" y1="10" x2="44" y2="10" class="flow-line" stroke="' + color + '" filter="url(#' + filterId + ')"/>' +
+    '<polygon points="44,6 50,10 44,14" fill="' + color + '" opacity="0.8"/>' +
+    '</svg>';
+}
+
+function makeNode(name, pipeline, count, color, opts) {
+  opts = opts || {};
+  const termClass = opts.terminal ? ' terminal' : '';
+  const desc = opts.desc || '';
+  const stageId = opts.stageId || '';
+  return '<div class="flow-node' + termClass + '" style="' + (opts.terminal ? 'border-color:' + color + ';' : '') + '">' +
+    '<div class="node-border-left" style="background:' + color + '"></div>' +
+    '<div class="node-name">' + name + '</div>' +
+    (pipeline ? '<div class="node-pipeline">' + pipeline + '</div>' : '') +
+    (count !== null && count !== undefined ? '<div class="node-count">' + count + '</div>' : '') +
+    '<div class="node-tooltip">' +
+      '<div class="tt-title">' + name + '</div>' +
+      (pipeline ? '<div class="tt-pipeline">' + pipeline + '</div>' : '') +
+      (stageId ? '<div class="tt-pipeline">Stage: ' + stageId + '</div>' : '') +
+      (desc ? '<div class="tt-desc">' + desc + '</div>' : '') +
+    '</div>' +
+    '</div>';
+}
+
+function makeDiamond(icon, color) {
+  return '<div class="flow-diamond" style="border-color:' + color + '">' +
+    '<span class="diamond-icon">' + icon + '</span></div>';
+}
+
+function buildFlowRow(nodes, color) {
+  let html = '';
+  for (let i = 0; i < nodes.length; i++) {
+    html += nodes[i];
+    if (i < nodes.length - 1) html += makeConnectorSVG(color);
+  }
+  return html;
+}
+
+/* ===== BUILD ALL FLOWS ===== */
+const C = { blue:'#4a9eff', green:'#22c984', amber:'#f5a623', purple:'#a78bfa', gold:'#C8A456', red:'#f05353' };
+
+// WF-INSTANTLY
+document.getElementById('flow-instantly').innerHTML = buildFlowRow([
+  makeNode('Instantly Campaigns', 'Source', '6 active', C.blue, {desc:'Outbound email campaigns via Instantly.ai'}),
+  makeNode('Webhook', 'Droplet Handler', null, C.blue, {desc:'POST to port 8500/wf1', stageId:'wf1-webhook'}),
+  makeNode('Find/Create Contact', 'GHL API', null, C.blue, {desc:'Lookup by email, create if new'}),
+  makeNode('Tag: #instantly', 'Contact Tag', null, C.blue, {desc:'Source tracking tag applied'}),
+  makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '189', C.blue, {desc:'First stage of master pipeline', stageId:'A1-S1'}),
+  makeNode('\u{1F501} Routed to CC', 'A1) Master Pipeline', '42', C.blue, {terminal:true, desc:'Handed off to Call Center sub-account', stageId:'A1-S2'}),
+], C.blue);
+
+// WF-WEBSITE
+document.getElementById('flow-website').innerHTML = buildFlowRow([
+  makeNode('Website Form', 'GHL Form', '47 subs', C.green, {desc:'Contact form on strsolutionsusa.com'}),
+  makeNode('Contact Created', 'GHL Auto', null, C.green, {desc:'GHL native contact creation'}),
+  makeNode('Tag: website-lead', 'Contact Tag', null, C.green, {desc:'Source tracking tag applied'}),
+  makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '189', C.green, {desc:'First stage of master pipeline', stageId:'A1-S1'}),
+  makeNode('\u{1F501} Routed to CC', 'A1) Master Pipeline', '42', C.green, {terminal:true, desc:'Handed off to Call Center sub-account', stageId:'A1-S2'}),
+], C.green);
+
+// WF2-HOSTFULLY (main row)
+document.getElementById('flow-hostfully-main').innerHTML = buildFlowRow([
+  makeNode('Hostfully Webhook', 'PMS Event', '142 events', C.amber, {desc:'Webhook from Hostfully PMS', stageId:'wf2-webhook'}),
+  makeNode('Find/Create Contact', 'GHL API', null, C.amber, {desc:'Lookup guest by email'}),
+  makeNode('Update Custom Fields', 'GHL API', null, C.amber, {desc:'Map booking data to custom fields'}),
+  makeNode('Assign Mike Adams', 'Owner Assignment', null, C.amber, {desc:'Set contact owner'}),
+  makeDiamond('\u{26A1}', C.amber),
+], C.amber);
+
+// WF2-HOSTFULLY branches
+const hfBranches = [
+  { label:'booking_created', color:C.amber, nodes:[
+    makeNode('B1: CONFIRMED BOOKINGS', 'B1) Traveler Inquiries', '71', C.amber, {stageId:'B1-S7'}),
+    makeNode('B2: Confirmed', 'B2) Property Bookings', '71', C.amber, {stageId:'B2-S1'}),
+    makeNode('Tag: guest-active', 'Contact Tag', null, C.amber, {terminal:true}),
+  ]},
+  { label:'message_received', color:C.amber, nodes:[
+    makeNode('B1: New Inquiry', 'B1) Traveler Inquiries', '71', C.amber, {stageId:'B1-S1'}),
+    makeNode('Tag: hostfully:follow-up', 'Contact Tag', null, C.amber, {terminal:true}),
+  ]},
+  { label:'booking_cancelled', color:C.amber, nodes:[
+    makeNode('B1: Cancelled', 'B1) Traveler Inquiries', '3', C.amber, {stageId:'B1-S6'}),
+    makeNode('B2: Cancelled', 'B2) Property Bookings', '3', C.amber, {stageId:'B2-S7'}),
+    makeNode('Tag: guest-cancelled', 'Contact Tag', null, C.amber, {terminal:true}),
+  ]},
+  { label:'guest_checkin', color:C.amber, nodes:[
+    makeNode('B2: Check In', 'B2) Property Bookings', '18', C.amber, {stageId:'B2-S3'}),
+    makeNode('Tag: guest-checked-in', 'Contact Tag', null, C.amber, {terminal:true}),
+  ]},
+  { label:'guest_checkout', color:C.amber, nodes:[
+    makeNode('B2: Check Out', 'B2) Property Bookings', '14', C.amber, {stageId:'B2-S4'}),
+    makeNode('Wait 24h', 'Delay', null, C.amber, {desc:'Wait 24 hours before requesting review'}),
+    makeNode('B2: Review Requested', 'B2) Property Bookings', '9', C.amber, {stageId:'B2-S5'}),
+    makeNode('Tag: review-request-pending', 'Contact Tag', null, C.amber, {terminal:true}),
+  ]},
+];
+let hfBranchHTML = '';
+hfBranches.forEach(b => {
+  hfBranchHTML += '<div><div class="branch-label" style="border-color:' + b.color + '">' + b.label + '</div>' +
+    '<div class="branch-flow">' + buildFlowRow(b.nodes, b.color) + '</div></div>';
+});
+document.getElementById('flow-hostfully-branches').innerHTML = hfBranchHTML;
+
+// WF3-DISCOVERY (main)
+document.getElementById('flow-discovery-main').innerHTML = buildFlowRow([
+  makeNode('Discovery Form', 'Franchise Page', '58 subs', C.purple, {desc:'Franchise discovery form submission'}),
+  makeNode('Find/Create Contact', 'GHL API', null, C.purple, {desc:'Lookup by email, create if new'}),
+  makeNode('Update 11 Custom Fields', 'GHL API', null, C.purple, {desc:'ICP data, budget, timeline, property count'}),
+  makeNode('Tag: #discovery-form', 'Contact Tag', null, C.purple, {desc:'Source tag for discovery funnel'}),
+  makeDiamond('ICP', C.purple),
+], C.purple);
+
+// WF3-DISCOVERY branches
+const discBranches = [
+  { label:'icp1 (STR Owner)', color:C.purple, nodes:[
+    makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '12', C.purple, {stageId:'A1-S1'}),
+    makeNode('Email + SMS', '15-min calendar', null, C.purple, {desc:'Send booking link for 15-min call'}),
+    makeNode('Tag: ICP1, str-owner', 'Contact Tags', null, C.purple, {terminal:true}),
+  ]},
+  { label:'icp5-fast-track (Franchise)', color:C.purple, nodes:[
+    makeNode('Qualified-Not Booked', 'A1) Master Pipeline', '4', C.purple, {stageId:'A1-S3'}),
+    makeNode('Email + SMS', '30-min calendar', null, C.purple, {desc:'Send booking link for 30-min call'}),
+    makeNode('Tag: ICP5-fast-track', 'Contact Tag', null, C.purple, {terminal:true}),
+  ]},
+  { label:'icp5-qualified (Franchise)', color:C.purple, nodes:[
+    makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '8', C.purple, {stageId:'A1-S1'}),
+    makeNode('Email + SMS', '30-min calendar', null, C.purple, {desc:'Send booking link for 30-min call'}),
+    makeNode('Tag: ICP5-qualified', 'Contact Tag', null, C.purple, {terminal:true}),
+  ]},
+  { label:'icp5-nurture (Franchise)', color:C.purple, nodes:[
+    makeNode('\u{1F9CA} Lost/Nurture', 'A1) Master Pipeline', '6', C.purple, {stageId:'A1-S10'}),
+    makeNode('Email Only', 'No calendar', null, C.purple, {desc:'Nurture drip sequence only'}),
+    makeNode('Tag: ICP5-nurture', 'Contact Tag', null, C.purple, {terminal:true}),
+  ]},
+  { label:'icp5-not-qualified (Franchise)', color:C.purple, nodes:[
+    makeNode('\u{1F6AB} Closed-Lost', 'A1) Master Pipeline', '3', C.purple, {stageId:'A1-S12'}),
+    makeNode('Email Only', 'Rejection notice', null, C.purple, {desc:'Polite decline email'}),
+    makeNode('Tag: ICP5-not-qualified', 'Contact Tag', null, C.purple, {terminal:true}),
+  ]},
+  { label:'both (Dual Interest)', color:C.purple, nodes:[
+    makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '5', C.purple, {stageId:'A1-S1'}),
+    makeNode('Both Calendars', '15-min + 30-min', null, C.purple, {desc:'Send both calendar booking links'}),
+    makeNode('Tag: dual-interest', 'Contact Tag', null, C.purple, {terminal:true}),
+  ]},
+];
+let discBranchHTML = '';
+discBranches.forEach(b => {
+  discBranchHTML += '<div><div class="branch-label" style="border-color:' + b.color + '">' + b.label + '</div>' +
+    '<div class="branch-flow">' + buildFlowRow(b.nodes, b.color) + '</div></div>';
+});
+document.getElementById('flow-discovery-branches').innerHTML = discBranchHTML;
+
+// WF-ACTIVATION
+document.getElementById('flow-activation').innerHTML = buildFlowRow([
+  makeNode('Contract Signed', 'A1) Master Pipeline', '1', C.gold, {desc:'Trigger: opp moves to Contract Signed', stageId:'A1-S8'}),
+  makeNode('New Lead (Pre-Sign Up)', 'A2) Activation', '1', C.gold, {stageId:'A2-S1'}),
+  makeNode('Payment Successful', 'A2) Activation', '0', C.gold, {stageId:'A2-S2'}),
+  makeNode('Property Intake', 'A2) Activation', '0', C.gold, {stageId:'A2-S4'}),
+  makeNode('Long Property Details', 'A2) Activation', '0', C.gold, {stageId:'A2-S5'}),
+  makeNode('Deposit & Agreement', 'A2) Activation', '0', C.gold, {stageId:'A2-S6'}),
+  makeNode('Setup In Progress', 'A2) Activation', '0', C.gold, {stageId:'A2-S7'}),
+  makeNode('Activation Complete', 'A2) Activation', '0', C.gold, {stageId:'A2-S8'}),
+  makeNode('Onboarding Scheduled', 'A2) Activation', '0', C.gold, {stageId:'A2-S9'}),
+  makeNode('Onboarding Completed', 'A2) Activation', '0', C.gold, {terminal:true, stageId:'A2-S10', desc:'Customer fully onboarded and active'}),
+], C.gold);
+
+// WF-CALLCENTER (main)
+document.getElementById('flow-callcenter-main').innerHTML = buildFlowRow([
+  makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '189', C.red, {stageId:'A1-S1'}),
+  makeNode('\u{1F501} Routed to CC', 'A1) Master Pipeline', '42', C.red, {stageId:'A1-S2'}),
+  makeNode('Call Center Sub', 'Sub-Account Sync', null, C.red, {desc:'Push contact to CC sub-account'}),
+  makeNode('Qualified-Not Booked', 'A1) Master Pipeline', '28', C.red, {stageId:'A1-S3'}),
+  makeNode('Qualified-Booked', 'A1) Master Pipeline', '15', C.red, {stageId:'A1-S4'}),
+  makeNode('Contract Sent', 'A1) Master Pipeline', '6', C.red, {stageId:'A1-S6'}),
+  makeNode('Contract Signed', 'A1) Master Pipeline', '1', C.red, {terminal:true, stageId:'A1-S8', desc:'Triggers WF-ACTIVATION'}),
+], C.red);
+
+// WF-CALLCENTER exit branches
+const ccBranches = [
+  { label:'Exit: Connected-DQ', color:C.red, nodes:[
+    makeNode('\u{1F9EF} Connected-DQ', 'A1) Master Pipeline', '11', C.red, {terminal:true, stageId:'A1-S11', desc:'Contacted but disqualified'}),
+  ]},
+  { label:'Exit: Lost/Nurture', color:C.red, nodes:[
+    makeNode('\u{1F9CA} Lost/Nurture', 'A1) Master Pipeline', '34', C.red, {terminal:true, stageId:'A1-S10', desc:'Not ready, enter nurture sequence'}),
+  ]},
+  { label:'Exit: Closed-Lost', color:C.red, nodes:[
+    makeNode('\u{1F6AB} Closed-Lost', 'A1) Master Pipeline', '22', C.red, {terminal:true, stageId:'A1-S12', desc:'Deal permanently lost'}),
+  ]},
+];
+let ccBranchHTML = '';
+ccBranches.forEach(b => {
+  ccBranchHTML += '<div><div class="branch-label" style="border-color:' + b.color + '">' + b.label + '</div>' +
+    '<div class="branch-flow">' + buildFlowRow(b.nodes, b.color) + '</div></div>';
+});
+document.getElementById('flow-callcenter-branches').innerHTML = ccBranchHTML;
+
+/* ===== NODE HOVER HIGHLIGHT ===== */
+document.querySelectorAll('.flow-node').forEach(node => {
+  node.addEventListener('mouseenter', function() {
+    const row = this.closest('.flow-row, .branch-flow');
+    if (row) {
+      row.querySelectorAll('.flow-line').forEach(line => {
+        line.style.strokeWidth = '3';
+        line.style.opacity = '1';
+      });
+    }
+  });
+  node.addEventListener('mouseleave', function() {
+    const row = this.closest('.flow-row, .branch-flow');
+    if (row) {
+      row.querySelectorAll('.flow-line').forEach(line => {
+        line.style.strokeWidth = '2';
+        line.style.opacity = '';
+      });
+    }
+  });
+});
+</script>
+</body>
+</html>

@@ -984,10 +984,8 @@
     <div class="nav-group">
       <button class="nav-top" data-group="operations">Operations <span class="arrow">&#9662;</span></button>
       <div class="nav-drop">
-        <div class="drop-label">Monitoring</div>
+        <button class="tab-btn" data-tab="workflows">GHL Workflows</button>
         <button class="tab-btn" data-tab="services">Live Services</button>
-        <div class="drop-divider"></div>
-        <div class="drop-label">Infrastructure</div>
         <button class="tab-btn" data-tab="stack">Tech Stack</button>
         <button class="tab-btn" data-tab="wiring">Wiring Diagram</button>
         <button class="tab-btn" data-tab="config">Configuration</button>
@@ -998,10 +996,7 @@
     <div class="nav-group">
       <button class="nav-top" data-group="marketing">Marketing <span class="arrow">&#9662;</span></button>
       <div class="nav-drop">
-        <div class="drop-label">Outbound</div>
         <button class="tab-btn" data-tab="pipeline">Campaigns &amp; Leads</button>
-        <div class="drop-divider"></div>
-        <div class="drop-label">Automation</div>
         <button class="tab-btn" data-tab="flowise">Flowise AI</button>
       </div>
     </div>
@@ -1010,7 +1005,6 @@
     <div class="nav-group">
       <button class="nav-top" data-group="travelers">Travelers <span class="arrow">&#9662;</span></button>
       <div class="nav-drop">
-        <div class="drop-label">Hostfully PMS</div>
         <button class="tab-btn" data-tab="travelers">Overview</button>
         <button class="tab-btn" data-tab="travelers-props">Properties (44)</button>
         <button class="tab-btn" data-tab="travelers-bookings">Active Bookings</button>
@@ -1021,10 +1015,7 @@
     <div class="nav-group">
       <button class="nav-top" data-group="integrations">Integrations <span class="arrow">&#9662;</span></button>
       <div class="nav-drop">
-        <div class="drop-label">Google</div>
         <button class="tab-btn" data-tab="google">Workspace</button>
-        <div class="drop-divider"></div>
-        <div class="drop-label">AI Agents</div>
         <button class="tab-btn" data-tab="skills">Skills</button>
         <button class="tab-btn" data-tab="cowork">Cowork</button>
       </div>
@@ -1044,6 +1035,10 @@
   <main>
 
     <!-- ─── FINANCIAL KPIs TAB ────────────────────────────────── -->
+    <section id="tab-workflows" class="tab-panel">
+      <iframe src="/ghl-workflow-dashboard.html" style="width:100%;height:calc(100vh - 120px);border:none;border-radius:8px;background:#0a0c0f;"></iframe>
+    </section>
+
     <section id="tab-financials" class="tab-panel active">
       <!-- ROW 1: Today's Activity -->
       <div class="section-title" style="margin-bottom:10px;">Today's Activity</div>
