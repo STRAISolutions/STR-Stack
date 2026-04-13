@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-13T11:45:02Z",
+  "updated_at": "2026-04-13T17:45:01Z",
   "count": 53,
   "properties": [
     {
@@ -9,9 +9,11 @@
       "propertyType": "HOLIDAY_HOME",
       "bedrooms": 3,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "ASPEN",
+      "state": "CO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "edf26c36-fc20-4b70-80b3-cd06af2ed08a",
@@ -20,9 +22,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2.5",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Jackson Hole",
+      "state": "WY",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "ea569d85-71b9-4097-a4a4-32385a5ca903",
@@ -31,9 +35,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "2.5",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Mammoth Lakes",
+      "state": "CA",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "adc545bf-2dc1-4683-9720-e6fca5133901",
@@ -42,9 +48,11 @@
       "propertyType": "HOLIDAY_HOME",
       "bedrooms": 4,
       "bathrooms": "3",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "ASPEN",
+      "state": "CO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "30364bd1-7330-435c-bb2d-7247e579821e",
@@ -53,9 +61,11 @@
       "propertyType": "APARTMENT",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "NIAGARA FALLS",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 399.0,
+      "cleaningFee": 89.0
     },
     {
       "uid": "4681c982-80a1-4e2f-b563-e8bf3a573871",
@@ -64,9 +74,11 @@
       "propertyType": "HOLIDAY_HOME",
       "bedrooms": 4,
       "bathrooms": "2.5",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "NIAGARA FALLS",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 139.0
     },
     {
       "uid": "f9e20070-07fe-4fcb-8483-9ba552b7b8d0",
@@ -75,8 +87,8 @@
       "propertyType": "HOUSE",
       "bedrooms": 8,
       "bathrooms": "6",
-      "city": "",
-      "state": "",
+      "city": "Ennismore",
+      "state": "ON",
       "maxGuests": "?"
     },
     {
@@ -86,9 +98,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "3",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Vail",
+      "state": "CO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 179.0
     },
     {
       "uid": "ded34f58-1329-42dd-aadb-0b3d3e044bdf",
@@ -97,8 +111,8 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2.5",
-      "city": "",
-      "state": "",
+      "city": "San Antonio",
+      "state": "TX",
       "maxGuests": "?"
     },
     {
@@ -108,9 +122,11 @@
       "propertyType": "HOLIDAY_HOME",
       "bedrooms": 3,
       "bathrooms": "2.5",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "BRECKENRIDGE",
+      "state": "CO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 179.0
     },
     {
       "uid": "135fbb7a-e259-4528-b888-b72a8113f3db",
@@ -119,9 +135,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Cheyenne",
+      "state": "CO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 179.0
     },
     {
       "uid": "1b18a71f-2fa4-4de5-9df9-9dfeb1df5e57",
@@ -130,9 +148,11 @@
       "propertyType": "APARTMENT",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Niagara Falls",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 99.0
     },
     {
       "uid": "57e9bed3-1ab8-4b48-a5a9-1b08b0903065",
@@ -141,9 +161,11 @@
       "propertyType": "APARTMENT",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Niagara Falls",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 99.0
     },
     {
       "uid": "a8782eba-336b-4376-a355-8cb81339e658",
@@ -152,9 +174,11 @@
       "propertyType": "APARTMENT",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Niagara Falls",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 99.0
     },
     {
       "uid": "0d49c407-c6be-45a6-9dde-e3156cd4e62e",
@@ -163,9 +187,11 @@
       "propertyType": "APARTMENT",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Niagara Falls",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 99.0
     },
     {
       "uid": "0302ac83-b6c9-4974-8adc-a9326d0955b8",
@@ -174,9 +200,11 @@
       "propertyType": "CONDO",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Niagara Falls",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 79.0
     },
     {
       "uid": "e81cbaa6-38a9-4e9a-82fb-102834ef253a",
@@ -185,9 +213,11 @@
       "propertyType": "APARTMENT",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Niagara Falls",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 99.0
     },
     {
       "uid": "b8ab3fe7-908c-4d32-be26-89a2d98bede0",
@@ -196,8 +226,8 @@
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "3",
-      "city": "",
-      "state": "",
+      "city": "Niagara Falls",
+      "state": "ON",
       "maxGuests": "?"
     },
     {
@@ -207,9 +237,11 @@
       "propertyType": "CONDO",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "NIAGARA FALLS",
+      "state": "ONTARIO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 99.0
     },
     {
       "uid": "b40103d3-551f-45ce-94dc-84c52db5fe96",
@@ -218,9 +250,11 @@
       "propertyType": "CONDO",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "NIAGARA FALLS",
+      "state": "ONTARIO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 99.0
     },
     {
       "uid": "00bdd580-4ad3-4e6d-b320-2ffd21e1e95b",
@@ -229,9 +263,11 @@
       "propertyType": "CONDO",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "NIAGARA FALLS",
+      "state": "ONTARIO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 99.0
     },
     {
       "uid": "905e0ff7-bb5b-44e6-9378-d3f198ebb566",
@@ -240,9 +276,11 @@
       "propertyType": "CONDO",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "NIAGARA FALLS",
+      "state": "ONTARIO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 99.0
     },
     {
       "uid": "15ee8fbc-ebb4-4bb7-9d24-a64899c9ee5b",
@@ -251,9 +289,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "NIAGARA FALLS",
+      "state": "ONTARIO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 99.0
     },
     {
       "uid": "ceb47f7a-4974-48af-aad6-4a6436672725",
@@ -262,9 +302,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "NIAGARA FALLS",
+      "state": "ONTARIO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 99.0
     },
     {
       "uid": "f34c94e0-f4f9-4b9d-b37d-d1c09efc9f64",
@@ -273,9 +315,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "NIAGARA FALLS",
+      "state": "ONTARIO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 149.0
     },
     {
       "uid": "254c9329-cf62-465b-a893-ddb8c5e22ec9",
@@ -284,8 +328,8 @@
       "propertyType": "BUNGALOW",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
+      "city": "Crystal Beach",
+      "state": "ON",
       "maxGuests": "?"
     },
     {
@@ -295,9 +339,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "2.5",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "FORT ERIE",
+      "state": "ONTARIO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 169.0
     },
     {
       "uid": "8863242e-7e0d-4c87-a330-a1b13a03080e",
@@ -306,8 +352,8 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
+      "city": "Fort Erie",
+      "state": "ON",
       "maxGuests": "?"
     },
     {
@@ -317,9 +363,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "3",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Cheyenne",
+      "state": "WY",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "c04f6fc8-8e07-48df-8205-507936c8e34d",
@@ -328,9 +376,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "JACKSON HOLE",
+      "state": "WY",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "a30fbed8-a005-48dc-9dc6-3856e31f598e",
@@ -339,9 +389,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "JACKSON HOLE",
+      "state": "WY",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 89.0
     },
     {
       "uid": "ebc41338-8a21-4d14-bd4b-24be0ed18469",
@@ -350,9 +402,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2.5",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Jackson Hole",
+      "state": "WY",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "058e7cd6-ac76-4d17-8a35-91541ad291eb",
@@ -361,9 +415,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Jackson Hole",
+      "state": "WY",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "ca442f86-5448-43bc-8434-b28d98dad35d",
@@ -372,8 +428,8 @@
       "propertyType": "BOUTIQUE_HOTEL",
       "bedrooms": 1,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
+      "city": "Niagara Falls",
+      "state": "ON",
       "maxGuests": "?"
     },
     {
@@ -383,9 +439,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "2",
-      "city": "",
+      "city": "NIAGARA FALLS ",
       "state": "",
-      "maxGuests": "?"
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 89.0
     },
     {
       "uid": "9f3d812d-a30a-4537-80f8-4d40acf8e638",
@@ -394,8 +452,8 @@
       "propertyType": "CONDO",
       "bedrooms": 2,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
+      "city": "Niagara Falls",
+      "state": "ON",
       "maxGuests": "?"
     },
     {
@@ -405,8 +463,8 @@
       "propertyType": "TOWNHOUSE",
       "bedrooms": 3,
       "bathrooms": "2.5",
-      "city": "",
-      "state": "",
+      "city": "Niagara-on-the-Lake",
+      "state": "ON",
       "maxGuests": "?"
     },
     {
@@ -416,9 +474,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "PARK CITY ",
+      "state": "UT",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "a6613f40-e839-49f2-9bff-dbfe01c82b30",
@@ -427,9 +487,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2.5",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Mammoth Lakes",
+      "state": "CA",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "d9dda438-88a2-4371-8a82-fbcfafad6f24",
@@ -438,8 +500,8 @@
       "propertyType": "CABIN",
       "bedrooms": 2,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
+      "city": "Port Colborne",
+      "state": "ON",
       "maxGuests": "?"
     },
     {
@@ -449,9 +511,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "1.5",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Cheyenne",
+      "state": "WY",
+      "maxGuests": "?",
+      "dailyRate": 499.0,
+      "cleaningFee": 179.0
     },
     {
       "uid": "878e3abd-d809-44c8-a6c8-0d770b44537e",
@@ -460,9 +524,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "3",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Quinte West",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "86e6a569-1ba3-4514-a412-480f05860aab",
@@ -471,9 +537,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "NIAGARA FALLS",
+      "state": "Ontario",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 89.0
     },
     {
       "uid": "59c96c35-f767-43e4-bba7-445ec7e6357f",
@@ -482,9 +550,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "3",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Quinte West",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "12360b75-0e61-4406-a5c8-924c27b2f973",
@@ -493,8 +563,8 @@
       "propertyType": "VILLA",
       "bedrooms": 5,
       "bathrooms": "4",
-      "city": "",
-      "state": "",
+      "city": "St. Catharines",
+      "state": "ON",
       "maxGuests": "?"
     },
     {
@@ -504,9 +574,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 5,
       "bathrooms": "3",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "NIAGARA FALLS ",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "29c561dd-6c59-477c-975f-2afec9841864",
@@ -515,9 +587,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Jackson ",
+      "state": "WY",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "de892b73-d226-4b63-b44e-26c7cf357e64",
@@ -526,9 +600,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "3",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Telluride",
+      "state": "CO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 229.0
     },
     {
       "uid": "586d4391-cfa6-4019-9451-086d2d3deb10",
@@ -537,9 +613,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "2.5",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "VAIL",
+      "state": "CO",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "e94c425c-dac2-4ce9-a3c1-14ccc29d7296",
@@ -548,9 +626,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 4,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "FORT ERIE",
+      "state": "Ontario",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 89.0
     },
     {
       "uid": "625ce688-f5e3-4236-9c5a-22cfa48b7502",
@@ -559,9 +639,11 @@
       "propertyType": "HOUSE",
       "bedrooms": 3,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
-      "maxGuests": "?"
+      "city": "Niagara Falls",
+      "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 129.0
     },
     {
       "uid": "e8549d1b-aa28-4b77-a390-6d5616130010",
@@ -570,8 +652,8 @@
       "propertyType": "LOFT",
       "bedrooms": 1,
       "bathrooms": "1",
-      "city": "",
-      "state": "",
+      "city": "Welland",
+      "state": "ON",
       "maxGuests": "?"
     },
     {
@@ -581,8 +663,8 @@
       "propertyType": "COTTAGE",
       "bedrooms": 3,
       "bathrooms": "2",
-      "city": "",
-      "state": "",
+      "city": "Niagara Falls",
+      "state": "ON",
       "maxGuests": "?"
     }
   ]

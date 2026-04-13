@@ -175,18 +175,22 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
 
 /* ===== SUMMARY BAR ===== */
 .summary-bar {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  padding: 20px 24px;
+  display: flex;
+  gap: 12px;
+  padding: 14px 24px;
+  align-items: stretch;
 }
 .kpi-card {
   background: var(--bg-panel);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 18px 20px;
+  border-radius: 8px;
+  padding: 10px 18px;
   position: relative;
   overflow: hidden;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 .kpi-card::before {
   content: '';
@@ -199,23 +203,24 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
 .kpi-card:nth-child(3)::before { background: var(--purple); }
 .kpi-card:nth-child(4)::before { background: var(--amber); }
 .kpi-label {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 .kpi-value {
   font-family: 'Cormorant Garamond', 'Georgia', serif;
-  font-size: 2.15rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1;
+  white-space: nowrap;
 }
 .kpi-sub {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--text-secondary);
-  margin-top: 6px;
+  margin-top: 2px;
 }
 .kpi-sub span { font-weight: 500; }
 .kpi-sub .up { color: var(--green); }
@@ -347,10 +352,10 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
 .flow-node {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px 16px;
-  min-width: 140px;
-  max-width: 200px;
+  border-radius: 6px;
+  padding: 7px 12px;
+  min-width: 110px;
+  max-width: 160px;
   position: relative;
   transition: all 0.25s;
   flex-shrink: 0;
@@ -373,24 +378,26 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   border-radius: 8px 0 0 8px;
 }
 .flow-node .node-name {
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   color: var(--text-primary);
   font-weight: 500;
-  margin-bottom: 4px;
-  line-height: 1.3;
+  margin-bottom: 3px;
+  line-height: 1.25;
 }
 .flow-node .node-pipeline {
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   color: var(--text-secondary);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .flow-node .node-count {
   display: inline-block;
-  font-size: 0.6rem;
-  padding: 1px 7px;
-  border-radius: 3px;
-  background: rgba(255,255,255,0.05);
-  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(201,185,154,0.1);
+  color: var(--gold);
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
 }
 
 /* Terminal node */
@@ -400,7 +407,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
 
 /* Diamond branch node */
 .flow-diamond {
-  width: 44px; height: 44px;
+  width: 34px; height: 34px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   transform: rotate(45deg);
@@ -422,6 +429,23 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   color: var(--text-secondary);
 }
 
+
+/* Flow line illumination when panel is expanded */
+.flow-line {
+  stroke-width: 1.5;
+  opacity: 0.35;
+  transition: all 0.5s ease;
+}
+.wf-panel.open .flow-line {
+  stroke-width: 2.5;
+  opacity: 1;
+}
+.wf-panel.open svg polygon {
+  opacity: 1;
+}
+.wf-panel.open .flow-node {
+  border-color: rgba(255,255,255,0.15);
+}
 /* Connector arrow */
 .flow-connector {
   display: flex;
@@ -429,12 +453,21 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   flex-shrink: 0;
   position: relative;
   height: 2px;
-  width: 50px;
+  width: 60px;
 }
 .flow-connector svg {
   width: 100%;
   height: 20px;
   overflow: visible;
+}
+.flow-connector.active svg line {
+  stroke: var(--green) !important;
+  stroke-width: 2.5 !important;
+  filter: drop-shadow(0 0 4px var(--green));
+}
+.flow-connector.active svg polygon {
+  fill: var(--green) !important;
+  filter: drop-shadow(0 0 4px var(--green));
 }
 
 /* Node tooltip */
@@ -508,10 +541,10 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1200px) {
-  .summary-bar { grid-template-columns: repeat(2, 1fr); }
+  .summary-bar { flex-wrap: wrap; }
 }
 @media (max-width: 768px) {
-  .summary-bar { grid-template-columns: 1fr; }
+  .summary-bar { flex-direction: column; }
   .topbar { flex-wrap: wrap; gap: 10px; }
   .topbar-right { flex-wrap: wrap; }
 }
@@ -569,24 +602,24 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
 <!-- ===== SUMMARY BAR ===== -->
 <div class="summary-bar">
   <div class="kpi-card">
-    <div class="kpi-label">Total Contacts</div>
     <div class="kpi-value" id="kpiContacts">332</div>
-    <div class="kpi-sub"><span class="up">+12</span> last 7 days</div>
+    <div><div class="kpi-label">Total Contacts</div>
+    <div class="kpi-sub"><span class="up">+12</span> last 7 days</div></div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label">Active Opportunities</div>
     <div class="kpi-value" id="kpiOpps">189</div>
-    <div class="kpi-sub">Across all pipelines</div>
+    <div><div class="kpi-label">Active Opportunities</div>
+    <div class="kpi-sub">Across all pipelines</div></div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label">Workflows Active</div>
     <div class="kpi-value" id="kpiWF">6</div>
-    <div class="kpi-sub"><span class="up">6/6</span> running</div>
+    <div><div class="kpi-label">Workflows Active</div>
+    <div class="kpi-sub"><span class="up">6/6</span> running</div></div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label">Handler Health</div>
     <div class="kpi-value" style="color:var(--green)" id="kpiHealth">100%</div>
-    <div class="kpi-sub">All endpoints responding</div>
+    <div><div class="kpi-label">Handler Health</div>
+    <div class="kpi-sub">All endpoints responding</div></div>
   </div>
 </div>
 
@@ -609,7 +642,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
         <div class="wf-color-dot" style="background:var(--blue);box-shadow:0 0 8px var(--blue)"></div>
         <span class="wf-name">WF-INSTANTLY</span>
         <span class="wf-desc">Leads from Instantly &rarr; Master Pipeline</span>
-        <span class="wf-source-badge">Source: Instantly Campaigns</span>
+        <span class="wf-source-badge">Instantly Campaigns &rarr; A1 Master &middot; New Lead</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -633,7 +666,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
         <div class="wf-color-dot" style="background:var(--green);box-shadow:0 0 8px var(--green)"></div>
         <span class="wf-name">WF-WEBSITE</span>
         <span class="wf-desc">Website Contact Form &rarr; Master Pipeline</span>
-        <span class="wf-source-badge">Source: GHL Website Form</span>
+        <span class="wf-source-badge">GHL Website Form &rarr; A1 Master &middot; New Lead</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -657,7 +690,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
         <div class="wf-color-dot" style="background:var(--amber);box-shadow:0 0 8px var(--amber)"></div>
         <span class="wf-name">WF2-HOSTFULLY</span>
         <span class="wf-desc">Hostfully Booking Events</span>
-        <span class="wf-source-badge">Source: Hostfully PMS (port 8500/wf2)</span>
+        <span class="wf-source-badge">Hostfully PMS (wf2) &rarr; A1 Master &middot; Guest</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -682,7 +715,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
         <div class="wf-color-dot" style="background:var(--purple);box-shadow:0 0 8px var(--purple)"></div>
         <span class="wf-name">WF3-DISCOVERY</span>
         <span class="wf-desc">Discovery Form &rarr; ICP Router + Qualification</span>
-        <span class="wf-source-badge">Source: Franchise Page (port 8500/wf3)</span>
+        <span class="wf-source-badge">Franchise Page (wf3) &rarr; A1 Master &middot; Discovery</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -707,7 +740,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
         <div class="wf-color-dot" style="background:var(--gold);box-shadow:0 0 8px var(--gold)"></div>
         <span class="wf-name">WF-ACTIVATION</span>
         <span class="wf-desc">Customer Activation Pipeline</span>
-        <span class="wf-source-badge">Source: A1 Closed Won &rarr; A2</span>
+        <span class="wf-source-badge">A1 Closed Won &rarr; A2 Activation Pipeline</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -731,7 +764,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
         <div class="wf-color-dot" style="background:var(--red);box-shadow:0 0 8px var(--red)"></div>
         <span class="wf-name">WF-CALLCENTER</span>
         <span class="wf-desc">Master &rarr; Call Center Push</span>
-        <span class="wf-source-badge">Source: A1 Master Pipeline</span>
+        <span class="wf-source-badge">A1 Master Pipeline &rarr; CC Dialer Queue</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -801,11 +834,11 @@ function refreshDashboard() {
 /* ===== FLOW RENDERER ===== */
 function makeConnectorSVG(color) {
   const filterId = 'glow_' + Math.random().toString(36).slice(2,8);
-  return '<svg viewBox="0 0 50 20" style="width:50px;height:20px;flex-shrink:0;overflow:visible">' +
+  return '<svg viewBox="0 0 60 20" style="width:60px;height:20px;flex-shrink:0;overflow:visible">' +
     '<defs><filter id="' + filterId + '"><feGaussianBlur stdDeviation="2" result="blur"/>' +
     '<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>' +
-    '<line x1="0" y1="10" x2="44" y2="10" class="flow-line" stroke="' + color + '" filter="url(#' + filterId + ')"/>' +
-    '<polygon points="44,6 50,10 44,14" fill="' + color + '" opacity="0.8"/>' +
+    '<line x1="0" y1="10" x2="54" y2="10" class="flow-line" stroke="' + color + '" filter="url(#' + filterId + ')"/>' +
+    '<polygon points="54,6 60,10 54,14" fill="' + color + '" opacity="0.8"/>' +
     '</svg>';
 }
 

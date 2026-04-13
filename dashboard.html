@@ -140,7 +140,77 @@
 
     /* ── Layout ── */
     main { padding:16px 40px 50px; max-width:1440px; margin:0 auto; }
-    .tab-panel { display:none; }
+    
+/* CRM Tab */
+.crm-kpis { display: flex; gap: 14px; margin-bottom: 20px; flex-wrap: wrap; }
+.crm-kpi {
+  flex: 1; min-width: 160px; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px 20px; display: flex; align-items: center; gap: 14px;
+}
+.crm-kpi-icon { font-size: 28px; width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.crm-kpi-data h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; margin: 0; line-height: 1; }
+.crm-kpi:hover { border-color: var(--gold); transform: translateY(-1px); }
+.crm-kpi-data p { font-size: 11px; color: rgba(255,255,255,0.5); margin: 2px 0 0; text-transform: uppercase; letter-spacing: 0.5px; }
+.crm-filter-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+.crm-filter-bar select, .crm-filter-bar input {
+  background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff;
+  padding: 7px 12px; border-radius: 6px; font-size: 12px; font-family: 'DM Sans', sans-serif;
+}
+.crm-filter-bar select:focus, .crm-filter-bar input:focus { border-color: var(--gold); outline: none; }
+.crm-table-wrap { overflow-x: auto; }
+.crm-table {
+  width: 100%; border-collapse: collapse; font-size: 12px;
+}
+.crm-table th {
+  text-align: left; padding: 8px 10px; font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--gold); border-bottom: 1px solid var(--border);
+  font-weight: 600; cursor: pointer; white-space: nowrap;
+}
+.crm-table th:hover { color: #fff; }
+.crm-table td {
+  padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;
+}
+.crm-table tr:hover td { background: rgba(201,185,154,0.05); }
+.crm-type-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px;
+  font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;
+}
+.crm-type-franchise { background: rgba(74,158,110,0.15); color: #4a9e6e; }
+.crm-type-vroperator { background: rgba(212,168,67,0.15); color: #d4a843; }
+.crm-type-traveller { background: rgba(74,158,255,0.15); color: #4a9eff; }
+.crm-type-unclassified { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+.crm-overlap-dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--gold); margin-right: 4px; vertical-align: middle;
+}
+.crm-stage-tag {
+  display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px;
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.6);
+}
+.crm-refresh-btn {
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: rgba(255,255,255,0.6);
+  padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; font-family: 'DM Sans', sans-serif;
+}
+.crm-refresh-btn:hover { border-color: var(--gold); color: var(--gold); }
+.crm-loading { text-align: center; padding: 40px; color: rgba(255,255,255,0.3); font-style: italic; }
+
+
+/* Collapsible Activity Sections */
+.act-collapse-hdr {
+  display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+  user-select: none; padding: 4px 0;
+}
+.act-collapse-hdr:hover h2 { color: var(--gold); }
+.act-collapse-hdr .act-chevron {
+  font-size: 12px; color: var(--muted); transition: transform 0.25s;
+}
+.act-collapse-hdr.collapsed .act-chevron { transform: rotate(-90deg); }
+.act-collapse-body { transition: max-height 0.3s ease, opacity 0.2s; overflow: hidden; }
+.act-collapse-body.collapsed { max-height: 0 !important; opacity: 0; padding: 0; margin: 0; }
+
+.tab-panel { display:none; }
     .tab-panel.active { display:block; animation:fade .3s ease-in; }
     @keyframes fade { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
@@ -946,6 +1016,46 @@
     .am-issue-agent { font-size:10px; color:var(--gold); font-weight:600; min-width:100px; }
 
 /* -- OpenClaw Agent Tiles -- */
+
+/* Voice / Mic */
+.oc-mic-btn {
+  width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border);
+  background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; flex-shrink: 0; font-size: 16px; padding: 0;
+}
+.oc-mic-btn:hover { border-color: var(--gold); color: var(--gold); }
+.oc-mic-btn.oc-mic-active {
+  background: rgba(231,76,60,0.2); border-color: #e74c3c; color: #e74c3c;
+  animation: oc-mic-pulse 1s infinite;
+}
+@keyframes oc-mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(231,76,60,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(231,76,60,0); }
+}
+.oc-voice-bar {
+  display: flex; align-items: center; gap: 4px; height: 3px; margin-top: 2px;
+  opacity: 0; transition: opacity 0.3s;
+}
+.oc-voice-bar.active { opacity: 1; }
+.oc-voice-bar span {
+  width: 3px; background: var(--gold); border-radius: 2px;
+  animation: oc-vbar 0.6s ease-in-out infinite alternate;
+}
+.oc-voice-bar span:nth-child(1) { height: 4px; animation-delay: 0s; }
+.oc-voice-bar span:nth-child(2) { height: 8px; animation-delay: 0.15s; }
+.oc-voice-bar span:nth-child(3) { height: 12px; animation-delay: 0.3s; }
+.oc-voice-bar span:nth-child(4) { height: 8px; animation-delay: 0.45s; }
+.oc-voice-bar span:nth-child(5) { height: 4px; animation-delay: 0.6s; }
+@keyframes oc-vbar {
+  from { transform: scaleY(0.3); } to { transform: scaleY(1); }
+}
+.oc-speaking-indicator {
+  display: inline-flex; align-items: center; gap: 4px; font-size: 10px;
+  color: var(--gold); margin-left: 6px; opacity: 0; transition: opacity 0.3s;
+}
+.oc-speaking-indicator.active { opacity: 1; }
+
 .oc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px; }
 @media(max-width:900px) { .oc-grid { grid-template-columns: 1fr; } }
 .oc-tile {
@@ -1008,7 +1118,11 @@
   margin-left: 8px;
 }
 
-  </style>
+  
+    /* ── Booking Card Styles ── */
+    .booking-card { transition: border-color .15s ease; }
+    .booking-card:hover { border-color: var(--gold) !important; }
+</style>
 </head>
 <body>
   <header>
@@ -1047,6 +1161,7 @@
     <div class="nav-group">
       <button class="nav-top" data-group="operations">Operations <span class="arrow">&#9662;</span></button>
       <div class="nav-drop">
+        <button class="tab-btn" data-tab="crm">CRM</button>
         <button class="tab-btn" data-tab="workflows">GHL Workflows</button>
         <button class="tab-btn" data-tab="services">Live Services</button>
         <button class="tab-btn" data-tab="stack">Tech Stack</button>
@@ -1059,7 +1174,9 @@
     <div class="nav-group">
       <button class="nav-top" data-group="marketing">Marketing <span class="arrow">&#9662;</span></button>
       <div class="nav-drop">
-        <button class="tab-btn" data-tab="pipeline">Campaigns &amp; Leads</button>
+        <button class="tab-btn" data-tab="pipeline">Cold Outbound</button>
+        <button class="tab-btn" data-tab="paid-ads">Paid Ads</button>
+        <button class="tab-btn" data-tab="organic">Organic</button>
         <button class="tab-btn" data-tab="flowise">Flowise AI</button>
       </div>
     </div>
@@ -1104,7 +1221,7 @@
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
         <div>
           <div class="section-title" style="margin:0;">OpenClaw &mdash; Agent Monitor</div>
-          <div class="subline">4 active tiles &middot; Assign agents, queue tasks, monitor feeds</div>
+          <div class="subline">8 agent tiles &middot; Assign agents, queue tasks, monitor feeds</div>
         </div>
         <div style="display:flex; gap:8px; align-items:center;">
           <span class="subline" id="oc-last-update">Last update: --</span>
@@ -1113,6 +1230,115 @@
         </div>
       </div>
       <div class="oc-grid" id="oc-grid"></div>
+
+    </section>
+
+    
+    <!-- === CRM TAB === -->
+    <section id="tab-crm" class="tab-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gold);margin:0;">
+          CRM &mdash; Lead Summary
+        </h2>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span id="crm-last-update" style="font-size:11px;color:rgba(255,255,255,0.35);"></span>
+          <button class="crm-refresh-btn" onclick="crmLoad()">&#8635; Refresh</button>
+        </div>
+      </div>
+
+      <div class="crm-kpis" id="crm-kpis">
+        <div class="crm-kpi" style="cursor:pointer;" onclick="crmKpiClick('Franchise')">
+          <div class="crm-kpi-icon" style="background:rgba(74,158,110,0.12);color:#4a9e6e;">&#9733;</div>
+          <div class="crm-kpi-data">
+            <h3 id="crm-k-franchise">--</h3>
+            <p>Franchise</p>
+            <span id="crm-k-franchise-sub" style="font-size:10px;color:rgba(255,255,255,0.3);"></span>
+          </div>
+        </div>
+        <div class="crm-kpi" style="cursor:pointer;" onclick="crmKpiClick('VR Operator')">
+          <div class="crm-kpi-icon" style="background:rgba(212,168,67,0.12);color:#d4a843;">&#9873;</div>
+          <div class="crm-kpi-data">
+            <h3 id="crm-k-vroperator">--</h3>
+            <p>VR Operator</p>
+            <span id="crm-k-vroperator-sub" style="font-size:10px;color:rgba(255,255,255,0.3);"></span>
+          </div>
+        </div>
+        <div class="crm-kpi" style="cursor:pointer;" onclick="crmKpiClick('Traveller')">
+          <div class="crm-kpi-icon" style="background:rgba(74,158,255,0.12);color:#4a9eff;">&#9992;</div>
+          <div class="crm-kpi-data">
+            <h3 id="crm-k-traveller">--</h3>
+            <p>Traveller</p>
+            <span id="crm-k-traveller-sub" style="font-size:10px;color:rgba(255,255,255,0.3);"></span>
+          </div>
+        </div>
+        <div class="crm-kpi" style="cursor:pointer;" onclick="crmKpiClick('')">
+          <div class="crm-kpi-icon" style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);">&#8721;</div>
+          <div class="crm-kpi-data">
+            <h3 id="crm-k-total">--</h3>
+            <p>Distinct Total</p>
+            <span id="crm-k-total-sub" style="font-size:10px;color:rgba(255,255,255,0.3);"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="crm-filter-bar">
+        <select id="crm-f-type" onchange="crmFilter()">
+          <option value="">All Types</option>
+          <option value="Franchise">Franchise</option>
+          <option value="VR Operator">VR Operator</option>
+          <option value="Traveller">Traveller</option>
+          <option value="Unclassified">Unclassified</option>
+        </select>
+        <select id="crm-f-acct" onchange="crmFilter()">
+          <option value="">Both Accounts</option>
+          <option value="Master">Master</option>
+          <option value="Call Center">Call Center</option>
+        </select>
+        <select id="crm-f-source" onchange="crmFilter()">
+          <option value="">All Sources</option>
+        </select>
+        <select id="crm-f-pipeline" onchange="crmFilter()">
+          <option value="">All Pipelines</option>
+        </select>
+        <select id="crm-f-tag" onchange="crmFilter()">
+          <option value="">All Tags</option>
+        </select>
+        <select id="crm-f-overlap" onchange="crmFilter()">
+          <option value="">All</option>
+          <option value="yes">In Both Accounts</option>
+          <option value="no">Single Account Only</option>
+        </select>
+        <select id="crm-f-hascontact" onchange="crmFilter()">
+          <option value="">Any Contact Info</option>
+          <option value="email">Has Email</option>
+          <option value="phone">Has Phone</option>
+          <option value="both">Has Email + Phone</option>
+          <option value="none">No Email or Phone</option>
+        </select>
+        <input id="crm-f-search" placeholder="Search name / email / phone / tag..." oninput="crmFilter()" style="min-width:200px;">
+        <span id="crm-f-count" style="font-size:12px;color:var(--gold);margin-left:auto;"></span>
+      </div>
+
+      <div class="crm-table-wrap">
+        <table class="crm-table">
+          <thead>
+            <tr>
+              <th onclick="crmSort('name')">Name</th>
+              <th onclick="crmSort('type')">Type</th>
+              <th onclick="crmSort('account')">Account</th>
+              <th onclick="crmSort('source')">Source</th>
+              <th onclick="crmSort('email')">Email</th>
+              <th onclick="crmSort('phone')">Phone</th>
+              <th onclick="crmSort('stage')">Pipeline &gt; Stage</th>
+              <th onclick="crmSort('tags')">Tags</th>
+              <th onclick="crmSort('overlap')">In Both</th>
+              <th onclick="crmSort('dateAdded')">Added</th>
+            </tr>
+          </thead>
+          <tbody id="crm-tbody"></tbody>
+        </table>
+      </div>
+      <div class="crm-loading" id="crm-loading">Loading CRM data...</div>
     </section>
 
     <section id="tab-workflows" class="tab-panel">
@@ -1222,79 +1448,7 @@
         <div class="node-card tba"><div class="nc-val" style="color:var(--muted);">--</div><div class="nc-label">TBA</div></div>
       </div>
 
-      <div class="divider"></div>
-
-      <!-- GHL Command Interfaces -->
-      <div class="section-title">GHL Command Center</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
-        <!-- Master Sub Chat -->
-        <div class="card drag-section" data-drag-group="financials" data-drag-id="financials-card-2" style="display:flex; flex-direction:column; height:480px;">
-          <span class="drag-handle">&#9776;</span>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:18px;">Master Subaccount</h2>
-            <span class="pill" style="font-size:10px;">GHL API &middot; Live</span>
-          </div>
-          <div class="subline" style="margin-bottom:8px;">Contacts &middot; Pipelines &middot; Tags &middot; Workflows &middot; Conversations</div>
-          <div id="ghl-master-messages" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:8px 0;">
-            <div style="background:rgba(201,185,154,0.08); border-radius:10px; padding:10px 14px; align-self:flex-start; max-width:85%; font-size:12px; font-family:'DM Sans',sans-serif;">Master GHL command interface. Execute API calls directly against the Master subaccount.</div>
-          </div>
-          <div style="position:relative; margin-top:8px;">
-            <div class="slash-menu" id="slash-menu-master"></div>
-            <div style="display:flex; gap:8px;">
-              <input type="text" id="ghl-master-input" placeholder="Type / for commands or ask anything..." style="flex:1; font-size:12px;" onkeydown="handleSlashKey(event,'master')" oninput="handleSlashInput(this,'master')" autocomplete="off" />
-              <button class="refresh" onclick="executeSlashOrSend('master')" style="white-space:nowrap;">Run</button>
-            </div>
-          </div>
-          <div style="display:flex; gap:4px; margin-top:6px; flex-wrap:wrap;">
-            <button onclick="ghlQuick('master','ghl.contacts.search',{query:'',limit:5})" class="qbtn">Recent Contacts</button>
-            <button onclick="ghlQuick('master','ghl.pipelines.list',{})" class="qbtn">Pipelines</button>
-            <button onclick="ghlQuick('master','ghl.tags.list',{})" class="qbtn">Tags</button>
-            <button onclick="ghlQuick('master','ghl.calendars.list',{})" class="qbtn">Calendars</button>
-            <button onclick="ghlQuick('master','ghl.users.list',{})" class="qbtn">Users</button>
-          </div>
-          <div style="display:flex; gap:4px; margin-top:4px; flex-wrap:wrap;">
-            <button onclick="ghlQuick('master','ghl.pipeline.stage_counts',{pipeline_id:'Ta2LgMfzEOyWnXv0HNTO'})" class="qbtn" style="border-color:var(--gold);">CNX Stages</button>
-            <button onclick="ghlQuick('master','ghl.pipeline.stage_counts',{pipeline_id:'TtZu1ERm8n6MFyV5snKw'})" class="qbtn" style="border-color:var(--gold);">Activation Stages</button>
-            <button onclick="ghlQuick('master','ghl.contacts.search_all',{max_pages:5})" class="qbtn" style="border-color:var(--gold);">All Contacts</button>
-            <button onclick="ghlQuick('master','ghl.pipeline.stage_counts',{pipeline_id:'5fird8Rw1i90B8X7kMNF'})" class="qbtn" style="border-color:var(--gold);">Expired Stages</button>
-          </div>
-          <div id="ghl-master-history" style="margin-top:6px; max-height:80px; overflow-y:auto; font-size:10px; color:var(--muted); font-family:monospace; border-top:1px solid var(--border); padding-top:4px;"></div>
-        </div>
-
-        <!-- Call Center Sub Chat -->
-        <div class="card drag-section" data-drag-group="financials" data-drag-id="financials-card-3" style="display:flex; flex-direction:column; height:480px;">
-          <span class="drag-handle">&#9776;</span>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:18px;">Call Center Subaccount</h2>
-            <span class="pill" style="font-size:10px;">GHL API &middot; Live</span>
-          </div>
-          <div class="subline" style="margin-bottom:8px;">Contacts &middot; Pipelines &middot; Tags &middot; Workflows &middot; Conversations</div>
-          <div id="ghl-cc-messages" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:8px 0;">
-            <div style="background:rgba(201,185,154,0.08); border-radius:10px; padding:10px 14px; align-self:flex-start; max-width:85%; font-size:12px; font-family:'DM Sans',sans-serif;">Call Center GHL command interface. Execute API calls directly against the Call Center subaccount.</div>
-          </div>
-          <div style="position:relative; margin-top:8px;">
-            <div class="slash-menu" id="slash-menu-callcenter"></div>
-            <div style="display:flex; gap:8px;">
-              <input type="text" id="ghl-cc-input" placeholder="Type / for commands or ask anything..." style="flex:1; font-size:12px;" onkeydown="handleSlashKey(event,'callcenter')" oninput="handleSlashInput(this,'callcenter')" autocomplete="off" />
-              <button class="refresh" onclick="executeSlashOrSend('callcenter')" style="white-space:nowrap;">Run</button>
-            </div>
-          </div>
-          <div style="display:flex; gap:4px; margin-top:6px; flex-wrap:wrap;">
-            <button onclick="ghlQuick('callcenter','ghl.contacts.search',{query:'',limit:5})" class="qbtn">Recent Contacts</button>
-            <button onclick="ghlQuick('callcenter','ghl.pipelines.list',{})" class="qbtn">Pipelines</button>
-            <button onclick="ghlQuick('callcenter','ghl.tags.list',{})" class="qbtn">Tags</button>
-            <button onclick="ghlQuick('callcenter','ghl.calendars.list',{})" class="qbtn">Calendars</button>
-            <button onclick="ghlQuick('callcenter','ghl.opportunities.search',{query:''})" class="qbtn">Opportunities</button>
-          </div>
-          <div style="display:flex; gap:4px; margin-top:4px; flex-wrap:wrap;">
-            <button onclick="ghlQuick('callcenter','ghl.pipeline.stage_counts',{pipeline_id:'GjtOElx5zs8OrHH5SMVT'})" class="qbtn" style="border-color:var(--gold);">Inbound Stages</button>
-            <button onclick="ghlQuick('callcenter','ghl.pipeline.stage_counts',{pipeline_id:'9dE4ofq4p8FckkK2sPS7'})" class="qbtn" style="border-color:var(--gold);">Expired Stages</button>
-            <button onclick="ghlQuick('callcenter','ghl.contacts.search_all',{max_pages:5})" class="qbtn" style="border-color:var(--gold);">All Contacts</button>
-            <button onclick="ghlQuick('callcenter','ghl.opportunities.bulk_move',{source_pipeline_id:'GjtOElx5zs8OrHH5SMVT',target_pipeline_id:'9dE4ofq4p8FckkK2sPS7',target_stage_id:'ba5206a7-fc68-4334-bd75-161971a97398',dry_run:true})" class="qbtn" style="border-color:var(--trouble);">Bulk Move (Dry Run)</button>
-          </div>
-          <div id="ghl-cc-history" style="margin-top:6px; max-height:80px; overflow-y:auto; font-size:10px; color:var(--muted); font-family:monospace; border-top:1px solid var(--border); padding-top:4px;"></div>
-        </div>
-      </div>
+      
 
     </section>
 
@@ -1430,11 +1584,11 @@
       </div>
     </section>
 
-    <!-- ─── MARKETING TAB ───────────────────────────────────── -->
+    <!-- ─── COLD OUTBOUND TAB ──────────────────────────────── -->
     <section id="tab-pipeline" class="tab-panel">
 
-      <!-- ROW 1: COLD CAMPAIGNS (single horizontal row) -->
-      <div class="section-title">Cold Campaigns</div>
+      <!-- ROW 1: COLD CAMPAIGN TOTAL SUMMARY -->
+      <div class="section-title">Cold Outbound &mdash; Campaign Summary</div>
       <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:24px;">
         <div class="kpi-card" style="padding:14px;">
           <div class="kpi-label" style="font-size:11px;">Active Campaigns</div>
@@ -1465,8 +1619,50 @@
 
       <div class="divider"></div>
 
-      <!-- ROW 2: PAID ADS (horizontal) -->
-      <div class="section-title">Paid Ads</div>
+      <!-- ICP 1-6 ROWS -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <div class="section-title" style="margin:0;">ICP Campaign Performance</div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <label style="font-size:11px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; display:flex; align-items:center; gap:5px;">
+            <input type="checkbox" id="icp-filter-active" onchange="icpFilterActive()" style="accent-color:var(--gold); cursor:pointer;">
+            Active Only
+          </label>
+        </div>
+      </div>
+      <div id="icp-rows-container" style="display:flex; flex-direction:column; gap:16px; margin-bottom:24px;">
+        <!-- ICP rows rendered by JS -->
+        <div class="card" style="text-align:center; padding:30px;">
+          <div class="subline">Loading ICP campaign data from Instantly...</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- CAMPAIGN SUMMARY TABLE -->
+      <div class="card" style="margin-bottom:24px;">
+        <h2>All Campaign Summary</h2>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:12px;" id="mkt-campaign-table">
+            <thead><tr>
+              <th style="text-align:left; padding:8px 10px; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); border-bottom:2px solid var(--border);">Campaign</th>
+              <th style="text-align:center; padding:8px 10px; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); border-bottom:2px solid var(--border);">Status</th>
+            </tr></thead>
+            <tbody id="mkt-campaign-body"><tr><td colspan="2" style="text-align:center; color:var(--muted); padding:16px;">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <div class="links" style="margin-top:14px;">
+          <a href="https://app.instantly.ai/" target="_blank">Instantly</a>
+          <a href="https://app.apollo.io/" target="_blank">Apollo</a>
+          <a href="https://app.clay.com/" target="_blank">Clay</a>
+          <a href="https://dashboard.vapi.ai/" target="_blank">Vapi</a>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ─── PAID ADS TAB ─────────────────────────────────────── -->
+    <section id="tab-paid-ads" class="tab-panel">
+      <div class="section-title">Paid Advertising</div>
       <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px;">
         <div class="card" style="padding:20px;">
           <h2>Meta Ads (Facebook &amp; Instagram)</h2>
@@ -1501,10 +1697,10 @@
           <div class="cta" style="font-size:11px;">Connect via DeCube.com for AI-powered optimization</div>
         </div>
       </div>
+    </section>
 
-      <div class="divider"></div>
-
-      <!-- ROW 3: ORGANIC TRAFFIC (horizontal) -->
+    <!-- ─── ORGANIC TAB ──────────────────────────────────────── -->
+    <section id="tab-organic" class="tab-panel">
       <div class="section-title">Organic Traffic</div>
       <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px;">
         <div class="card" style="padding:20px;">
@@ -1540,29 +1736,6 @@
           <div class="cta" style="font-size:11px;">Planned &mdash; Hostfully review data feed</div>
         </div>
       </div>
-
-      <div class="divider"></div>
-
-      <!-- ROW 4: CAMPAIGN SUMMARY (bottom, collapsible) -->
-      <div class="card" style="margin-bottom:24px;">
-        <h2>Campaign Summary</h2>
-        <div style="overflow-x:auto;">
-          <table style="width:100%; border-collapse:collapse; font-size:12px;" id="mkt-campaign-table">
-            <thead><tr>
-              <th style="text-align:left; padding:8px 10px; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); border-bottom:2px solid var(--border);">Campaign</th>
-              <th style="text-align:center; padding:8px 10px; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); border-bottom:2px solid var(--border);">Status</th>
-            </tr></thead>
-            <tbody id="mkt-campaign-body"><tr><td colspan="2" style="text-align:center; color:var(--muted); padding:16px;">Loading...</td></tr></tbody>
-          </table>
-        </div>
-        <div class="links" style="margin-top:14px;">
-          <a href="https://app.instantly.ai/" target="_blank">Instantly</a>
-          <a href="https://app.apollo.io/" target="_blank">Apollo</a>
-          <a href="https://app.clay.com/" target="_blank">Clay</a>
-          <a href="https://dashboard.vapi.ai/" target="_blank">Vapi</a>
-        </div>
-      </div>
-
     </section>
 
 
@@ -1718,9 +1891,78 @@
           <div class="section-title" style="margin:0;">Active Bookings</div>
           <div class="subline">Confirmed reservations from Booking.com, Airbnb, VRBO, Direct</div>
         </div>
-        <button class="refresh" onclick="loadHostfullyBookings()">Refresh</button>
+        <div style="display:flex; gap:12px; align-items:center;">
+          <span style="font-size:20px; font-weight:500; color:var(--text); font-family:Cormorant Garamond,serif; letter-spacing:0.04em;" id="hf-bookings-count">-- bookings</span>
+          <span style="font-size:26px; font-weight:600; color:var(--gold); font-family:Cormorant Garamond,serif;" id="hf-bookings-total"></span>
+          <button class="refresh" onclick="loadHostfullyBookings()">Refresh</button>
+        </div>
       </div>
-      <div id="hf-bookings-list" style="display:flex; flex-direction:column; gap:12px;">
+
+      <!-- FILTER BAR -->
+      <div style="padding:12px 16px; background:var(--panel); border:1px solid var(--border); border-radius:8px; margin-bottom:18px;">
+        <!-- Row 1: Search -->
+        <div style="margin-bottom:10px;">
+          <div style="position:relative;">
+            <input id="hf-filter-search" type="text" oninput="filterBookings()" placeholder="Search by name, email, phone, or booking number..." style="width:100%; background:var(--panel-alt); border:1px solid var(--border); color:#fff; padding:9px 14px 9px 34px; border-radius:6px; font-size:13px; font-family:'DM Sans',sans-serif; outline:none; box-sizing:border-box;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+            <span style="position:absolute; left:11px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:14px;">&#128269;</span>
+            <span id="hf-search-hint" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;"></span>
+          </div>
+        </div>
+        <!-- Row 2: Dropdown filters -->
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;">
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            <label style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">City</label>
+            <select id="hf-filter-city" onchange="filterBookings()" style="background:var(--panel-alt); border:1px solid var(--border); color:#fff; padding:6px 10px; border-radius:5px; font-size:12px; font-family:'DM Sans',sans-serif; min-width:140px;">
+              <option value="">All Cities</option>
+            </select>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            <label style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">Property</label>
+            <select id="hf-filter-property" onchange="filterBookings()" style="background:var(--panel-alt); border:1px solid var(--border); color:#fff; padding:6px 10px; border-radius:5px; font-size:12px; font-family:'DM Sans',sans-serif; min-width:180px;">
+              <option value="">All Properties</option>
+            </select>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            <label style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">Balance Due</label>
+            <select id="hf-filter-balance" onchange="filterBookings()" style="background:var(--panel-alt); border:1px solid var(--border); color:#fff; padding:6px 10px; border-radius:5px; font-size:12px; font-family:'DM Sans',sans-serif; min-width:150px;">
+              <option value="">Any</option>
+              <option value="due-7">Due &mdash; Arrival &lt; 7 Days</option>
+              <option value="due-14">Due &mdash; Arrival &lt; 14 Days</option>
+              <option value="due-30">Due &mdash; Arrival &lt; 30 Days</option>
+              <option value="due-60">Due &mdash; Arrival &lt; 60 Days</option>
+              <option value="all-forward">All Forward Balances</option>
+            </select>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            <label style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">Arrival</label>
+            <select id="hf-filter-arrival" onchange="filterBookings()" style="background:var(--panel-alt); border:1px solid var(--border); color:#fff; padding:6px 10px; border-radius:5px; font-size:12px; font-family:'DM Sans',sans-serif; min-width:160px;">
+              <option value="future">All Future</option>
+              <option value="7">Next 7 Days</option>
+              <option value="14">Next 14 Days</option>
+              <option value="30">Next 30 Days</option>
+              <option value="60">Next 60 Days</option>
+              <option value="90">Next 90 Days</option>
+              <option disabled>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</option>
+              <option value="departures-today">Today's Departures</option>
+              <option value="past-7">Last 7 Days</option>
+              <option value="past-14">Last 14 Days</option>
+              <option value="past-30">Last 30 Days</option>
+              <option value="past-90">Last 90 Days</option>
+              <option value="all">All Dates</option>
+            </select>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            <label style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">Channel</label>
+            <select id="hf-filter-channel" onchange="filterBookings()" style="background:var(--panel-alt); border:1px solid var(--border); color:#fff; padding:6px 10px; border-radius:5px; font-size:12px; font-family:'DM Sans',sans-serif; min-width:130px;">
+              <option value="">All Channels</option>
+            </select>
+          </div>
+          <button onclick="clearBookingFilters()" style="background:transparent; border:1px solid var(--border); color:var(--muted); padding:6px 12px; border-radius:5px; font-size:11px; cursor:pointer; font-family:'DM Sans',sans-serif;">Clear</button>
+        </div>
+      </div>
+
+      <!-- BOOKINGS LIST -->
+      <div id="hf-bookings-list" style="display:flex; flex-direction:column; gap:8px;">
         <div class="card" style="text-align:center; padding:40px;">
           <div class="subline">Loading bookings from Hostfully API&hellip;</div>
         </div>
@@ -2172,11 +2414,14 @@
     <section id="tab-activity" class="tab-panel">
       <div class="card drag-section" data-drag-group="activity" data-drag-id="activity-card-0" style="margin-bottom:20px;">
           <span class="drag-handle">&#9776;</span>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="act-collapse-hdr" onclick="actToggle(this)">
             <h2>Completed Tasks</h2>
-            <button class="refresh" onclick="loadChangelog()">Refresh</button>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <button class="refresh" onclick="event.stopPropagation();loadChangelog()">Refresh</button>
+              <span class="act-chevron">&#9660;</span>
+            </div>
           </div>
-          <div id="changelog-container" style="max-height:400px; overflow-y:auto; margin-top:10px;">
+          <div class="act-collapse-body" id="changelog-container" style="max-height:400px; overflow-y:auto; margin-top:10px;">
             <table class="changelog-table">
               <thead><tr><th style="width:30px;">#</th><th style="width:120px;">Time</th><th>Task</th><th>Detail</th></tr></thead>
               <tbody id="changelog-body"><tr><td colspan="3">Loading...</td></tr></tbody>
@@ -2185,11 +2430,14 @@
         </div>
         <div class="card drag-section" data-drag-group="activity" data-drag-id="activity-card-pending" style="margin-bottom:20px;">
           <span class="drag-handle">&#9776;</span>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="act-collapse-hdr" onclick="actToggle(this)">
             <h2>Pending Tasks</h2>
-            <button class="refresh" onclick="loadPendingTasks()">Refresh</button>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <button class="refresh" onclick="event.stopPropagation();loadPendingTasks()">Refresh</button>
+              <span class="act-chevron">&#9660;</span>
+            </div>
           </div>
-          <div id="pending-container" style="max-height:350px; overflow-y:auto; margin-top:10px;">
+          <div class="act-collapse-body" id="pending-container" style="max-height:350px; overflow-y:auto; margin-top:10px;">
             <table class="changelog-table">
               <thead><tr><th style="width:30px;">#</th><th style="width:60px;">Priority</th><th>Task</th><th>Detail</th></tr></thead>
               <tbody id="pending-body"><tr><td colspan="4">Loading...</td></tr></tbody>
@@ -2198,10 +2446,87 @@
         </div>
         <div class="card drag-section" data-drag-group="activity" data-drag-id="activity-card-1">
           <span class="drag-handle">&#9776;</span>
-        <h2>Latest CONTEXT.md</h2>
-        <pre id="context-raw">Loading...</pre>
+        <div class="act-collapse-hdr" onclick="actToggle(this)">
+            <h2>Latest CONTEXT.md</h2>
+            <span class="act-chevron">&#9660;</span>
+          </div>
+          <div class="act-collapse-body">
+            <pre id="context-raw">Loading...</pre>
+          </div>
       </div>
-    </section>
+    
+      <div class="divider" style="margin:20px 0;"></div>
+      <div class="section-title">GHL Command Center</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+        <!-- Master Sub Chat -->
+        <div class="card drag-section" data-drag-group="financials" data-drag-id="financials-card-2" style="display:flex; flex-direction:column; height:480px;">
+          <span class="drag-handle">&#9776;</span>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:18px;">Master Subaccount</h2>
+            <span class="pill" style="font-size:10px;">GHL API &middot; Live</span>
+          </div>
+          <div class="subline" style="margin-bottom:8px;">Contacts &middot; Pipelines &middot; Tags &middot; Workflows &middot; Conversations</div>
+          <div id="ghl-master-messages" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:8px 0;">
+            <div style="background:rgba(201,185,154,0.08); border-radius:10px; padding:10px 14px; align-self:flex-start; max-width:85%; font-size:12px; font-family:'DM Sans',sans-serif;">Master GHL command interface. Execute API calls directly against the Master subaccount.</div>
+          </div>
+          <div style="position:relative; margin-top:8px;">
+            <div class="slash-menu" id="slash-menu-master"></div>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="ghl-master-input" placeholder="Type / for commands or ask anything..." style="flex:1; font-size:12px;" onkeydown="handleSlashKey(event,'master')" oninput="handleSlashInput(this,'master')" autocomplete="off" />
+              <button class="refresh" onclick="executeSlashOrSend('master')" style="white-space:nowrap;">Run</button>
+            </div>
+          </div>
+          <div style="display:flex; gap:4px; margin-top:6px; flex-wrap:wrap;">
+            <button onclick="ghlQuick('master','ghl.contacts.search',{query:'',limit:5})" class="qbtn">Recent Contacts</button>
+            <button onclick="ghlQuick('master','ghl.pipelines.list',{})" class="qbtn">Pipelines</button>
+            <button onclick="ghlQuick('master','ghl.tags.list',{})" class="qbtn">Tags</button>
+            <button onclick="ghlQuick('master','ghl.calendars.list',{})" class="qbtn">Calendars</button>
+            <button onclick="ghlQuick('master','ghl.users.list',{})" class="qbtn">Users</button>
+          </div>
+          <div style="display:flex; gap:4px; margin-top:4px; flex-wrap:wrap;">
+            <button onclick="ghlQuick('master','ghl.pipeline.stage_counts',{pipeline_id:'Ta2LgMfzEOyWnXv0HNTO'})" class="qbtn" style="border-color:var(--gold);">CNX Stages</button>
+            <button onclick="ghlQuick('master','ghl.pipeline.stage_counts',{pipeline_id:'TtZu1ERm8n6MFyV5snKw'})" class="qbtn" style="border-color:var(--gold);">Activation Stages</button>
+            <button onclick="ghlQuick('master','ghl.contacts.search_all',{max_pages:5})" class="qbtn" style="border-color:var(--gold);">All Contacts</button>
+            <button onclick="ghlQuick('master','ghl.pipeline.stage_counts',{pipeline_id:'5fird8Rw1i90B8X7kMNF'})" class="qbtn" style="border-color:var(--gold);">Expired Stages</button>
+          </div>
+          <div id="ghl-master-history" style="margin-top:6px; max-height:80px; overflow-y:auto; font-size:10px; color:var(--muted); font-family:monospace; border-top:1px solid var(--border); padding-top:4px;"></div>
+        </div>
+
+        <!-- Call Center Sub Chat -->
+        <div class="card drag-section" data-drag-group="financials" data-drag-id="financials-card-3" style="display:flex; flex-direction:column; height:480px;">
+          <span class="drag-handle">&#9776;</span>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:18px;">Call Center Subaccount</h2>
+            <span class="pill" style="font-size:10px;">GHL API &middot; Live</span>
+          </div>
+          <div class="subline" style="margin-bottom:8px;">Contacts &middot; Pipelines &middot; Tags &middot; Workflows &middot; Conversations</div>
+          <div id="ghl-cc-messages" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:8px 0;">
+            <div style="background:rgba(201,185,154,0.08); border-radius:10px; padding:10px 14px; align-self:flex-start; max-width:85%; font-size:12px; font-family:'DM Sans',sans-serif;">Call Center GHL command interface. Execute API calls directly against the Call Center subaccount.</div>
+          </div>
+          <div style="position:relative; margin-top:8px;">
+            <div class="slash-menu" id="slash-menu-callcenter"></div>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="ghl-cc-input" placeholder="Type / for commands or ask anything..." style="flex:1; font-size:12px;" onkeydown="handleSlashKey(event,'callcenter')" oninput="handleSlashInput(this,'callcenter')" autocomplete="off" />
+              <button class="refresh" onclick="executeSlashOrSend('callcenter')" style="white-space:nowrap;">Run</button>
+            </div>
+          </div>
+          <div style="display:flex; gap:4px; margin-top:6px; flex-wrap:wrap;">
+            <button onclick="ghlQuick('callcenter','ghl.contacts.search',{query:'',limit:5})" class="qbtn">Recent Contacts</button>
+            <button onclick="ghlQuick('callcenter','ghl.pipelines.list',{})" class="qbtn">Pipelines</button>
+            <button onclick="ghlQuick('callcenter','ghl.tags.list',{})" class="qbtn">Tags</button>
+            <button onclick="ghlQuick('callcenter','ghl.calendars.list',{})" class="qbtn">Calendars</button>
+            <button onclick="ghlQuick('callcenter','ghl.opportunities.search',{query:''})" class="qbtn">Opportunities</button>
+          </div>
+          <div style="display:flex; gap:4px; margin-top:4px; flex-wrap:wrap;">
+            <button onclick="ghlQuick('callcenter','ghl.pipeline.stage_counts',{pipeline_id:'GjtOElx5zs8OrHH5SMVT'})" class="qbtn" style="border-color:var(--gold);">Inbound Stages</button>
+            <button onclick="ghlQuick('callcenter','ghl.pipeline.stage_counts',{pipeline_id:'9dE4ofq4p8FckkK2sPS7'})" class="qbtn" style="border-color:var(--gold);">Expired Stages</button>
+            <button onclick="ghlQuick('callcenter','ghl.contacts.search_all',{max_pages:5})" class="qbtn" style="border-color:var(--gold);">All Contacts</button>
+            <button onclick="ghlQuick('callcenter','ghl.opportunities.bulk_move',{source_pipeline_id:'GjtOElx5zs8OrHH5SMVT',target_pipeline_id:'9dE4ofq4p8FckkK2sPS7',target_stage_id:'ba5206a7-fc68-4334-bd75-161971a97398',dry_run:true})" class="qbtn" style="border-color:var(--trouble);">Bulk Move (Dry Run)</button>
+          </div>
+          <div id="ghl-cc-history" style="margin-top:6px; max-height:80px; overflow-y:auto; font-size:10px; color:var(--muted); font-family:monospace; border-top:1px solid var(--border); padding-top:4px;"></div>
+        </div>
+      </div>
+</section>
 
     <!-- ─── SKILLS TAB ──────────────────────────────────────── -->
     <section id="tab-skills" class="tab-panel">
@@ -3069,43 +3394,273 @@
       }
     }
 
+    // ── Booking data store for filtering ──
+    var _allBookings = [];
+
     async function loadHostfullyBookings() {
       try {
         var r = await fetch('hostfully-bookings.json?_=' + Date.now());
         if (!r.ok) throw new Error('No hostfully-bookings.json');
         var data = await r.json();
         var booked = data.bookings || [];
-        var list = document.getElementById('hf-bookings-list');
-        if (!list) return;
-        list.innerHTML = '';
-        if (booked.length === 0) {
-          list.innerHTML = '<div class="card" style="text-align:center;padding:40px;"><div class="subline">No active bookings</div></div>';
-          return;
-        }
-        booked.forEach(function(l) {
-          var name = l.guest || '(No name)';
-          var email = l.email || '';
-          var channel = (l.channel || 'UNKNOWN').replace('_', ' ');
-          var checkin = l.checkin || '?';
-          var checkout = l.checkout || '?';
-          var card = document.createElement('div');
-          card.className = 'card';
-          card.style.padding = '16px';
-          card.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;">'
-            + '<div><strong style="font-size:15px; color:#ffffff;">' + name + '</strong>'
-            + '<div class="subline" style="margin-top:2px;">' + email + ' &middot; ' + channel + '</div></div>'
-            + '<div style="text-align:right;"><div style="font-size:13px;color:var(--success);font-weight:600;">BOOKED</div>'
-            + '<div class="subline">' + checkin.substring(0,10) + ' &rarr; ' + checkout.substring(0,10) + '</div></div></div>';
-          list.appendChild(card);
+        _allBookings = booked;
+
+        // Populate filter dropdowns
+        var cities = data.cities || [];
+        var properties = data.properties || [];
+        var channels = [];
+        var channelSet = {};
+        booked.forEach(function(b) {
+          var ch = (b.channel || 'UNKNOWN').replace(/_/g, ' ');
+          if (!channelSet[ch]) { channelSet[ch] = true; channels.push(ch); }
         });
+        channels.sort();
+
+        var citySel = document.getElementById('hf-filter-city');
+        if (citySel) {
+          citySel.innerHTML = '<option value="">All Cities</option>';
+          cities.forEach(function(c) { if (c) citySel.innerHTML += '<option value="' + c + '">' + c + '</option>'; });
+        }
+        var propSel = document.getElementById('hf-filter-property');
+        if (propSel) {
+          propSel.innerHTML = '<option value="">All Properties</option>';
+          properties.forEach(function(p) { if (p) propSel.innerHTML += '<option value="' + p + '">' + (p.length > 30 ? p.substring(0,28) + '..' : p) + '</option>'; });
+        }
+        var chanSel = document.getElementById('hf-filter-channel');
+        if (chanSel) {
+          chanSel.innerHTML = '<option value="">All Channels</option>';
+          channels.forEach(function(c) { chanSel.innerHTML += '<option value="' + c + '">' + c + '</option>'; });
+        }
+
+        filterBookings();
       } catch(e) {
         console.warn('HF bookings error:', e);
         var list = document.getElementById('hf-bookings-list');
-        if (list) list.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><div class="subline">Could not load bookings. Run hostfully-properties.py on server.</div></div>';
+        if (list) list.innerHTML = '<div class="card" style="text-align:center; padding:40px;"><div class="subline">Could not load bookings. Run collector on server.</div></div>';
       }
     }
 
-    async function loadInstantlyStats() {
+    function filterBookings() {
+      var search = (document.getElementById('hf-filter-search') || {}).value || '';
+      var city = (document.getElementById('hf-filter-city') || {}).value || '';
+      var prop = (document.getElementById('hf-filter-property') || {}).value || '';
+      var balance = (document.getElementById('hf-filter-balance') || {}).value || '';
+      var arrival = (document.getElementById('hf-filter-arrival') || {}).value || '';
+      var channel = (document.getElementById('hf-filter-channel') || {}).value || '';
+      var now = new Date();
+      var hint = document.getElementById('hf-search-hint');
+
+      // Auto-detect search type for hint
+      if (hint) {
+        if (!search) { hint.textContent = ''; }
+        else if (/^[\d\-\+\(\)\s]{7,}$/.test(search)) { hint.textContent = 'phone'; }
+        else if (search.indexOf('@') >= 0) { hint.textContent = 'email'; }
+        else if (/^\d{5,}$/.test(search)) { hint.textContent = 'booking #'; }
+        else { hint.textContent = 'name'; }
+      }
+
+      var searchLower = search.toLowerCase().trim();
+
+      var filtered = _allBookings.filter(function(b) {
+        // Smart search: matches name, email, phone, or external booking ID
+        if (searchLower) {
+          var name = (b.guest || '').toLowerCase();
+          var email = (b.email || '').toLowerCase();
+          var phone = (b.phone || '').replace(/[\s\-\(\)]/g, '');
+          var searchPhone = searchLower.replace(/[\s\-\(\)]/g, '');
+          var extId = (b.externalId || '').toLowerCase();
+          var uid = (b.uid || '').toLowerCase();
+          var matched = name.indexOf(searchLower) >= 0
+            || email.indexOf(searchLower) >= 0
+            || phone.indexOf(searchPhone) >= 0
+            || extId.indexOf(searchLower) >= 0
+            || uid.indexOf(searchLower) >= 0;
+          if (!matched) return false;
+        }
+
+        if (city && (b.city || '') !== city) return false;
+        if (prop && (b.propertyName || '') !== prop) return false;
+        if (channel && (b.channel || '').replace(/_/g, ' ') !== channel) return false;
+
+        // Balance Due filter: only future bookings with totalAmount > 0
+        if (balance) {
+          var ci = new Date((b.checkin || '').substring(0, 10));
+          var daysToArrival = (ci - now) / (1000 * 60 * 60 * 24);
+          if (b.totalAmount <= 0) return false;
+          if (daysToArrival < 0) return false;
+          if (balance === 'all-forward') {
+            // Any future booking with balance — no day cap
+          } else {
+            var dueDays = parseInt(balance.replace('due-', ''));
+            if (daysToArrival > dueDays) return false;
+          }
+        }
+
+        // Arrival date filter
+        if (arrival && arrival !== 'all') {
+          var ci2 = new Date((b.checkin || '').substring(0, 10));
+          var co2 = new Date((b.checkout || '').substring(0, 10));
+          var diff = (ci2 - now) / (1000 * 60 * 60 * 24);
+          if (arrival === 'future') {
+            if (diff < -1) return false;
+          } else if (arrival === 'departures-today') {
+            var today = now.toISOString().substring(0, 10);
+            var coStr = (b.checkout || '').substring(0, 10);
+            if (coStr !== today) return false;
+          } else if (arrival.indexOf('past-') === 0) {
+            var pastDays = parseInt(arrival.replace('past-', ''));
+            if (diff > 0 || diff < -pastDays) return false;
+          } else {
+            var days = parseInt(arrival);
+            if (diff < -1 || diff > days) return false;
+          }
+        }
+
+        return true;
+      });
+      renderBookings(filtered);
+    }
+
+    function clearBookingFilters() {
+      ['hf-filter-search','hf-filter-city','hf-filter-property','hf-filter-balance','hf-filter-channel'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      var arrivalEl = document.getElementById('hf-filter-arrival');
+      if (arrivalEl) arrivalEl.value = 'future';
+      var hint = document.getElementById('hf-search-hint');
+      if (hint) hint.textContent = '';
+      renderBookings(_allBookings);
+    }
+
+    function toggleBookingDetail(uid) {
+      var el = document.getElementById('bk-detail-' + uid);
+      if (!el) return;
+      if (el.style.display === 'none') {
+        el.style.display = 'block';
+        el.style.animation = 'fade .2s ease-in';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+
+    function renderBookings(booked) {
+      var list = document.getElementById('hf-bookings-list');
+      var countEl = document.getElementById('hf-bookings-count');
+      if (!list) return;
+      if (countEl) countEl.textContent = booked.length + ' booking' + (booked.length !== 1 ? 's' : '');
+      var totalEl = document.getElementById('hf-bookings-total');
+      if (totalEl) {
+        var sum = 0;
+        var nowDate = new Date();
+        booked.forEach(function(b) {
+          var ci = new Date((b.checkin || '').substring(0, 10));
+          var daysDiff = (ci - nowDate) / (1000 * 60 * 60 * 24);
+          // Only include future bookings in total unless a past filter is active
+          var arrivalFilter = (document.getElementById('hf-filter-arrival') || {}).value || 'future';
+          if (arrivalFilter.indexOf('past') >= 0 || arrivalFilter === 'departures-today' || arrivalFilter === 'all') {
+            sum += (b.totalAmount || 0);
+          } else {
+            if (daysDiff >= -1) sum += (b.totalAmount || 0);
+          }
+        });
+        totalEl.textContent = sum > 0 ? '$' + sum.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '';
+      }
+      list.innerHTML = '';
+
+      if (booked.length === 0) {
+        list.innerHTML = '<div class="card" style="text-align:center;padding:40px;"><div class="subline">No bookings match filters</div></div>';
+        return;
+      }
+
+      booked.forEach(function(b) {
+        var name = b.guest || '(No name)';
+        var email = b.email || '';
+        var phone = b.phone || '';
+        var channel = (b.channel || 'UNKNOWN').replace(/_/g, ' ');
+        var checkin = (b.checkin || '?').substring(0, 10);
+        var checkout = (b.checkout || '?').substring(0, 10);
+        var nights = b.nights || 0;
+        var propName = b.propertyName || 'Unknown Property';
+        var city = b.city || '';
+        var state = b.state || '';
+        var location = [city, state].filter(Boolean).join(', ');
+        var total = b.totalAmount || 0;
+        var nightly = b.nightlyRate || 0;
+        var cleaning = b.cleaningFee || 0;
+        var tax = b.taxAmount || 0;
+        var rent = b.rentNet || 0;
+        var currency = b.currency || 'USD';
+        var adults = b.adults || 0;
+        var children = b.children || 0;
+        var pets = b.pets || 0;
+        var country = b.country || '';
+        var bookedDate = (b.bookedDate || '').substring(0, 10);
+        var extId = b.externalId || '';
+        var uid = b.uid || Math.random().toString(36).substring(7);
+
+        var guestCount = adults + ' adult' + (adults !== 1 ? 's' : '');
+        if (children > 0) guestCount += ', ' + children + ' child' + (children !== 1 ? 'ren' : '');
+        if (pets > 0) guestCount += ', ' + pets + ' pet' + (pets !== 1 ? 's' : '');
+
+        // Channel color
+        var chColor = 'var(--muted)';
+        if (channel.indexOf('BOOKING') >= 0) chColor = '#0071c2';
+        else if (channel.indexOf('AIRBNB') >= 0) chColor = '#ff5a5f';
+        else if (channel.indexOf('VRBO') >= 0) chColor = '#3c67f0';
+        else if (channel.indexOf('DIRECT') >= 0 || channel.indexOf('HOSTFULLY') >= 0) chColor = 'var(--gold)';
+
+        var card = document.createElement('div');
+        card.className = 'card booking-card';
+        card.setAttribute('data-city', b.city || '');
+        card.setAttribute('data-property', b.propertyName || '');
+        card.setAttribute('data-channel', channel);
+        card.style.padding = '0';
+        card.style.overflow = 'hidden';
+        card.style.cursor = 'pointer';
+        card.style.transition = 'border-color .15s';
+
+        var header = '<div onclick="toggleBookingDetail(\'' + uid + '\')" style="padding:14px 18px; display:flex; justify-content:space-between; align-items:center;">'
+          + '<div style="flex:1;">'
+          + '<div style="display:flex; align-items:center; gap:10px;">'
+          + '<strong style="font-size:15px; color:#ffffff;">' + name + '</strong>'
+          + '<span style="font-size:10px; padding:2px 8px; border-radius:4px; background:rgba(201,185,154,0.1); color:' + chColor + '; font-weight:600; letter-spacing:0.05em;">' + channel + '</span>'
+          + '</div>'
+          + '<div class="subline" style="margin-top:3px;">' + propName + (location ? ' &middot; ' + location : '') + '</div>'
+          + '</div>'
+          + '<div style="text-align:right; min-width:180px;">'
+          + '<div style="font-size:14px; color:var(--success); font-weight:600;">' + (total > 0 ? currency + ' $' + total.toLocaleString(undefined, {minimumFractionDigits:2}) : 'CONFIRMED') + '</div>'
+          + '<div class="subline">' + checkin + ' &rarr; ' + checkout + ' (' + nights + 'n)</div>'
+          + '</div>'
+          + '<div style="margin-left:12px; color:var(--muted); font-size:16px; transition:transform .2s;" id="bk-arrow-' + uid + '">&#9662;</div>'
+          + '</div>';
+
+        var detail = '<div id="bk-detail-' + uid + '" style="display:none; padding:0 18px 16px; border-top:1px solid var(--border);">'
+          + '<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:14px;">'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Nightly Rate</div><div style="font-size:16px; font-weight:600; color:var(--gold);">' + (nightly > 0 ? '$' + nightly.toFixed(2) : '--') + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Rent (Net)</div><div style="font-size:16px; font-weight:600;">' + (rent > 0 ? '$' + rent.toFixed(2) : '--') + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Cleaning Fee</div><div style="font-size:16px; font-weight:600;">' + (cleaning > 0 ? '$' + cleaning.toFixed(2) : '--') + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Tax</div><div style="font-size:16px; font-weight:600;">' + (tax > 0 ? '$' + tax.toFixed(2) : '--') + '</div></div>'
+          + '</div>'
+          + '<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:14px;">'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Balance Due</div><div style="font-size:18px; font-weight:700; color:var(--success);">' + (total > 0 ? currency + ' $' + total.toLocaleString(undefined, {minimumFractionDigits:2}) : '--') + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Guests</div><div style="font-size:14px;">' + guestCount + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Country</div><div style="font-size:14px;">' + (country || '--') + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Booked On</div><div style="font-size:14px;">' + (bookedDate || '--') + '</div></div>'
+          + '</div>'
+          + '<div style="display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:14px;">'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Email</div><div style="font-size:13px; color:var(--gold);">' + (email || '--') + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px;">Phone</div><div style="font-size:13px;">' + (phone || '--') + '</div></div>'
+          + '</div>'
+          + (extId ? '<div style="margin-top:10px;"><span style="font-size:10px; color:var(--muted);">Booking ID: ' + extId + '</span></div>' : '')
+          + '</div>';
+
+        card.innerHTML = header + detail;
+        list.appendChild(card);
+      });
+    }
+
+        async function loadInstantlyStats() {
       try {
         var r = await fetch('instantly-stats.json?_=' + Date.now());
         if (!r.ok) throw new Error('No instantly-stats.json');
@@ -3167,6 +3722,11 @@
 
         // Campaign table
         var tbody = document.getElementById('mkt-campaign-body');
+        // Render ICP rows
+        if (d.icp_analytics) {
+          renderIcpRows(d.icp_analytics);
+        }
+
         if (tbody && camps.all_campaigns) {
           var statusMap = {'-2':'archived','-1':'error','0':'draft','1':'active','2':'paused','3':'completed'};
           var statusColors = {'active':'var(--success)','paused':'var(--warn)','completed':'var(--muted)','draft':'var(--muted)','error':'var(--danger)','archived':'var(--muted)'};
@@ -3183,6 +3743,132 @@
         if (el) el.textContent = '!';
       }
     }
+
+    // ── ICP Campaign Row Renderer ────────────────────────────
+    var _icpDataCache = null;
+
+    function icpFilterActive() {
+      if (_icpDataCache) renderIcpRows(_icpDataCache);
+    }
+
+    function renderIcpRows(icpData) {
+      _icpDataCache = icpData;
+      var container = document.getElementById('icp-rows-container');
+      if (!container || !icpData) return;
+      container.innerHTML = '';
+
+      var filterBox = document.getElementById('icp-filter-active');
+      var activeOnly = filterBox && filterBox.checked;
+
+      var icpLabels = {
+        'icp1': 'ICP 1 \u2014 Side-Hustle Host',
+        'icp2': 'ICP 2 \u2014 Local Property Manager',
+        'icp3': 'ICP 3 \u2014 Multi-Unit Pro',
+        'icp4': 'ICP 4 \u2014 Boutique Hotelier',
+        'icp5': 'ICP 5 \u2014 Franchisee',
+        'icp6': 'ICP 6 \u2014 Traveller / Guest'
+      };
+
+      var icpColors = {
+        'icp1': '#22c984',
+        'icp2': '#4a9eff',
+        'icp3': '#f5a623',
+        'icp4': '#a78bfa',
+        'icp5': '#e74c3c',
+        'icp6': '#00bcd4'
+      };
+
+      // Build array and sort: active first, then by ICP number
+      var icpList = [];
+      for (var i = 1; i <= 6; i++) {
+        var key = 'icp' + i;
+        var data = icpData[key] || { active_count:0, campaigns:[] };
+        icpList.push({ num: i, key: key, data: data, hasActive: data.active_count > 0 });
+      }
+      icpList.sort(function(a, b) {
+        if (a.hasActive && !b.hasActive) return -1;
+        if (!a.hasActive && b.hasActive) return 1;
+        return a.num - b.num;
+      });
+
+      // Filter if active-only checked
+      if (activeOnly) {
+        icpList = icpList.filter(function(item) { return item.hasActive; });
+      }
+
+      if (icpList.length === 0) {
+        container.innerHTML = '<div class="card" style="text-align:center; padding:30px;"><div class="subline">No active ICP campaigns running</div></div>';
+        return;
+      }
+
+      icpList.forEach(function(item) {
+        var key = item.key;
+        var data = item.data;
+        var label = icpLabels[key] || 'ICP ' + item.num;
+        var color = icpColors[key] || 'var(--gold)';
+        var hasActive = item.hasActive;
+
+        var statusPill = hasActive
+          ? '<span style="font-size:10px; padding:2px 10px; border-radius:10px; background:rgba(34,201,132,0.15); color:#22c984; font-weight:600;">ACTIVE \u00b7 ' + data.active_count + ' campaign' + (data.active_count > 1 ? 's' : '') + '</span>'
+          : '<span style="font-size:10px; padding:2px 10px; border-radius:10px; background:rgba(255,255,255,0.05); color:var(--muted); font-weight:500;">INACTIVE</span>';
+
+        var sent = hasActive ? (data.total_sent || 0) : 0;
+        var contacted = hasActive ? (data.total_contacted || 0) : 0;
+        var opened = hasActive ? (data.total_opened || 0) : 0;
+        var replied = hasActive ? (data.total_replied || 0) : 0;
+        var interested = hasActive ? (data.total_interested || 0) : 0;
+        var bounced = hasActive ? (data.total_bounced || 0) : 0;
+        var openRate = sent > 0 ? ((opened / sent) * 100).toFixed(1) + '%' : '--';
+        var replyRate = contacted > 0 ? ((replied / contacted) * 100).toFixed(1) + '%' : '--';
+
+        // Campaign sub-list with hyperlinks to Instantly
+        var campList = '';
+        if (data && data.campaigns) {
+          data.campaigns.forEach(function(c) {
+            var sLabel = c.status === 1 ? 'Active' : c.status === 2 ? 'Paused' : c.status === 3 ? 'Completed' : c.status === 0 ? 'Draft' : 'Stopped';
+            var sColor = c.status === 1 ? 'var(--success)' : c.status === 2 ? 'var(--warn)' : c.status === 3 ? 'var(--gold)' : 'var(--muted)';
+            var campUrl = 'https://app.instantly.ai/app/campaign/' + c.id + '/analytics';
+            campList += '<div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; font-size:11px;">'
+              + '<a href="' + campUrl + '" target="_blank" style="color:rgba(255,255,255,0.7); text-decoration:none; border-bottom:1px dotted rgba(201,185,154,0.3); transition:color .15s;"'
+              + ' onmouseover="this.style.color=\'var(--gold)\'" onmouseout="this.style.color=\'rgba(255,255,255,0.7)\'">'
+              + c.name + ' \u2197</a>'
+              + '<span style="color:' + sColor + '; font-weight:600; font-size:10px;">' + sLabel
+              + (c.is_active ? ' \u00b7 ' + (c.emails_sent || 0) + ' sent' : '') + '</span></div>';
+          });
+        }
+
+        var row = document.createElement('div');
+        row.className = 'card icp-row';
+        row.setAttribute('data-active', hasActive ? '1' : '0');
+        row.style.padding = '0';
+        row.style.overflow = 'hidden';
+        row.style.borderLeft = '3px solid ' + color;
+        if (!hasActive) row.style.opacity = '0.6';
+
+        row.innerHTML = '<div style="padding:14px 18px;">'
+          + '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">'
+          + '<div style="display:flex; align-items:center; gap:10px;">'
+          + '<span style="font-size:14px; font-weight:600; color:#fff; letter-spacing:0.06em;">' + label + '</span>'
+          + statusPill
+          + '</div>'
+          + '</div>'
+          + '<div style="display:grid; grid-template-columns:repeat(6,1fr); gap:12px;">'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:3px;">Sent</div><div style="font-size:22px; font-family:Cormorant Garamond,serif; font-weight:600;">' + (hasActive ? sent.toLocaleString() : '--') + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:3px;">Contacted</div><div style="font-size:22px; font-family:Cormorant Garamond,serif; font-weight:600;">' + (hasActive ? contacted.toLocaleString() : '--') + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:3px;">Opened</div><div style="font-size:22px; font-family:Cormorant Garamond,serif; font-weight:600; color:var(--gold);">' + (hasActive ? opened.toLocaleString() : '--') + '</div><div style="font-size:9px; color:var(--muted);">' + openRate + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:3px;">Replied</div><div style="font-size:22px; font-family:Cormorant Garamond,serif; font-weight:600; color:var(--success);">' + (hasActive ? replied.toLocaleString() : '--') + '</div><div style="font-size:9px; color:var(--muted);">' + replyRate + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:3px;">Bounced</div><div style="font-size:22px; font-family:Cormorant Garamond,serif; font-weight:600; color:var(--danger);">' + (hasActive ? bounced.toLocaleString() : '--') + '</div></div>'
+          + '<div><div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:3px;">Interested</div><div style="font-size:22px; font-family:Cormorant Garamond,serif; font-weight:600; color:var(--success);">' + (hasActive ? interested.toLocaleString() : '--') + '</div></div>'
+          + '</div>'
+          + (campList ? '<div style="margin-top:12px; padding-top:10px; border-top:1px solid var(--border);">' + campList + '</div>' : '')
+          + '</div>';
+
+        container.appendChild(row);
+      });
+    }
+
+
+
 
     async function loadKPIs() {
       try {
@@ -5339,69 +6025,399 @@
       if (btn) setTimeout(initTasksTab, 50);
     });
 
+
+/* ═══ CRM Tab Module ═══ */
+var CRM_DATA = [];
+var CRM_SORT = { col: 'name', asc: true };
+var CRM_GHL_MASTER = 'https://app.gohighlevel.com/v2/location/1OOZ4AKIgxO8QKKMnIcK/contacts/detail/';
+var CRM_GHL_CC = 'https://app.gohighlevel.com/v2/location/7hTDBClatcBgmUv36bZX/contacts/detail/';
+
+function crmClassify(c) {
+  var tags = (c.tags || []).map(function(t){ return t.toLowerCase(); });
+  var src = (c.source || '').toLowerCase();
+  if (tags.indexOf('franchise') >= 0 || (tags.indexOf('src:instantly') >= 0 && tags.indexOf('type:warm_reply') >= 0) || src.indexOf('instantly') >= 0) return 'Franchise';
+  if (tags.indexOf('traveler') >= 0 || tags.indexOf('#hostfully') >= 0 || src.indexOf('hostfully') >= 0) return 'Traveller';
+  if (tags.indexOf('str-scraper') >= 0 || tags.indexOf('hipcamp') >= 0 || src.indexOf('scraper') >= 0) return 'VR Operator';
+  if (src.indexOf('cc pipeline') >= 0 || (!src && c.phone)) return 'Franchise';
+  return 'Unclassified';
+}
+
+function crmTypeClass(t) {
+  return 'crm-type-' + t.toLowerCase().replace(/\s+/g, '');
+}
+
+function crmKpiClick(type) {
+  var sel = document.getElementById('crm-f-type');
+  if (sel) { sel.value = type; crmFilter(); }
+}
+
+async function crmFetchContacts(loc, token) {
+  var all = [];
+  var url = '/contacts/?locationId=' + loc + '&limit=100';
+  while (url) {
+    var r = await fetch('https://services.leadconnectorhq.com' + url, {
+      headers: { 'Authorization': 'Bearer ' + token, 'Version': '2021-07-28' }
+    });
+    var data = await r.json();
+    all = all.concat(data.contacts || []);
+    var meta = data.meta || {};
+    if (meta.startAfter && meta.startAfterId) {
+      url = '/contacts/?locationId=' + loc + '&limit=100&startAfter=' + meta.startAfter + '&startAfterId=' + meta.startAfterId;
+    } else { url = null; }
+  }
+  return all;
+}
+
+async function crmFetchOpps(loc, token) {
+  var map = {};
+  var pr = await fetch('https://services.leadconnectorhq.com/opportunities/pipelines?locationId=' + loc, {
+    headers: { 'Authorization': 'Bearer ' + token, 'Version': '2021-07-28' }
+  });
+  var pData = await pr.json();
+  var pipelines = pData.pipelines || [];
+  var stageMap = {};
+  pipelines.forEach(function(p) {
+    (p.stages || []).forEach(function(s) { stageMap[s.id] = { pipeline: p.name, stage: s.name }; });
+  });
+  for (var pi = 0; pi < pipelines.length; pi++) {
+    var pid = pipelines[pi].id;
+    var page = 1;
+    while (true) {
+      try {
+        var r = await fetch('https://services.leadconnectorhq.com/opportunities/search?location_id=' + loc + '&pipeline_id=' + pid + '&limit=100&page=' + page, {
+          headers: { 'Authorization': 'Bearer ' + token, 'Version': '2021-07-28' }
+        });
+        var d = await r.json();
+        var opps = d.opportunities || [];
+        if (!opps.length) break;
+        opps.forEach(function(o) {
+          var cid = (o.contact || {}).id || o.contactId;
+          if (!cid) return;
+          var si = stageMap[o.pipelineStageId] || { pipeline: '?', stage: '?' };
+          if (!map[cid]) map[cid] = [];
+          map[cid].push(si.pipeline + ' > ' + si.stage);
+        });
+        if (d.meta && d.meta.nextPage) page++; else break;
+      } catch(e) { break; }
+    }
+  }
+  return map;
+}
+
+async function crmLoad() {
+  var loading = document.getElementById('crm-loading');
+  if (loading) loading.style.display = 'block';
+  var tbody = document.getElementById('crm-tbody');
+  if (tbody) tbody.innerHTML = '';
+
+  try {
+    var mContacts = await crmFetchContacts('1OOZ4AKIgxO8QKKMnIcK', 'pit-8e3c20cd-0d7f-43a3-be9d-c087e925b3e7');
+    var cContacts = await crmFetchContacts('7hTDBClatcBgmUv36bZX', 'pit-48465a41-26c9-4115-8195-b0a557dbdb6d');
+    var mOpps = await crmFetchOpps('1OOZ4AKIgxO8QKKMnIcK', 'pit-8e3c20cd-0d7f-43a3-be9d-c087e925b3e7');
+    var cOpps = await crmFetchOpps('7hTDBClatcBgmUv36bZX', 'pit-48465a41-26c9-4115-8195-b0a557dbdb6d');
+
+    var mEmails = {}, mPhones = {}, cEmails = {}, cPhones = {};
+    mContacts.forEach(function(c) {
+      if (c.email) mEmails[c.email.toLowerCase()] = true;
+      if (c.phone) mPhones[c.phone] = true;
+    });
+    cContacts.forEach(function(c) {
+      if (c.email) cEmails[c.email.toLowerCase()] = true;
+      if (c.phone) cPhones[c.phone] = true;
+    });
+
+    CRM_DATA = [];
+    mContacts.forEach(function(c) {
+      var overlap = (c.email && cEmails[c.email.toLowerCase()]) || (c.phone && cPhones[c.phone]);
+      var opps = mOpps[c.id] || [];
+      CRM_DATA.push({
+        id: c.id, name: c.contactName || '', email: c.email || '', phone: c.phone || '',
+        source: c.source || '', tags: c.tags || [], type: crmClassify(c),
+        account: 'Master', loc: '1OOZ4AKIgxO8QKKMnIcK',
+        overlap: !!overlap, stage: opps.length ? opps[0] : '', allStages: opps,
+        dateAdded: c.dateAdded || '', dnd: c.dnd
+      });
+    });
+    cContacts.forEach(function(c) {
+      var overlap = (c.email && mEmails[c.email.toLowerCase()]) || (c.phone && mPhones[c.phone]);
+      var opps = cOpps[c.id] || [];
+      CRM_DATA.push({
+        id: c.id, name: c.contactName || '', email: c.email || '', phone: c.phone || '',
+        source: c.source || '', tags: c.tags || [], type: crmClassify(c),
+        account: 'Call Center', loc: '7hTDBClatcBgmUv36bZX',
+        overlap: !!overlap, stage: opps.length ? opps[0] : '', allStages: opps,
+        dateAdded: c.dateAdded || '', dnd: c.dnd
+      });
+    });
+
+    // Populate source dropdown
+    var sources = {};
+    CRM_DATA.forEach(function(c) { if (c.source) sources[c.source] = (sources[c.source]||0) + 1; });
+    var srcSel = document.getElementById('crm-f-source');
+    if (srcSel) {
+      srcSel.innerHTML = '<option value="">All Sources</option>';
+      Object.keys(sources).sort().forEach(function(s) {
+        srcSel.innerHTML += '<option value="' + s + '">' + s + ' (' + sources[s] + ')</option>';
+      });
+    }
+
+    // Populate pipeline dropdown
+    var stages = {};
+    CRM_DATA.forEach(function(c) {
+      (c.allStages || []).forEach(function(s) { stages[s] = (stages[s]||0) + 1; });
+    });
+    var pipeSel = document.getElementById('crm-f-pipeline');
+    if (pipeSel) {
+      pipeSel.innerHTML = '<option value="">All Pipelines</option><option value="_none_">No Pipeline</option>';
+      Object.keys(stages).sort().forEach(function(s) {
+        pipeSel.innerHTML += '<option value="' + s + '">' + s + ' (' + stages[s] + ')</option>';
+      });
+    }
+
+    // Populate tag dropdown
+    var tagCounts = {};
+    CRM_DATA.forEach(function(c) {
+      (c.tags || []).forEach(function(t) { tagCounts[t] = (tagCounts[t]||0) + 1; });
+    });
+    var tagSel = document.getElementById('crm-f-tag');
+    if (tagSel) {
+      tagSel.innerHTML = '<option value="">All Tags</option>';
+      Object.keys(tagCounts).sort(function(a,b){ return tagCounts[b]-tagCounts[a]; }).forEach(function(t) {
+        tagSel.innerHTML += '<option value="' + t + '">' + t + ' (' + tagCounts[t] + ')</option>';
+      });
+    }
+
+    // KPIs — distinct + total
+    var seen = {};
+    var distinctByType = { 'Franchise': 0, 'VR Operator': 0, 'Traveller': 0, 'Unclassified': 0 };
+    var totalByType = { 'Franchise': 0, 'VR Operator': 0, 'Traveller': 0, 'Unclassified': 0 };
+    var distinctTotal = 0;
+    CRM_DATA.forEach(function(c) {
+      totalByType[c.type] = (totalByType[c.type]||0) + 1;
+      var key = (c.email || c.phone || c.id).toLowerCase();
+      if (!seen[key]) { seen[key] = true; distinctByType[c.type]++; distinctTotal++; }
+    });
+
+    document.getElementById('crm-k-franchise').textContent = distinctByType['Franchise'];
+    document.getElementById('crm-k-vroperator').textContent = distinctByType['VR Operator'];
+    document.getElementById('crm-k-traveller').textContent = distinctByType['Traveller'];
+    document.getElementById('crm-k-total').textContent = distinctTotal;
+    document.getElementById('crm-k-franchise-sub').textContent = totalByType['Franchise'] + ' total across accounts';
+    document.getElementById('crm-k-vroperator-sub').textContent = totalByType['VR Operator'] + ' total across accounts';
+    document.getElementById('crm-k-traveller-sub').textContent = totalByType['Traveller'] + ' total across accounts';
+    document.getElementById('crm-k-total-sub').textContent = CRM_DATA.length + ' total rows';
+
+    document.getElementById('crm-last-update').textContent = 'Updated ' + new Date().toLocaleTimeString();
+    crmFilter();
+  } catch(e) {
+    console.error('[crm] load error:', e);
+    if (loading) loading.innerHTML = 'Error loading CRM data: ' + e.message;
+  }
+}
+
+function crmFilter() {
+  var fType = document.getElementById('crm-f-type').value;
+  var fAcct = document.getElementById('crm-f-acct').value;
+  var fSource = document.getElementById('crm-f-source').value;
+  var fPipeline = document.getElementById('crm-f-pipeline').value;
+  var fTag = document.getElementById('crm-f-tag').value;
+  var fOverlap = document.getElementById('crm-f-overlap').value;
+  var fContact = document.getElementById('crm-f-hascontact').value;
+  var fSearch = (document.getElementById('crm-f-search').value || '').toLowerCase().trim();
+
+  var filtered = CRM_DATA.filter(function(c) {
+    if (fType && c.type !== fType) return false;
+    if (fAcct && c.account !== fAcct) return false;
+    if (fSource && c.source !== fSource) return false;
+    if (fPipeline === '_none_' && c.allStages && c.allStages.length > 0) return false;
+    if (fPipeline && fPipeline !== '_none_' && (!c.allStages || c.allStages.indexOf(fPipeline) < 0)) return false;
+    if (fTag && c.tags.indexOf(fTag) < 0) return false;
+    if (fOverlap === 'yes' && !c.overlap) return false;
+    if (fOverlap === 'no' && c.overlap) return false;
+    if (fContact === 'email' && !c.email) return false;
+    if (fContact === 'phone' && !c.phone) return false;
+    if (fContact === 'both' && (!c.email || !c.phone)) return false;
+    if (fContact === 'none' && (c.email || c.phone)) return false;
+    if (fSearch) {
+      var hay = (c.name + ' ' + c.email + ' ' + c.phone + ' ' + c.tags.join(' ') + ' ' + c.source + ' ' + c.stage).toLowerCase();
+      if (hay.indexOf(fSearch) < 0) return false;
+    }
+    return true;
+  });
+
+  filtered.sort(function(a, b) {
+    var va = a[CRM_SORT.col] || '';
+    var vb = b[CRM_SORT.col] || '';
+    if (typeof va === 'boolean') { va = va ? 1 : 0; vb = vb ? 1 : 0; }
+    if (va < vb) return CRM_SORT.asc ? -1 : 1;
+    if (va > vb) return CRM_SORT.asc ? 1 : -1;
+    return 0;
+  });
+
+  var countEl = document.getElementById('crm-f-count');
+  if (countEl) countEl.textContent = filtered.length + ' of ' + CRM_DATA.length + ' contacts';
+
+  var tbody = document.getElementById('crm-tbody');
+  if (!tbody) return;
+  var loading = document.getElementById('crm-loading');
+  if (loading) loading.style.display = 'none';
+
+  var rows = '';
+  var ghlBase = { 'Master': CRM_GHL_MASTER, 'Call Center': CRM_GHL_CC };
+  filtered.forEach(function(c) {
+    var dateStr = c.dateAdded ? new Date(c.dateAdded).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : '';
+    var tagStr = c.tags.slice(0, 3).join(', ');
+    if (c.tags.length > 3) tagStr += ' +' + (c.tags.length - 3);
+    var ghlUrl = (ghlBase[c.account] || '') + c.id;
+    var nameLink = '<a href="' + ghlUrl + '" target="_blank" style="color:var(--text);text-decoration:none;border-bottom:1px dotted var(--border);" title="Open in GHL">' + (c.name || '(no name)') + '</a>';
+    var stageHtml = '';
+    if (c.allStages && c.allStages.length > 0) {
+      stageHtml = '<span class="crm-stage-tag">' + c.allStages[0] + '</span>';
+      if (c.allStages.length > 1) stageHtml += ' <span style="font-size:9px;color:var(--muted);">+' + (c.allStages.length-1) + '</span>';
+    }
+    rows += '<tr>'
+      + '<td>' + nameLink + '</td>'
+      + '<td><span class="crm-type-badge ' + crmTypeClass(c.type) + '">' + c.type + '</span></td>'
+      + '<td>' + c.account + '</td>'
+      + '<td>' + c.source + '</td>'
+      + '<td>' + c.email + '</td>'
+      + '<td>' + c.phone + '</td>'
+      + '<td>' + stageHtml + '</td>'
+      + '<td title="' + c.tags.join(', ') + '">' + tagStr + '</td>'
+      + '<td>' + (c.overlap ? '<span class="crm-overlap-dot"></span>Yes' : '') + '</td>'
+      + '<td>' + dateStr + '</td>'
+      + '</tr>';
+  });
+  tbody.innerHTML = rows;
+}
+
+function crmSort(col) {
+  if (CRM_SORT.col === col) { CRM_SORT.asc = !CRM_SORT.asc; }
+  else { CRM_SORT.col = col; CRM_SORT.asc = true; }
+  crmFilter();
+}
+
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest && e.target.closest('.tab-btn[data-tab="crm"]');
+  if (btn && CRM_DATA.length === 0) setTimeout(crmLoad, 100);
+});
+/* ═══ End CRM Module ═══ */
+
+
+
+/* Activity Log Collapse Toggle */
+function actToggle(hdr) {
+  hdr.classList.toggle('collapsed');
+  var body = hdr.nextElementSibling;
+  if (body) body.classList.toggle('collapsed');
+}
+
 /* === OpenClaw Agent Monitor === */
 var OC_AGENTS = {
-  'STRBOSS': { role:'coordinator', status:'live', color:'#4a9e6e', model:'gpt-4o-mini / gpt-5.1-codex' },
-  'GHL Ops Analyst': { role:'worker', status:'config', color:'#d4a843', model:'gpt-4o-mini' },
-  'Sales Strategy Coach': { role:'worker', status:'config', color:'#4a9eff', model:'gpt-4o-mini' },
-  'Comms Router': { role:'worker', status:'config', color:'#a78bfa', model:'gpt-4o-mini' },
-  'STR Ops Agent': { role:'worker', status:'live', color:'#4a9e6e', model:'gpt-5.1-codex' },
-  'Assistant': { role:'worker', status:'live', color:'#4a9e6e', model:'gpt-4o-mini' }
+  'STRBOSS': { role:'coordinator', status:'live', color:'#4a9e6e', model:'gpt-4.1', keywords:[] },
+  'GHL Ops Analyst': { role:'worker', status:'live', color:'#d4a843', model:'gpt-4.1-mini', keywords:['ghl','pipeline','lead','contact','crm','tag','stage','opportunity','funnel','stale'] },
+  'Sales Strategy Coach': { role:'worker', status:'live', color:'#4a9eff', model:'gpt-4.1', keywords:['sales','call','script','training','pitch','demo','close','objection','score','coaching'] },
+  'Comms Router': { role:'worker', status:'live', color:'#a78bfa', model:'gpt-4.1-mini', keywords:['email','message','route','comms','inbox','reply','sms','template','respond','notify','slack'] },
+  'GHL Master Manager': { role:'worker', status:'live', color:'#e67e22', model:'gpt-4.1-mini', keywords:['master','subaccount','workflow','automation','trigger','webhook','form','survey'] },
+  'GHL CC Manager': { role:'worker', status:'live', color:'#e74c3c', model:'gpt-4.1-mini', keywords:['call center','outbound','dialer','cc','cold call','phone','voicemail'] },
+  'STR Ops Agent': { role:'worker', status:'live', color:'#22c984', model:'gpt-5.1-codex', keywords:['server','deploy','cron','infra','code','nginx','docker','script','database','api','build','fix','debug','python','dashboard'] },
+  'Assistant': { role:'worker', status:'live', color:'#00bcd4', model:'gpt-4.1-mini', keywords:['help','search','find','look','general','research','question','summary'] }
 };
 
-var ocTileState = JSON.parse(localStorage.getItem('oc-tile-state') || 'null') || [
+var OC_DEFAULT_STATE = [
   { agent:'STRBOSS', tasks:[], feed:[] },
-  { agent:'STR Ops Agent', tasks:[], feed:[] },
   { agent:'GHL Ops Analyst', tasks:[], feed:[] },
-  { agent:'Comms Router', tasks:[], feed:[] }
+  { agent:'Sales Strategy Coach', tasks:[], feed:[] },
+  { agent:'Comms Router', tasks:[], feed:[] },
+  { agent:'GHL Master Manager', tasks:[], feed:[] },
+  { agent:'GHL CC Manager', tasks:[], feed:[] },
+  { agent:'STR Ops Agent', tasks:[], feed:[] },
+  { agent:'Assistant', tasks:[], feed:[] }
 ];
 
+var ocTileState;
+try {
+  ocTileState = JSON.parse(localStorage.getItem('oc-tile-state'));
+  if (!Array.isArray(ocTileState) || ocTileState.length === 0) {
+    ocTileState = JSON.parse(JSON.stringify(OC_DEFAULT_STATE));
+  }
+} catch(e) {
+  ocTileState = JSON.parse(JSON.stringify(OC_DEFAULT_STATE));
+}
+
+// Pad to 8 tiles if needed
+while (ocTileState.length < 8) {
+  var da = ['STRBOSS','GHL Ops Analyst','Sales Strategy Coach','Comms Router','GHL Master Manager','GHL CC Manager','STR Ops Agent','Assistant'];
+  ocTileState.push({ agent: da[ocTileState.length] || 'Assistant', tasks:[], feed:[] });
+}
+// Ensure each tile has required properties
+for (var _t = 0; _t < 8; _t++) {
+  if (!ocTileState[_t] || typeof ocTileState[_t] !== 'object') {
+    ocTileState[_t] = { agent: 'Assistant', tasks: [], feed: [] };
+  }
+  if (!ocTileState[_t].agent) ocTileState[_t].agent = 'Assistant';
+  if (!Array.isArray(ocTileState[_t].tasks)) ocTileState[_t].tasks = [];
+  if (!Array.isArray(ocTileState[_t].feed)) ocTileState[_t].feed = [];
+}
+
 function ocSaveState() {
-  localStorage.setItem('oc-tile-state', JSON.stringify(ocTileState));
+  try { localStorage.setItem('oc-tile-state', JSON.stringify(ocTileState)); } catch(e) {}
 }
 
 function ocRenderTiles() {
   var grid = document.getElementById('oc-grid');
   if (!grid) return;
   grid.innerHTML = '';
-  for (var i = 0; i < 4; i++) {
+
+  for (var i = 0; i < 8; i++) {
     var st = ocTileState[i];
-    var ag = OC_AGENTS[st.agent] || { status:'idle', model:'--', color:'#666' };
+    var ag = OC_AGENTS[st.agent] || { status:'idle', model:'--', color:'#666', keywords:[] };
     var statusClass = ag.status === 'live' ? 'oc-status-live' : (ag.status === 'config' ? 'oc-status-config' : 'oc-status-idle');
 
     var tile = document.createElement('div');
     tile.className = 'oc-tile';
-    tile.style.borderTop = '3px solid ' + ag.color;
+    tile.style.borderTop = '3px solid ' + (ag.color || '#666');
 
     var opts = '';
-    Object.keys(OC_AGENTS).forEach(function(name) {
-      opts += '<option value="' + name + '"' + (name === st.agent ? ' selected' : '') + '>' + name + '</option>';
-    });
+    var agentNames = Object.keys(OC_AGENTS);
+    for (var a = 0; a < agentNames.length; a++) {
+      var n = agentNames[a];
+      opts += '<option value="' + n + '"' + (n === st.agent ? ' selected' : '') + '>' + n + '</option>';
+    }
 
     var feedHTML = '';
-    (st.feed || []).forEach(function(f) {
-      feedHTML += '<div class="oc-feed-item"><span class="oc-feed-time">' + f.time + '</span>' + f.text + '</div>';
-    });
-    if (!feedHTML) feedHTML = '<div class="oc-feed-item" style="color:rgba(255,255,255,0.25);font-style:italic;">No activity yet. Assign a task to begin.</div>';
+    var feedItems = st.feed || [];
+    for (var f = 0; f < feedItems.length; f++) {
+      feedHTML += '<div class="oc-feed-item"><span class="oc-feed-time">' + (feedItems[f].time || '') + '</span>' + (feedItems[f].text || '') + '</div>';
+    }
+    if (!feedHTML) {
+      feedHTML = '<div class="oc-feed-item" style="color:rgba(255,255,255,0.25);font-style:italic;">No activity yet. Assign a task to begin.</div>';
+    }
 
-    tile.innerHTML = '<div class="oc-tile-head">' +
-      '<h3>Tile ' + (i+1) + '<span class="oc-model-tag">' + ag.model + '</span></h3>' +
-      '<span class="oc-status ' + statusClass + '">' + ag.status.toUpperCase() + '</span>' +
-      '</div>' +
-      '<select class="oc-agent-select" data-tile="' + i + '" onchange="ocChangeAgent(this)">' + opts + '</select>' +
-      '<div class="oc-task-row">' +
-      '<input class="oc-task-input" data-tile="' + i + '" placeholder="Enter task..." onkeydown="if(event.key===\'Enter\')ocAddTask(this)">' +
-      '<button class="oc-task-btn" onclick="ocAddTask(this.previousElementSibling)">Send</button>' +
-      '</div>' +
-      '<div class="oc-feed" id="oc-feed-' + i + '">' + feedHTML + '</div>';
+    tile.innerHTML = ''
+      + '<div class="oc-tile-head">'
+      + '<h3>Tile ' + (i + 1) + '<span class="oc-model-tag">' + (ag.model || '--') + '</span></h3>'
+      + '<span class="oc-status ' + statusClass + '">' + (ag.status || 'idle').toUpperCase() + '</span>'
+      + '</div>'
+      + '<select class="oc-agent-select" data-tile="' + i + '" onchange="ocChangeAgent(this)">' + opts + '</select>'
+      + '<div class="oc-task-row">'
+      + '<input class="oc-task-input" data-tile="' + i + '" placeholder="Enter task..." onkeydown="if(event.key===\'Enter\')ocAddTask(this)">'
+      + '<button class="oc-mic-btn" data-tile="' + i + '" onclick="ocToggleMic(this)" title="Hold to speak"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="1" width="6" height="13" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>'
+      + '<button class="oc-task-btn" onclick="ocAddTask(this.parentElement.querySelector(\'input\'))">Send</button>'
+      + '</div>'
+      + '<div class="oc-voice-bar" id="oc-vbar-' + i + '"><span></span><span></span><span></span><span></span><span></span></div>'
+      + '<div class="oc-feed" id="oc-feed-' + i + '">' + feedHTML + '</div>';
 
     grid.appendChild(tile);
   }
-  document.getElementById('oc-last-update').textContent = 'Last update: ' + new Date().toLocaleTimeString();
+
+  var tsEl = document.getElementById('oc-last-update');
+  if (tsEl) tsEl.textContent = 'Last update: ' + new Date().toLocaleTimeString();
 }
 
 function ocChangeAgent(sel) {
   var idx = parseInt(sel.getAttribute('data-tile'));
+  if (idx < 0 || idx >= 8) return;
   ocTileState[idx].agent = sel.value;
   ocTileState[idx].feed = [];
   ocTileState[idx].tasks = [];
@@ -5409,21 +6425,83 @@ function ocChangeAgent(sel) {
   ocRenderTiles();
 }
 
+function ocPickAgent(taskText) {
+  var lower = taskText.toLowerCase();
+  var bestAgent = 'Assistant';
+  var bestScore = 0;
+  var agentNames = Object.keys(OC_AGENTS);
+  for (var a = 0; a < agentNames.length; a++) {
+    var name = agentNames[a];
+    var ag = OC_AGENTS[name];
+    if (ag.role === 'coordinator') continue;
+    var score = 0;
+    var kws = ag.keywords || [];
+    for (var k = 0; k < kws.length; k++) {
+      if (lower.indexOf(kws[k]) >= 0) score += (kws[k].length > 4 ? 2 : 1);
+    }
+    if (score > bestScore) { bestScore = score; bestAgent = name; }
+  }
+  return bestAgent;
+}
+
 function ocAddTask(input) {
+  if (!input) return;
   var idx = parseInt(input.getAttribute('data-tile'));
+  if (isNaN(idx) || idx < 0 || idx >= 8) return;
   var task = input.value.trim();
   if (!task) return;
-  var now = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-  ocTileState[idx].tasks.push(task);
-  ocTileState[idx].feed.unshift({ time: now, text: '\ud83d\udccb Task queued: ' + task });
+  var now = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  var agName = ocTileState[idx].agent;
 
-  // Simulate agent acknowledgment after 1s
-  setTimeout(function() {
-    var agName = ocTileState[idx].agent;
-    ocTileState[idx].feed.unshift({ time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}), text: '\u2713 ' + agName + ' acknowledged task' });
-    ocSaveState();
-    ocRenderTiles();
-  }, 1000);
+  if (agName === 'STRBOSS') {
+    ocTileState[idx].feed.unshift({ time: now, text: '\ud83d\udce8 Task received: ' + task });
+    var delegateTo = ocPickAgent(task);
+
+    var targetIdx = 1;
+    for (var t = 0; t < 8; t++) {
+      if (t !== idx && ocTileState[t].agent === delegateTo) { targetIdx = t; break; }
+    }
+    if (ocTileState[targetIdx].agent !== delegateTo) {
+      for (var t2 = 0; t2 < 8; t2++) {
+        if (t2 !== idx && ocTileState[t2].tasks.length === 0) { targetIdx = t2; break; }
+      }
+    }
+
+    var capturedTarget = targetIdx;
+    var capturedDelegate = delegateTo;
+    var capturedIdx = idx;
+
+    setTimeout(function() {
+      var ts = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      ocTileState[capturedIdx].feed.unshift({ time: ts, text: '\u27a1\ufe0f Delegated to <strong>' + capturedDelegate + '</strong> \u2192 Tile ' + (capturedTarget + 1) });
+      ocTileState[capturedTarget].agent = capturedDelegate;
+      ocTileState[capturedTarget].tasks.push(task);
+      ocTileState[capturedTarget].feed.unshift({ time: ts, text: '\ud83d\udce5 Task from STRBOSS: ' + task });
+      ocSaveState();
+      ocRenderTiles();
+
+      setTimeout(function() {
+        var ts2 = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+        ocTileState[capturedTarget].feed.unshift({ time: ts2, text: '\u2705 ' + capturedDelegate + ' accepted task' });
+        ocTileState[capturedIdx].feed.unshift({ time: ts2, text: '\u2705 ' + capturedDelegate + ' confirmed' });
+        ocSpeak(capturedDelegate + ' has accepted the task and is working on it.', capturedTarget);
+        ocSaveState();
+        ocRenderTiles();
+      }, 1500);
+    }, 800);
+  } else {
+    ocTileState[idx].tasks.push(task);
+    ocTileState[idx].feed.unshift({ time: now, text: '\ud83d\udccb Task queued: ' + task });
+    var capturedIdx2 = idx;
+    var capturedName = agName;
+    setTimeout(function() {
+      var ts3 = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      ocTileState[capturedIdx2].feed.unshift({ time: ts3, text: '\u2713 ' + capturedName + ' acknowledged task' });
+      ocSpeak(capturedName + ' has acknowledged your task and is processing it.', capturedIdx2);
+      ocSaveState();
+      ocRenderTiles();
+    }, 1000);
+  }
 
   input.value = '';
   ocSaveState();
@@ -5435,20 +6513,198 @@ function ocRefresh() {
 }
 
 function ocClearAll() {
-  ocTileState = [
-    { agent:'STRBOSS', tasks:[], feed:[] },
-    { agent:'STR Ops Agent', tasks:[], feed:[] },
-    { agent:'GHL Ops Analyst', tasks:[], feed:[] },
-    { agent:'Comms Router', tasks:[], feed:[] }
-  ];
+  ocTileState = JSON.parse(JSON.stringify(OC_DEFAULT_STATE));
   ocSaveState();
   ocRenderTiles();
 }
 
-// Initialize OpenClaw tiles on load
-document.addEventListener('DOMContentLoaded', function() {
-  ocRenderTiles();
-});
+// Initialize OpenClaw tiles
+(function() {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ocRenderTiles);
+  } else {
+    ocRenderTiles();
+  }
+})();
+
+/* ═══ OpenClaw Voice Module ═══ */
+var OC_VOICE = {
+  recognition: null,
+  activeTile: null,
+  speaking: false,
+  audioQueue: [],
+  currentAudio: null,
+  supported: !!(window.SpeechRecognition || window.webkitSpeechRecognition)
+};
+
+/* ── Speech-to-Text (Browser SpeechRecognition) ── */
+function ocInitSTT() {
+  if (!OC_VOICE.supported) { console.warn('[voice] SpeechRecognition not supported'); return; }
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  OC_VOICE.recognition = new SR();
+  OC_VOICE.recognition.continuous = false;
+  OC_VOICE.recognition.interimResults = true;
+  OC_VOICE.recognition.lang = 'en-US';
+
+  OC_VOICE.recognition.onresult = function(e) {
+    var transcript = '';
+    for (var i = e.resultIndex; i < e.results.length; i++) {
+      transcript += e.results[i][0].transcript;
+    }
+    if (OC_VOICE.activeTile !== null) {
+      var input = document.querySelector('.oc-task-input[data-tile="' + OC_VOICE.activeTile + '"]');
+      if (input) input.value = transcript;
+    }
+    // If final result, auto-send
+    if (e.results[e.results.length - 1].isFinal && transcript.trim()) {
+      setTimeout(function() {
+        var input = document.querySelector('.oc-task-input[data-tile="' + OC_VOICE.activeTile + '"]');
+        if (input && input.value.trim()) ocAddTask(input);
+      }, 300);
+    }
+  };
+
+  OC_VOICE.recognition.onend = function() {
+    ocStopMicUI();
+  };
+
+  OC_VOICE.recognition.onerror = function(e) {
+    console.warn('[voice] STT error:', e.error);
+    ocStopMicUI();
+  };
+}
+
+function ocToggleMic(btn) {
+  var tileIdx = parseInt(btn.getAttribute('data-tile'));
+  if (isNaN(tileIdx)) return;
+
+  if (!OC_VOICE.supported) {
+    alert('Voice input is not supported in this browser. Use Chrome for best results.');
+    return;
+  }
+
+  if (OC_VOICE.activeTile === tileIdx) {
+    // Stop listening
+    try { OC_VOICE.recognition.stop(); } catch(e) {}
+    ocStopMicUI();
+    return;
+  }
+
+  // Stop any existing session
+  if (OC_VOICE.activeTile !== null) {
+    try { OC_VOICE.recognition.stop(); } catch(e) {}
+    ocStopMicUI();
+  }
+
+  // Start listening on this tile
+  OC_VOICE.activeTile = tileIdx;
+  btn.classList.add('oc-mic-active');
+  var vbar = document.getElementById('oc-vbar-' + tileIdx);
+  if (vbar) vbar.classList.add('active');
+
+  if (!OC_VOICE.recognition) ocInitSTT();
+  try { OC_VOICE.recognition.start(); } catch(e) {
+    console.warn('[voice] start error:', e);
+    ocStopMicUI();
+  }
+}
+
+function ocStopMicUI() {
+  document.querySelectorAll('.oc-mic-btn').forEach(function(b) { b.classList.remove('oc-mic-active'); });
+  document.querySelectorAll('.oc-voice-bar').forEach(function(v) { v.classList.remove('active'); });
+  OC_VOICE.activeTile = null;
+}
+
+/* ── Text-to-Speech (ElevenLabs via server proxy) ── */
+function ocSpeak(text, tileIdx) {
+  if (!text || text.length < 3) return;
+  // Clean text of emojis and HTML
+  var clean = text.replace(/<[^>]*>/g, '').replace(/[\u{1F000}-\u{1FFFF}]/gu, '').trim();
+  if (!clean) return;
+
+  OC_VOICE.audioQueue.push({ text: clean, tile: tileIdx });
+  if (!OC_VOICE.speaking) ocPlayNext();
+}
+
+function ocPlayNext() {
+  if (OC_VOICE.audioQueue.length === 0) { OC_VOICE.speaking = false; return; }
+  OC_VOICE.speaking = true;
+  var item = OC_VOICE.audioQueue.shift();
+
+  // Show speaking indicator on tile
+  var vbar = document.getElementById('oc-vbar-' + item.tile);
+  if (vbar) { vbar.classList.add('active'); vbar.style.setProperty('--bar-color', 'var(--gold)'); }
+
+  fetch('/api/tts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text: item.text, voice: 'pFZP5JQG7iQjIQuC4Bku' })
+  })
+  .then(function(r) {
+    if (!r.ok) throw new Error('TTS ' + r.status);
+    return r.blob();
+  })
+  .then(function(blob) {
+    var url = URL.createObjectURL(blob);
+    var audio = new Audio(url);
+    OC_VOICE.currentAudio = audio;
+    audio.onended = function() {
+      URL.revokeObjectURL(url);
+      if (vbar) vbar.classList.remove('active');
+      OC_VOICE.currentAudio = null;
+      ocPlayNext();
+    };
+    audio.onerror = function() {
+      if (vbar) vbar.classList.remove('active');
+      OC_VOICE.currentAudio = null;
+      ocPlayNext();
+    };
+    audio.play().catch(function(e) {
+      console.warn('[voice] audio play error:', e);
+      if (vbar) vbar.classList.remove('active');
+      OC_VOICE.currentAudio = null;
+      ocPlayNext();
+    });
+  })
+  .catch(function(e) {
+    console.warn('[voice] TTS fetch error:', e);
+    if (vbar) vbar.classList.remove('active');
+    // Fallback to browser TTS
+    ocFallbackSpeak(item.text);
+  });
+}
+
+function ocFallbackSpeak(text) {
+  if ('speechSynthesis' in window) {
+    var u = new SpeechSynthesisUtterance(text);
+    u.rate = 1; u.pitch = 1;
+    u.onend = function() { ocPlayNext(); };
+    u.onerror = function() { ocPlayNext(); };
+    speechSynthesis.speak(u);
+  } else {
+    ocPlayNext();
+  }
+}
+
+function ocStopSpeaking() {
+  if (OC_VOICE.currentAudio) {
+    OC_VOICE.currentAudio.pause();
+    OC_VOICE.currentAudio = null;
+  }
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  OC_VOICE.audioQueue = [];
+  OC_VOICE.speaking = false;
+  document.querySelectorAll('.oc-voice-bar').forEach(function(v) { v.classList.remove('active'); });
+}
+
+// Initialize STT on load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', ocInitSTT);
+} else {
+  ocInitSTT();
+}
+/* ═══ End Voice Module ═══ */
+
 
 
     </script>
