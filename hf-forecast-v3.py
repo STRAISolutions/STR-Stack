@@ -4,12 +4,19 @@ Hostfully Revenue Forecast v3 -- STR Portfolio Analysis
 Covers Apr 13 - Sep 1, 2026 (~20 weekly buckets)
 Uses _limit=100 and cursor pagination for ALL data.
 Factors 25% natural booking growth on remaining availability.
+
+API FIELD NOTES (v3.2):
+  - Properties list response: {"properties": [...], "_metadata": {...}, "_paging": {...}}
+  - Individual property: {"property": {...}} with pricing.dailyRate, pricing.cleaningFee
+  - Leads list response: {"leads": [...], "_metadata": {...}, "_paging": {...}}
+  - Lead dates: checkInLocalDateTime, checkOutLocalDateTime (ISO format)
+  - Lead revenue: NOT in API -- calculated from property pricing
 """
 
 import json, sys, time, math
 from datetime import datetime, timedelta, date
 from urllib.request import Request, urlopen
-from urllib.parse import urlencode, quote
+from urllib.parse import urlencode
 from urllib.error import HTTPError
 
 API_KEY   = "ukNruuLswAygrvUi"
@@ -18,7 +25,7 @@ BASE      = "https://platform.hostfully.com/api/v3.2"
 HEADERS   = {"X-HOSTFULLY-APIKEY": API_KEY, "Accept": "application/json"}
 
 FORECAST_START = date(2026, 4, 13)   # Monday
-FORECAST_END   = date(2026, 9, 1)    # Tuesday -- last partial week ends here
+FORECAST_END   = date(2026, 9, 1)    # Tuesday
 GROWTH_FACTOR  = 0.25                 # 25% natural booking growth
 
 # -- helpers -------------------------------------------------------------------
@@ -34,52 +41,46 @@ def api_get(path, params=None, retries=3):
         except HTTPError as e:
             body = e.read().decode() if hasattr(e, "read") else ""
             if e.code == 429 or e.code >= 500:
-                wait = 2 ** attempt
-                print("  [retry {}] HTTP {} on {} -- waiting {}s".format(attempt+1, e.code, path, wait), file=sys.stderr)
+                wait = 2 ** (attempt + 1)
+                print("  [retry {}] HTTP {} on {} -- waiting {}s".format(
+                    attempt+1, e.code, path, wait), file=sys.stderr)
                 time.sleep(wait)
                 continue
-            print("  HTTP {}: {}".format(e.code, body[:200]), file=sys.stderr)
+            print("  HTTP {}: {}".format(e.code, body[:300]), file=sys.stderr)
             raise
-        except Exception as exc:
+        except Exception:
             if attempt < retries - 1:
                 time.sleep(2 ** attempt)
                 continue
             raise
     return None
 
-def fetch_all_paginated(path, params):
-    """Fetch all pages using _paging._nextCursor."""
-    all_items = []
-    p = dict(params)
-    p["_limit"] = 100
-    while True:
-        data = api_get(path, p)
-        if data is None:
-            break
-        if isinstance(data, list):
-            all_items.extend(data)
-            break  # no cursor wrapper
-        if isinstance(data, dict):
-            items = data.get("content") or data.get("items") or data.get("results") or []
-            if not items and "_embedded" in data:
-                items = data["_embedded"].get("leads", [])
-            if not items:
-                for k, v in data.items():
-                    if isinstance(v, list):
-                        items = v
-                        break
-            all_items.extend(items)
-            paging = data.get("_paging") or data.get("paging") or {}
-            cursor = paging.get("_nextCursor") or paging.get("nextCursor")
-            if cursor:
-                p["_cursor"] = cursor
-            else:
-                break
-        else:
-            break
-    return all_items
 
-# -- 1. Fetch ALL properties --------------------------------------------------
+def parse_lead_date(lead, prefix):
+    """Extract date from a lead using checkIn/checkOut fields."""
+    for field in [prefix + "LocalDateTime", prefix + "ZonedDateTime",
+                  prefix + "Date", prefix]:
+        val = lead.get(field)
+        if val and isinstance(val, str) and len(val) >= 10:
+            try:
+                return datetime.strptime(val[:10], "%Y-%m-%d").date()
+            except ValueError:
+                continue
+    return None
+
+
+def count_weekend_nights(ci, co):
+    """Count Friday and Saturday nights in a stay (for weekend surcharge)."""
+    count = 0
+    d = ci
+    while d < co:
+        if d.weekday() in (4, 5):  # Friday=4, Saturday=5
+            count += 1
+        d += timedelta(days=1)
+    return count
+
+
+# == 1. Fetch ALL properties ===================================================
 print("=" * 80)
 print("  HOSTFULLY REVENUE FORECAST v3  --  STR Portfolio Analysis")
 print("  Forecast window: {} -> {}".format(FORECAST_START, FORECAST_END))
@@ -87,113 +88,105 @@ print("=" * 80)
 print()
 
 print("[1/4] Fetching properties ...")
-props_raw = api_get("/properties?agencyUid={}&_limit=100".format(AGENCY))
 
-# Handle both list and paginated dict
-if isinstance(props_raw, list):
-    all_properties = props_raw
-elif isinstance(props_raw, dict):
-    all_properties = props_raw.get("content", props_raw.get("items", []))
-    if not all_properties:
-        # Try to find list in any key
-        for k, v in props_raw.items():
-            if isinstance(v, list) and len(v) > 0:
-                all_properties = v
-                break
-    # check for next page
-    paging = props_raw.get("_paging", {})
-    cursor = paging.get("_nextCursor")
-    while cursor:
-        extra = api_get("/properties?agencyUid={}&_limit=100&_cursor={}".format(AGENCY, cursor))
-        if isinstance(extra, dict):
-            more = extra.get("content", extra.get("items", []))
-            all_properties.extend(more)
-            cursor = extra.get("_paging", {}).get("_nextCursor")
-        else:
-            if isinstance(extra, list):
-                all_properties.extend(extra)
+all_properties = []
+cursor = None
+page = 0
+while True:
+    page += 1
+    params = {"agencyUid": AGENCY, "_limit": 100}
+    if cursor:
+        params["_cursor"] = cursor
+    data = api_get("/properties", params)
+    if not data:
+        break
+    if isinstance(data, dict):
+        batch = data.get("properties", [])
+        all_properties.extend(batch)
+        paging = data.get("_paging", {})
+        cursor = paging.get("_nextCursor")
+        if not cursor:
             break
-else:
-    all_properties = []
+    elif isinstance(data, list):
+        all_properties.extend(data)
+        break
+    else:
+        break
 
-print("  -> Total properties fetched: {}".format(len(all_properties)))
+print("  -> Total properties fetched: {} (pages: {})".format(len(all_properties), page))
 
 # Filter active
-active_props = [p for p in all_properties if p.get("isActive") is True or p.get("status") == "ACTIVE"]
+active_props = [p for p in all_properties if p.get("isActive") is True]
 if not active_props:
-    # If no explicit active flag, check for inactive markers
-    inactive_keywords = {"INACTIVE", "DEACTIVATED", "ARCHIVED"}
-    active_props = [p for p in all_properties
-                    if str(p.get("status", "ACTIVE")).upper() not in inactive_keywords
-                    and p.get("isActive") is not False]
+    active_props = [p for p in all_properties if p.get("isActive") is not False]
 
 print("  -> Active properties: {}".format(len(active_props)))
 print()
 
-# -- 2. For each property: get detail + leads ----------------------------------
+# == 2. For each property: get detail + leads ==================================
 print("[2/4] Fetching property details + bookings ...")
 
-property_data = []  # list of dicts with all property info
+property_data = []
 total_leads_fetched = 0
 
 for i, prop in enumerate(active_props):
-    uid = prop.get("uid") or prop.get("id") or prop.get("propertyUid")
-    name = prop.get("name") or prop.get("title") or uid[:12]
+    uid = prop.get("uid")
+    name = prop.get("name", uid[:12])
 
-    sys.stdout.write("\r  Processing {}/{}: {:<40}".format(i+1, len(active_props), name[:40]))
+    sys.stdout.write("\r  Processing {}/{}: {:<40}".format(
+        i+1, len(active_props), name[:40]))
     sys.stdout.flush()
 
-    # Get individual property detail for pricing
-    detail = api_get("/properties/{}".format(uid))
-    daily_rate = 0
-    cleaning_fee = 0
+    # --- Get individual property detail for pricing ---
+    detail_raw = api_get("/properties/{}".format(uid))
+    daily_rate = 0.0
+    cleaning_fee = 0.0
+    weekend_adj = 0.0
     bedrooms = 0
-    if detail:
+    tax_rate = 0.0
+
+    if detail_raw:
+        # Response is {"property": {...}} for single property
+        detail = detail_raw.get("property", detail_raw) if isinstance(detail_raw, dict) else detail_raw
         pricing = detail.get("pricing") or {}
-        daily_rate = pricing.get("dailyRate") or pricing.get("baseRate") or pricing.get("nightlyRate") or 0
-        cleaning_fee = pricing.get("cleaningFee") or 0
-        bedrooms = detail.get("bedrooms") or detail.get("numberOfBedrooms") or 0
-        if not name or name == uid[:12]:
-            name = detail.get("name") or detail.get("title") or name
+        daily_rate = float(pricing.get("dailyRate") or 0)
+        cleaning_fee = float(pricing.get("cleaningFee") or 0)
+        weekend_adj = float(pricing.get("weekendAdjustmentRate") or 0)
+        tax_rate = float(pricing.get("taxRate") or 0)
+        bedrooms = detail.get("bedrooms") or 0
+        name = detail.get("name") or name
 
-    # Get leads (bookings)
-    leads_params = {
-        "propertyUid": uid,
-        "_limit": 100,
-        "checkInFrom": "2026-01-01",
-        "checkInTo": "2026-09-01"
-    }
-    leads_raw = api_get("/leads", leads_params)
-
-    if isinstance(leads_raw, list):
-        leads = leads_raw
-    elif isinstance(leads_raw, dict):
-        leads = leads_raw.get("content") or leads_raw.get("items") or leads_raw.get("results") or []
-        if not leads:
-            for k, v in leads_raw.items():
-                if isinstance(v, list) and len(v) > 0:
-                    leads = v
-                    break
-        # Handle pagination
-        paging = leads_raw.get("_paging", {})
-        cursor = paging.get("_nextCursor")
-        while cursor:
-            extra = api_get("/leads", dict(leads_params, _cursor=cursor))
-            if isinstance(extra, dict):
-                more = extra.get("content") or extra.get("items") or []
-                leads.extend(more)
-                cursor = extra.get("_paging", {}).get("_nextCursor")
-            elif isinstance(extra, list):
-                leads.extend(extra)
+    # --- Get all leads (bookings + blocks) with pagination ---
+    leads = []
+    lead_cursor = None
+    while True:
+        lparams = {
+            "propertyUid": uid,
+            "_limit": 100,
+            "checkInFrom": "2026-01-01",
+            "checkInTo": "2026-09-01",
+        }
+        if lead_cursor:
+            lparams["_cursor"] = lead_cursor
+        leads_raw = api_get("/leads", lparams)
+        if not leads_raw:
+            break
+        if isinstance(leads_raw, dict):
+            batch = leads_raw.get("leads", [])
+            leads.extend(batch)
+            paging = leads_raw.get("_paging", {})
+            lead_cursor = paging.get("_nextCursor")
+            if not lead_cursor:
                 break
-            else:
-                break
-    else:
-        leads = []
+        elif isinstance(leads_raw, list):
+            leads.extend(leads_raw)
+            break
+        else:
+            break
 
     total_leads_fetched += len(leads)
 
-    # Filter to real bookings only
+    # --- Classify leads ---
     BLOCK_TYPES = {"BLOCK", "BLOCKED"}
     BAD_STATUSES = {"BLOCKED", "CANCELLED", "CANCELED", "DECLINED"}
 
@@ -203,64 +196,59 @@ for i, prop in enumerate(active_props):
         lead_type = str(lead.get("type", "")).upper()
         lead_status = str(lead.get("status", "")).upper()
 
-        if lead_type in BLOCK_TYPES or lead_status in BAD_STATUSES:
-            if lead_type in BLOCK_TYPES:
-                block_entries.append(lead)
+        if lead_type in BLOCK_TYPES:
+            block_entries.append(lead)
+            continue
+        if lead_status in BAD_STATUSES:
             continue
         real_bookings.append(lead)
 
-    # Calculate per-property stats
+    # --- Calculate per-property stats ---
     total_booked_nights = 0
-    total_blocked_nights = 0
-    total_revenue = 0
+    total_revenue = 0.0
     booking_details = []
 
     for bk in real_bookings:
-        ci_str = bk.get("checkInDate") or bk.get("checkIn") or bk.get("arrivalDate") or ""
-        co_str = bk.get("checkOutDate") or bk.get("checkOut") or bk.get("departureDate") or ""
-
-        try:
-            ci = datetime.strptime(ci_str[:10], "%Y-%m-%d").date() if ci_str else None
-            co = datetime.strptime(co_str[:10], "%Y-%m-%d").date() if co_str else None
-        except Exception:
-            continue
-
+        ci = parse_lead_date(bk, "checkIn")
+        co = parse_lead_date(bk, "checkOut")
         if not ci or not co:
             continue
-
         nights = (co - ci).days
         if nights <= 0:
             continue
 
-        bk_revenue = bk.get("totalAmount") or bk.get("revenue") or bk.get("total") or 0
-        if not bk_revenue and daily_rate:
-            bk_revenue = nights * daily_rate + cleaning_fee
+        # Calculate revenue from property pricing
+        weekday_nights = nights - count_weekend_nights(ci, co)
+        weekend_nights = count_weekend_nights(ci, co)
+        weekday_rev = weekday_nights * daily_rate
+        weekend_rev = weekend_nights * daily_rate * (1.0 + weekend_adj)
+        bk_revenue = weekday_rev + weekend_rev + cleaning_fee
 
         total_booked_nights += nights
-        total_revenue += float(bk_revenue)
+        total_revenue += bk_revenue
         booking_details.append({
             "checkIn": ci,
             "checkOut": co,
             "nights": nights,
-            "revenue": float(bk_revenue),
+            "revenue": bk_revenue,
             "status": bk.get("status", ""),
+            "channel": bk.get("channel", ""),
         })
 
-    # Block night details for weekly tracking
+    # --- Block details ---
+    total_blocked_nights = 0
     block_details = []
     for blk in block_entries:
-        ci_str = blk.get("checkInDate") or blk.get("checkIn") or blk.get("arrivalDate") or ""
-        co_str = blk.get("checkOutDate") or blk.get("checkOut") or blk.get("departureDate") or ""
-        try:
-            ci = datetime.strptime(ci_str[:10], "%Y-%m-%d").date() if ci_str else None
-            co = datetime.strptime(co_str[:10], "%Y-%m-%d").date() if co_str else None
-        except Exception:
+        ci = parse_lead_date(blk, "checkIn")
+        co = parse_lead_date(blk, "checkOut")
+        if not ci or not co:
             continue
-        if ci and co:
-            total_blocked_nights += max(0, (co - ci).days)
-            block_details.append({"checkIn": ci, "checkOut": co, "nights": max(0, (co - ci).days)})
+        nights = (co - ci).days
+        if nights <= 0:
+            continue
+        total_blocked_nights += nights
+        block_details.append({"checkIn": ci, "checkOut": co, "nights": nights})
 
-    # Effective nightly rate from actual bookings
     effective_rate = (total_revenue / total_booked_nights) if total_booked_nights > 0 else daily_rate
 
     property_data.append({
@@ -268,6 +256,7 @@ for i, prop in enumerate(active_props):
         "name": name,
         "dailyRate": daily_rate,
         "cleaningFee": cleaning_fee,
+        "weekendAdj": weekend_adj,
         "bedrooms": bedrooms,
         "effectiveRate": effective_rate,
         "totalBookedNights": total_booked_nights,
@@ -281,13 +270,13 @@ for i, prop in enumerate(active_props):
 
     time.sleep(0.15)  # rate-limit courtesy
 
-print("\r  -> Done. {} properties processed, {} total leads fetched.       ".format(len(property_data), total_leads_fetched))
+print("\r  -> Done. {} properties processed, {} total leads fetched.         ".format(
+    len(property_data), total_leads_fetched))
 print()
 
-# -- 3. Build weekly forecast --------------------------------------------------
+# == 3. Build weekly forecast ===================================================
 print("[3/4] Building weekly forecast ...")
 
-# Generate week buckets (Mon-Sun)
 weeks = []
 current = FORECAST_START
 while current < FORECAST_END:
@@ -297,12 +286,15 @@ while current < FORECAST_END:
 
 num_active = len(property_data)
 
-# For each week, calculate booked / blocked / available nights across portfolio
+# Portfolio avg effective nightly rate
+avg_rates = [p["effectiveRate"] for p in property_data if p["effectiveRate"] > 0]
+portfolio_avg_nightly = sum(avg_rates) / len(avg_rates) if avg_rates else 150.0
+
 weekly_stats = []
 
 for week_start, week_end in weeks:
     week_days = (week_end - week_start).days + 1
-    total_property_nights = num_active * week_days  # max possible
+    total_property_nights = num_active * week_days
 
     booked_in_week = 0
     blocked_in_week = 0
@@ -310,13 +302,11 @@ for week_start, week_end in weeks:
 
     for prop in property_data:
         for bk in prop["bookings"]:
-            # How many nights of this booking overlap this week?
             overlap_start = max(bk["checkIn"], week_start)
             overlap_end = min(bk["checkOut"], week_end + timedelta(days=1))
             overlap_nights = (overlap_end - overlap_start).days
             if overlap_nights > 0:
                 booked_in_week += overlap_nights
-                # Pro-rate revenue
                 if bk["nights"] > 0:
                     revenue_in_week += bk["revenue"] * (overlap_nights / bk["nights"])
 
@@ -327,18 +317,10 @@ for week_start, week_end in weeks:
             if overlap_nights > 0:
                 blocked_in_week += overlap_nights
 
-    available_in_week = total_property_nights - booked_in_week - blocked_in_week
-    if available_in_week < 0:
-        available_in_week = 0
+    available_in_week = max(0, total_property_nights - booked_in_week - blocked_in_week)
 
-    # Predict new bookings from growth
     predicted_new_nights = available_in_week * GROWTH_FACTOR
-
-    # Average effective nightly rate across portfolio
-    avg_rates = [p["effectiveRate"] for p in property_data if p["effectiveRate"] > 0]
-    avg_nightly = sum(avg_rates) / len(avg_rates) if avg_rates else 150
-
-    predicted_new_revenue = predicted_new_nights * avg_nightly
+    predicted_new_revenue = predicted_new_nights * portfolio_avg_nightly
     total_predicted_revenue = revenue_in_week + predicted_new_revenue
 
     occ_existing = (booked_in_week / total_property_nights * 100) if total_property_nights else 0
@@ -363,63 +345,72 @@ for week_start, week_end in weeks:
 print("  -> Done.")
 print()
 
-# -- 4. OUTPUT -----------------------------------------------------------------
+# == 4. OUTPUT ==================================================================
 print("[4/4] Generating report ...")
 print()
-print("=" * 100)
-print("  PER-PROPERTY SUMMARY")
-print("=" * 100)
-print("{:<4} {:<35} {:>8} {:>7} {:>5} {:>7} {:>12} {:>8}".format(
-    "#", "Property Name", "Rate", "Clean", "Bkgs", "Nights", "Revenue", "EffRate"))
-print("-" * 100)
+print("=" * 110)
+print("  PER-PROPERTY SUMMARY  (Jan 1 - Sep 1, 2026 bookings)")
+print("=" * 110)
+print("{:<4} {:<36} {:>8} {:>7} {:>5} {:>7} {:>7} {:>12} {:>8}".format(
+    "#", "Property Name", "Rate", "Clean", "Bkgs", "Nights", "Blocks",
+    "Revenue", "EffRate"))
+print("-" * 110)
 
 sorted_props = sorted(property_data, key=lambda x: x["totalRevenue"], reverse=True)
 
 grand_total_revenue = 0
 grand_total_nights = 0
 grand_total_bookings = 0
+grand_total_blocked = 0
 
 for idx, p in enumerate(sorted_props, 1):
     grand_total_revenue += p["totalRevenue"]
     grand_total_nights += p["totalBookedNights"]
     grand_total_bookings += p["bookingCount"]
+    grand_total_blocked += p["totalBlockedNights"]
 
-    print("{:<4} {:<35} ${:>6.0f}  ${:>5.0f}  {:>4}  {:>6}  ${:>10,.0f}  ${:>6.0f}".format(
-        idx, p["name"][:34], p["dailyRate"], p["cleaningFee"],
-        p["bookingCount"], p["totalBookedNights"], p["totalRevenue"], p["effectiveRate"]))
+    print("{:<4} {:<36} ${:>6.0f}  ${:>5.0f}  {:>4}  {:>6}  {:>6}  ${:>10,.0f}  ${:>6.0f}".format(
+        idx, p["name"][:35], p["dailyRate"], p["cleaningFee"],
+        p["bookingCount"], p["totalBookedNights"], p["totalBlockedNights"],
+        p["totalRevenue"], p["effectiveRate"]))
 
-print("-" * 100)
-print("{:4} {:<35} {:>8} {:>7} {:>5} {:>7}  ${:>10,.0f}".format(
-    "", "TOTAL", "", "", grand_total_bookings, grand_total_nights, grand_total_revenue))
+print("-" * 110)
+print("{:4} {:<36} {:>8} {:>7} {:>5} {:>7} {:>7}  ${:>10,.0f}".format(
+    "", "TOTAL", "", "", grand_total_bookings, grand_total_nights,
+    grand_total_blocked, grand_total_revenue))
 print()
 
-# Occupancy approximation (Jan 1 - Sep 1 = 243 days)
+# Occupancy (Jan 1 - Sep 1 = 243 days)
 total_possible_nights = num_active * 243
 portfolio_occ = (grand_total_nights / total_possible_nights * 100) if total_possible_nights else 0
 avg_eff_rate = (grand_total_revenue / grand_total_nights) if grand_total_nights > 0 else 0
 
-print("  Portfolio occupancy (Jan 1 - Sep 1): {} / {} = {:.1f}%".format(
+print("  Portfolio occupancy (Jan 1 - Sep 1): {} / {} nights = {:.1f}%".format(
     grand_total_nights, total_possible_nights, portfolio_occ))
-print("  Average effective nightly rate: ${:,.2f}".format(avg_eff_rate))
-print("  Average revenue per property: ${:,.0f}".format(
+print("  Avg effective nightly rate (incl cleaning fee): ${:,.2f}".format(avg_eff_rate))
+print("  Avg daily rate (base, excl cleaning): ${:,.2f}".format(
+    sum(p["dailyRate"] for p in property_data) / num_active if num_active else 0))
+print("  Portfolio avg nightly (used for projections): ${:,.2f}".format(portfolio_avg_nightly))
+print("  Average revenue per property (Jan-Sep): ${:,.0f}".format(
     grand_total_revenue / num_active if num_active else 0))
 print()
 
 # -- WEEKLY FORECAST TABLE -----------------------------------------------------
-print("=" * 130)
+print("=" * 140)
 print("  WEEKLY REVENUE FORECAST  (Apr 13 - Sep 1, 2026)")
 print("  Growth assumption: 25% of remaining availability converts to new bookings")
-print("=" * 130)
+print("  Portfolio avg nightly rate for projections: ${:,.2f}".format(portfolio_avg_nightly))
+print("=" * 140)
 print("{:<5} {:<25} {:>4} {:>7} {:>7} {:>7} {:>7} {:>12} {:>7} {:>12} {:>12} {:>6} {:>6}".format(
     "Week", "Dates", "Days", "MaxNts", "Booked", "Block", "Avail",
     "ExistRev", "NewNts", "NewRev", "TotalRev", "Occ%", "w/Grw"))
-print("-" * 130)
+print("-" * 140)
 
 forecast_total_existing = 0
 forecast_total_new = 0
 forecast_total_combined = 0
 forecast_total_booked = 0
-forecast_total_new_nights = 0
+forecast_total_new_nights = 0.0
 forecast_total_blocked = 0
 
 for i, ws in enumerate(weekly_stats, 1):
@@ -440,7 +431,7 @@ for i, ws in enumerate(weekly_stats, 1):
         ws["predicted_new_nights"], ws["predicted_new_revenue"],
         ws["total_predicted_revenue"], ws["occ_existing"], ws["occ_with_growth"]))
 
-print("-" * 130)
+print("-" * 140)
 num_weeks = len(weekly_stats)
 print("{:<5} {:<25} {:>4} {:>7} {:>7.0f} {:>7.0f} {:>7} ${:>10,.0f} {:>6.0f} ${:>10,.0f} ${:>10,.0f}".format(
     "TOTAL", "", "", "", forecast_total_booked, forecast_total_blocked, "",
@@ -463,67 +454,70 @@ print()
 print("  Current active properties:           {}".format(num_active))
 print("  Total bookings (Jan-Sep 2026):       {}".format(grand_total_bookings))
 print("  Total booked nights:                 {}".format(grand_total_nights))
+print("  Total blocked nights:                {}".format(grand_total_blocked))
 print("  Total revenue (existing bookings):   ${:,.0f}".format(grand_total_revenue))
 print("  Average effective nightly rate:       ${:,.2f}".format(avg_eff_rate))
 print("  Portfolio occupancy (Jan-Sep):        {:.1f}%".format(portfolio_occ))
 print()
 
-# Forecast period specific
 print("  FORECAST PERIOD (Apr 13 - Sep 1, ~{} weeks):".format(num_weeks))
-print("  " + "-" * 40)
-print("  Existing booking revenue:            ${:,.0f}".format(forecast_total_existing))
-print("  Predicted new booking revenue (25%): ${:,.0f}".format(forecast_total_new))
-print("  TOTAL projected revenue:             ${:,.0f}".format(forecast_total_combined))
-print("  Average weekly (existing):           ${:,.0f}".format(avg_weekly_existing))
-print("  Average weekly (with growth):        ${:,.0f}".format(avg_weekly_combined))
+print("  " + "-" * 45)
+print("  Existing booking revenue:            ${:>12,.0f}".format(forecast_total_existing))
+print("  Predicted new booking revenue (25%): ${:>12,.0f}".format(forecast_total_new))
+print("  TOTAL projected revenue:             ${:>12,.0f}".format(forecast_total_combined))
+print("  Average weekly (existing):           ${:>12,.0f}".format(avg_weekly_existing))
+print("  Average weekly (with growth):        ${:>12,.0f}".format(avg_weekly_combined))
 print()
 
 # How many properties needed for $6,000/week increase
 print("  INVENTORY INCREASE ANALYSIS")
-print("  " + "-" * 40)
-target_increase = 6000  # per week
+print("  " + "-" * 45)
+target_increase = 6000
 
-# Revenue per property per week (from existing data)
 rev_per_prop_per_week_existing = avg_weekly_existing / num_active if num_active else 0
 rev_per_prop_per_week_growth = avg_weekly_combined / num_active if num_active else 0
 
-print("  Current avg weekly revenue per property (existing): ${:,.0f}".format(rev_per_prop_per_week_existing))
-print("  Current avg weekly revenue per property (w/ growth): ${:,.0f}".format(rev_per_prop_per_week_growth))
+print("  Revenue per property per week (existing):  ${:,.0f}".format(rev_per_prop_per_week_existing))
+print("  Revenue per property per week (w/ growth):  ${:,.0f}".format(rev_per_prop_per_week_growth))
 print()
 print("  TARGET: +${:,}/week additional revenue".format(target_increase))
 print()
 
-# Conservative: use existing booking pace
-props_needed_conservative = math.ceil(target_increase / rev_per_prop_per_week_existing) if rev_per_prop_per_week_existing > 0 else 0
-# With growth assumption
-props_needed_growth = math.ceil(target_increase / rev_per_prop_per_week_growth) if rev_per_prop_per_week_growth > 0 else 0
+props_needed_conservative = math.ceil(target_increase / rev_per_prop_per_week_existing) if rev_per_prop_per_week_existing > 0 else 999
+props_needed_growth = math.ceil(target_increase / rev_per_prop_per_week_growth) if rev_per_prop_per_week_growth > 0 else 999
 
-print("  Conservative (existing pace):    {} additional properties".format(props_needed_conservative))
-print("    Math: ${:,} / ${:,.0f} per prop/week = {} properties".format(
+print("  SCENARIO A - Conservative (existing booking pace only):")
+print("    {} additional properties needed".format(props_needed_conservative))
+print("    ${:,} target / ${:,.0f} per prop/week = {} props".format(
     target_increase, rev_per_prop_per_week_existing, props_needed_conservative))
-print("    New portfolio size: {} properties".format(num_active + props_needed_conservative))
-print("    New weekly revenue: ${:,.0f}".format(
+print("    New portfolio: {} properties".format(num_active + props_needed_conservative))
+print("    Projected weekly rev: ${:,.0f}".format(
     avg_weekly_existing + (props_needed_conservative * rev_per_prop_per_week_existing)))
 print()
-print("  With 25% growth assumption:      {} additional properties".format(props_needed_growth))
-print("    Math: ${:,} / ${:,.0f} per prop/week = {} properties".format(
+print("  SCENARIO B - With 25% natural growth:")
+print("    {} additional properties needed".format(props_needed_growth))
+print("    ${:,} target / ${:,.0f} per prop/week = {} props".format(
     target_increase, rev_per_prop_per_week_growth, props_needed_growth))
-print("    New portfolio size: {} properties".format(num_active + props_needed_growth))
-print("    New weekly revenue: ${:,.0f}".format(
+print("    New portfolio: {} properties".format(num_active + props_needed_growth))
+print("    Projected weekly rev: ${:,.0f}".format(
     avg_weekly_combined + (props_needed_growth * rev_per_prop_per_week_growth)))
 print()
 
 # Tiered analysis
 print("  TIERED GROWTH SCENARIOS:")
-print("  " + "-" * 40)
-for extra in [5, 10, 15, 20, 25]:
+print("  " + "-" * 45)
+print("  {:>6}  {:>8}  {:>14}  {:>14}  {:>14}".format(
+    "+Props", "Total", "Weekly Rev", "Increase/wk", "Increase/yr"))
+print("  " + "-" * 60)
+for extra in [5, 10, 15, 20, 25, 30]:
     new_weekly = avg_weekly_combined + (extra * rev_per_prop_per_week_growth)
-    increase = extra * rev_per_prop_per_week_growth
-    print("    +{:>2} properties -> {} total | weekly: ${:>10,.0f} | increase: +${:>8,.0f}/week (+${:>10,.0f}/year)".format(
-        extra, num_active + extra, new_weekly, increase, increase * 52))
+    increase_wk = extra * rev_per_prop_per_week_growth
+    increase_yr = increase_wk * 52
+    print("  {:>+5}   {:>6}   ${:>12,.0f}  +${:>11,.0f}  +${:>11,.0f}".format(
+        extra, num_active + extra, new_weekly, increase_wk, increase_yr))
 print()
 
-# Seasonal breakdown (monthly summary)
+# Monthly breakdown
 print("=" * 100)
 print("  MONTHLY REVENUE PROJECTIONS (with 25% growth)")
 print("=" * 100)
@@ -532,7 +526,8 @@ month_order = []
 for ws in weekly_stats:
     m = ws["week_start"].strftime("%B %Y")
     if m not in months:
-        months[m] = {"existing": 0, "predicted": 0, "total": 0, "weeks": 0, "booked": 0, "available": 0}
+        months[m] = {"existing": 0, "predicted": 0, "total": 0, "weeks": 0,
+                     "booked": 0, "available": 0, "blocked": 0}
         month_order.append(m)
     months[m]["existing"] += ws["existing_revenue"]
     months[m]["predicted"] += ws["predicted_new_revenue"]
@@ -540,21 +535,46 @@ for ws in weekly_stats:
     months[m]["weeks"] += 1
     months[m]["booked"] += ws["booked"]
     months[m]["available"] += ws["available"]
+    months[m]["blocked"] += ws["blocked"]
 
-print("{:<20} {:>14} {:>16} {:>16} {:>6}".format(
-    "Month", "Existing Rev", "New (25% growth)", "Total Projected", "Weeks"))
-print("-" * 80)
+print("{:<20} {:>14} {:>16} {:>16} {:>8} {:>6}".format(
+    "Month", "Existing Rev", "New (25% grw)", "Total Projected", "BkdNts", "Weeks"))
+print("-" * 85)
 for m in month_order:
-    data = months[m]
-    print("{:<20} ${:>12,.0f} ${:>14,.0f} ${:>14,.0f} {:>5}".format(
-        m, data["existing"], data["predicted"], data["total"], data["weeks"]))
+    d = months[m]
+    print("{:<20} ${:>12,.0f} ${:>14,.0f} ${:>14,.0f} {:>7} {:>5}".format(
+        m, d["existing"], d["predicted"], d["total"], d["booked"], d["weeks"]))
 print()
 
-# Final annual projection
+# Channel mix (if available)
+channels = {}
+for p in property_data:
+    for bk in p["bookings"]:
+        ch = bk.get("channel", "UNKNOWN") or "UNKNOWN"
+        if ch not in channels:
+            channels[ch] = {"bookings": 0, "nights": 0, "revenue": 0}
+        channels[ch]["bookings"] += 1
+        channels[ch]["nights"] += bk["nights"]
+        channels[ch]["revenue"] += bk["revenue"]
+
+if channels:
+    print("=" * 80)
+    print("  BOOKING CHANNEL MIX")
+    print("=" * 80)
+    print("{:<25} {:>8} {:>8} {:>14} {:>8}".format(
+        "Channel", "Bookings", "Nights", "Revenue", "% Rev"))
+    print("-" * 70)
+    for ch, d in sorted(channels.items(), key=lambda x: x[1]["revenue"], reverse=True):
+        pct = (d["revenue"] / grand_total_revenue * 100) if grand_total_revenue else 0
+        print("{:<25} {:>8} {:>8} ${:>12,.0f} {:>7.1f}%".format(
+            ch, d["bookings"], d["nights"], d["revenue"], pct))
+    print()
+
+# Annual projection
 annual_existing = avg_weekly_existing * 52
 annual_with_growth = avg_weekly_combined * 52
 print("=" * 100)
-print("  ANNUALIZED PROJECTIONS (based on forecast period averages)")
+print("  ANNUALIZED PROJECTIONS (based on forecast period weekly averages)")
 print("=" * 100)
 print("  Annualized revenue (existing pace):   ${:>12,.0f}".format(annual_existing))
 print("  Annualized revenue (with 25% growth): ${:>12,.0f}".format(annual_with_growth))

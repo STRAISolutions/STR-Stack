@@ -1,7 +1,40 @@
 {
-  "updated_at": "2026-04-13T05:45:02Z",
-  "count": 150,
+  "updated_at": "2026-04-13T11:45:02Z",
+  "count": 153,
   "bookings": [
+    {
+      "uid": "ff89e4e9-3eb3-464a-ba43-2446d3633f97",
+      "guest": "Zoreen Agne",
+      "email": "zagne.641563@guest.booking.com",
+      "phone": "+16479962465",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-06-04T15:00:00",
+      "checkout": "2026-06-06T11:00:00",
+      "property": "866378ce-ac3c-4712-9124-cb737795271c",
+      "status": "BOOKED"
+    },
+    {
+      "uid": "ce896154-4e1c-4f48-9e5e-6caa81598c05",
+      "guest": "Carine Blenny",
+      "email": "cblenn.531586@guest.booking.com",
+      "phone": "+14183768024",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-07-16T15:00:00",
+      "checkout": "2026-07-18T11:00:00",
+      "property": "30364bd1-7330-435c-bb2d-7247e579821e",
+      "status": "BOOKED"
+    },
+    {
+      "uid": "e8c59773-b91b-4235-b8d0-5c66ecb39b4d",
+      "guest": "Saoussen Ben",
+      "email": "syoune.113571@guest.booking.com",
+      "phone": "+33624643957",
+      "channel": "BOOKING_COM",
+      "checkin": "2026-07-26T15:00:00",
+      "checkout": "2026-07-28T11:00:00",
+      "property": "f34c94e0-f4f9-4b9d-b37d-d1c09efc9f64",
+      "status": "BOOKED"
+    },
     {
       "uid": "255181cb-cfc7-4f21-ad94-98bdfbe982da",
       "guest": "Yamaguchi Tomoyuki",

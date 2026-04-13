@@ -4,40 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GHL Workflow Dashboard - STR Solutions USA</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ===== RESET & BASE ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 14px; scroll-behavior: smooth; }
 body {
-  background: #0a0a0a;
-  color: rgba(255,255,255,0.55);
-  font-family: 'DM Sans', system-ui, sans-serif;
+  background: #0a0c0f;
+  color: #c8cdd5;
+  font-family: 'DM Mono', monospace;
   min-height: 100vh;
   overflow-x: hidden;
 }
-h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
+h1, h2, h3, h4, h5 { font-family: 'Syne', sans-serif; }
 
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #141414; }
-::-webkit-scrollbar-thumb { background: #333333; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #111418; }
+::-webkit-scrollbar-thumb { background: #2a2f38; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #3a3f48; }
 
 /* ===== COLORS ===== */
 :root {
-  --bg-body: #0a0a0a;
-  --bg-panel: #141414;
-  --bg-card: #1a1a1a;
-  --green: #4a9e6e;
+  --bg-body: #0a0c0f;
+  --bg-panel: #111418;
+  --bg-card: #171b21;
+  --green: #22c984;
   --amber: #f5a623;
   --red: #f05353;
   --blue: #4a9eff;
   --purple: #a78bfa;
-  --gold: #c9b99a;
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255,255,255,0.55);
-  --border: #2a2a2a;
+  --gold: #C8A456;
+  --text-primary: #e2e6ec;
+  --text-secondary: #8a919c;
+  --border: #1e2329;
 }
 
 /* ===== TOP BAR ===== */
@@ -58,18 +58,18 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   gap: 18px;
 }
 .logo {
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: 1.45rem;
+  font-size: 1.3rem;
   color: var(--green);
   letter-spacing: -0.5px;
 }
 .logo-sub {
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: 'DM Mono', monospace;
   font-size: 0.7rem;
   color: var(--text-secondary);
-  background: rgba(74,158,110,0.08);
-  border: 1px solid rgba(74,158,110,0.15);
+  background: rgba(34,201,132,0.08);
+  border: 1px solid rgba(34,201,132,0.15);
   padding: 3px 10px;
   border-radius: 4px;
   letter-spacing: 1.5px;
@@ -81,7 +81,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   gap: 16px;
 }
 .clock {
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: 'DM Mono', monospace;
   font-size: 0.85rem;
   color: var(--text-secondary);
   background: var(--bg-card);
@@ -96,14 +96,14 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   padding: 6px 14px;
   border-radius: 6px;
   cursor: pointer;
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: 'DM Mono', monospace;
   font-size: 0.8rem;
   transition: all 0.2s;
 }
 .btn-refresh:hover, .btn-toggle:hover {
-  background: #2a2a2a;
+  background: #1e2329;
   color: var(--text-primary);
-  border-color: #333333;
+  border-color: #2a2f38;
 }
 
 /* ===== HEALTH WIDGET ===== */
@@ -118,14 +118,14 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   padding: 6px 14px;
   border-radius: 6px;
   cursor: pointer;
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: 'DM Mono', monospace;
   font-size: 0.8rem;
   display: flex;
   align-items: center;
   gap: 8px;
   transition: all 0.2s;
 }
-.health-btn:hover { background: #2a2a2a; color: var(--text-primary); }
+.health-btn:hover { background: #1e2329; color: var(--text-primary); }
 .health-dot-mini {
   width: 7px; height: 7px; border-radius: 50%;
   display: inline-block;
@@ -206,8 +206,8 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   margin-bottom: 8px;
 }
 .kpi-value {
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
-  font-size: 2.15rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1;
@@ -248,7 +248,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   overflow: hidden;
   transition: border-color 0.3s;
 }
-.wf-panel:hover { border-color: #333333; }
+.wf-panel:hover { border-color: #2a2f38; }
 
 .wf-header {
   display: flex;
@@ -270,9 +270,9 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   flex-shrink: 0;
 }
 .wf-name {
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-family: 'Syne', sans-serif;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: var(--text-primary);
 }
 .wf-desc {
@@ -444,8 +444,8 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   bottom: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
-  background: #2a2a2a;
-  border: 1px solid #333333;
+  background: #1e2329;
+  border: 1px solid #2a2f38;
   border-radius: 6px;
   padding: 8px 12px;
   min-width: 200px;
@@ -460,7 +460,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
   left: 50%;
   transform: translateX(-50%);
   border: 6px solid transparent;
-  border-top-color: #2a2a2a;
+  border-top-color: #1e2329;
 }
 .tt-title { font-size: 0.7rem; color: var(--text-primary); font-weight: 600; margin-bottom: 3px; }
 .tt-pipeline { font-size: 0.6rem; color: var(--text-secondary); }

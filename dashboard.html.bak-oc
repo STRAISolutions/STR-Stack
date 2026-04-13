@@ -945,69 +945,6 @@
     .am-issue-text { font-size:12px; color:var(--text); flex:1; }
     .am-issue-agent { font-size:10px; color:var(--gold); font-weight:600; min-width:100px; }
 
-/* -- OpenClaw Agent Tiles -- */
-.oc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px; }
-@media(max-width:900px) { .oc-grid { grid-template-columns: 1fr; } }
-.oc-tile {
-  background: var(--glass); border: 1px solid var(--glass-border);
-  border-radius: 12px; padding: 20px; min-height: 340px;
-  display: flex; flex-direction: column;
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  transition: border-color 0.2s;
-}
-.oc-tile:hover { border-color: rgba(201,185,154,0.25); }
-.oc-tile-head {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 12px; padding-bottom: 10px;
-  border-bottom: 1px solid var(--glass-border);
-}
-.oc-tile-head h3 {
-  margin: 0; font-size: 13px; font-family: 'DM Sans', sans-serif;
-  text-transform: uppercase; letter-spacing: 0.12em; color: #fff; font-weight: 600;
-}
-.oc-tile-head .oc-status {
-  font-size: 10px; padding: 3px 10px; border-radius: 10px;
-  letter-spacing: 0.08em; font-family: 'DM Sans', sans-serif;
-}
-.oc-status-live { background: rgba(74,158,110,0.15); color: #4a9e6e; }
-.oc-status-config { background: rgba(212,168,67,0.15); color: #d4a843; }
-.oc-status-idle { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
-.oc-agent-select {
-  width: 100%; background: var(--panel-alt); border: 1px solid var(--border);
-  border-radius: 6px; padding: 8px 10px; color: #fff; font-family: 'DM Sans', sans-serif;
-  font-size: 12px; margin-bottom: 10px; outline: none; cursor: pointer;
-}
-.oc-agent-select:focus { border-color: var(--gold); }
-.oc-task-row { display: flex; gap: 6px; margin-bottom: 10px; }
-.oc-task-input {
-  flex: 1; background: var(--panel-alt); border: 1px solid var(--border);
-  border-radius: 6px; padding: 8px 10px; color: #fff; font-family: 'DM Sans', sans-serif;
-  font-size: 12px; outline: none;
-}
-.oc-task-input:focus { border-color: var(--gold); }
-.oc-task-btn {
-  background: var(--gold); color: #0a0a0a; border: none; border-radius: 6px;
-  padding: 0 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif;
-  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
-}
-.oc-task-btn:hover { background: #d4c8a8; }
-.oc-feed {
-  flex: 1; overflow-y: auto; font-size: 11px; color: rgba(255,255,255,0.55);
-  font-family: 'DM Sans', sans-serif; line-height: 1.6;
-  max-height: 200px; padding-right: 4px;
-}
-.oc-feed::-webkit-scrollbar { width: 4px; }
-.oc-feed::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-.oc-feed-item {
-  padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-.oc-feed-time { color: var(--gold); font-size: 10px; margin-right: 6px; }
-.oc-model-tag {
-  font-size: 9px; padding: 2px 6px; border-radius: 4px;
-  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4);
-  margin-left: 8px;
-}
-
   </style>
 </head>
 <body>
@@ -1088,7 +1025,6 @@
     <div class="nav-group">
       <button class="nav-top" data-group="command">Command <span class="arrow">&#9662;</span></button>
       <div class="nav-drop">
-        <button class="tab-btn" data-tab="openclaw">OpenClaw</button>
         <button class="tab-btn" data-tab="mission">Mission Control</button>
         <button class="tab-btn" data-tab="paperclip">Paperclip</button>
         <button class="tab-btn" data-tab="agents">Agent Management</button>
@@ -1099,22 +1035,6 @@
   <main>
 
     <!-- ─── FINANCIAL KPIs TAB ────────────────────────────────── -->
-    <!-- --- OPENCLAW AGENT MONITOR --- -->
-    <section id="tab-openclaw" class="tab-panel">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <div>
-          <div class="section-title" style="margin:0;">OpenClaw &mdash; Agent Monitor</div>
-          <div class="subline">4 active tiles &middot; Assign agents, queue tasks, monitor feeds</div>
-        </div>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <span class="subline" id="oc-last-update">Last update: --</span>
-          <button class="refresh" onclick="ocRefresh()">Refresh</button>
-          <button class="refresh" onclick="ocClearAll()">Clear All</button>
-        </div>
-      </div>
-      <div class="oc-grid" id="oc-grid"></div>
-    </section>
-
     <section id="tab-workflows" class="tab-panel">
       <iframe src="/ghl-workflow-dashboard.html" style="width:100%;height:calc(100vh - 120px);border:none;border-radius:8px;background:#0a0c0f;"></iframe>
     </section>
@@ -5338,118 +5258,6 @@
       var btn = e.target.closest && e.target.closest('.tab-btn[data-tab="tasks"]');
       if (btn) setTimeout(initTasksTab, 50);
     });
-
-/* === OpenClaw Agent Monitor === */
-var OC_AGENTS = {
-  'STRBOSS': { role:'coordinator', status:'live', color:'#4a9e6e', model:'gpt-4o-mini / gpt-5.1-codex' },
-  'GHL Ops Analyst': { role:'worker', status:'config', color:'#d4a843', model:'gpt-4o-mini' },
-  'Sales Strategy Coach': { role:'worker', status:'config', color:'#4a9eff', model:'gpt-4o-mini' },
-  'Comms Router': { role:'worker', status:'config', color:'#a78bfa', model:'gpt-4o-mini' },
-  'STR Ops Agent': { role:'worker', status:'live', color:'#4a9e6e', model:'gpt-5.1-codex' },
-  'Assistant': { role:'worker', status:'live', color:'#4a9e6e', model:'gpt-4o-mini' }
-};
-
-var ocTileState = JSON.parse(localStorage.getItem('oc-tile-state') || 'null') || [
-  { agent:'STRBOSS', tasks:[], feed:[] },
-  { agent:'STR Ops Agent', tasks:[], feed:[] },
-  { agent:'GHL Ops Analyst', tasks:[], feed:[] },
-  { agent:'Comms Router', tasks:[], feed:[] }
-];
-
-function ocSaveState() {
-  localStorage.setItem('oc-tile-state', JSON.stringify(ocTileState));
-}
-
-function ocRenderTiles() {
-  var grid = document.getElementById('oc-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  for (var i = 0; i < 4; i++) {
-    var st = ocTileState[i];
-    var ag = OC_AGENTS[st.agent] || { status:'idle', model:'--', color:'#666' };
-    var statusClass = ag.status === 'live' ? 'oc-status-live' : (ag.status === 'config' ? 'oc-status-config' : 'oc-status-idle');
-
-    var tile = document.createElement('div');
-    tile.className = 'oc-tile';
-    tile.style.borderTop = '3px solid ' + ag.color;
-
-    var opts = '';
-    Object.keys(OC_AGENTS).forEach(function(name) {
-      opts += '<option value="' + name + '"' + (name === st.agent ? ' selected' : '') + '>' + name + '</option>';
-    });
-
-    var feedHTML = '';
-    (st.feed || []).forEach(function(f) {
-      feedHTML += '<div class="oc-feed-item"><span class="oc-feed-time">' + f.time + '</span>' + f.text + '</div>';
-    });
-    if (!feedHTML) feedHTML = '<div class="oc-feed-item" style="color:rgba(255,255,255,0.25);font-style:italic;">No activity yet. Assign a task to begin.</div>';
-
-    tile.innerHTML = '<div class="oc-tile-head">' +
-      '<h3>Tile ' + (i+1) + '<span class="oc-model-tag">' + ag.model + '</span></h3>' +
-      '<span class="oc-status ' + statusClass + '">' + ag.status.toUpperCase() + '</span>' +
-      '</div>' +
-      '<select class="oc-agent-select" data-tile="' + i + '" onchange="ocChangeAgent(this)">' + opts + '</select>' +
-      '<div class="oc-task-row">' +
-      '<input class="oc-task-input" data-tile="' + i + '" placeholder="Enter task..." onkeydown="if(event.key===\'Enter\')ocAddTask(this)">' +
-      '<button class="oc-task-btn" onclick="ocAddTask(this.previousElementSibling)">Send</button>' +
-      '</div>' +
-      '<div class="oc-feed" id="oc-feed-' + i + '">' + feedHTML + '</div>';
-
-    grid.appendChild(tile);
-  }
-  document.getElementById('oc-last-update').textContent = 'Last update: ' + new Date().toLocaleTimeString();
-}
-
-function ocChangeAgent(sel) {
-  var idx = parseInt(sel.getAttribute('data-tile'));
-  ocTileState[idx].agent = sel.value;
-  ocTileState[idx].feed = [];
-  ocTileState[idx].tasks = [];
-  ocSaveState();
-  ocRenderTiles();
-}
-
-function ocAddTask(input) {
-  var idx = parseInt(input.getAttribute('data-tile'));
-  var task = input.value.trim();
-  if (!task) return;
-  var now = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-  ocTileState[idx].tasks.push(task);
-  ocTileState[idx].feed.unshift({ time: now, text: '\ud83d\udccb Task queued: ' + task });
-
-  // Simulate agent acknowledgment after 1s
-  setTimeout(function() {
-    var agName = ocTileState[idx].agent;
-    ocTileState[idx].feed.unshift({ time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}), text: '\u2713 ' + agName + ' acknowledged task' });
-    ocSaveState();
-    ocRenderTiles();
-  }, 1000);
-
-  input.value = '';
-  ocSaveState();
-  ocRenderTiles();
-}
-
-function ocRefresh() {
-  ocRenderTiles();
-}
-
-function ocClearAll() {
-  ocTileState = [
-    { agent:'STRBOSS', tasks:[], feed:[] },
-    { agent:'STR Ops Agent', tasks:[], feed:[] },
-    { agent:'GHL Ops Analyst', tasks:[], feed:[] },
-    { agent:'Comms Router', tasks:[], feed:[] }
-  ];
-  ocSaveState();
-  ocRenderTiles();
-}
-
-// Initialize OpenClaw tiles on load
-document.addEventListener('DOMContentLoaded', function() {
-  ocRenderTiles();
-});
-
 
     </script>
 <script src="voice-widget.js"></script>
