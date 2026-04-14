@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-13T17:45:01Z",
-  "count": 53,
+  "updated_at": "2026-04-13T23:45:01Z",
+  "count": 54,
   "properties": [
     {
       "uid": "8752740c-b020-43be-b5bc-74eebc105bca",
@@ -605,6 +605,19 @@
       "maxGuests": "?",
       "dailyRate": 549.0,
       "cleaningFee": 229.0
+    },
+    {
+      "uid": "503a4694-db0c-42ca-8f6a-c2878120cd1a",
+      "name": "The Breck Escape",
+      "isActive": true,
+      "propertyType": "HOUSE",
+      "bedrooms": 3,
+      "bathrooms": "2",
+      "city": "BRECKENRIDGE",
+      "state": "CO",
+      "maxGuests": "?",
+      "dailyRate": 599.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "586d4391-cfa6-4019-9451-086d2d3deb10",

@@ -641,8 +641,8 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
       <div class="wf-header-left">
         <div class="wf-color-dot" style="background:var(--blue);box-shadow:0 0 8px var(--blue)"></div>
         <span class="wf-name">WF-INSTANTLY</span>
-        <span class="wf-desc">Leads from Instantly &rarr; Master Pipeline</span>
-        <span class="wf-source-badge">Instantly Campaigns &rarr; A1 Master &middot; New Lead</span>
+        <span class="wf-desc">Leads from Instantly &rarr; A1 VR Inquiry</span>
+        <span class="wf-source-badge">Instantly Campaigns &rarr; A1 VR Inquiry &middot; New Lead</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -665,8 +665,8 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
       <div class="wf-header-left">
         <div class="wf-color-dot" style="background:var(--green);box-shadow:0 0 8px var(--green)"></div>
         <span class="wf-name">WF-WEBSITE</span>
-        <span class="wf-desc">Website Contact Form &rarr; Master Pipeline</span>
-        <span class="wf-source-badge">GHL Website Form &rarr; A1 Master &middot; New Lead</span>
+        <span class="wf-desc">Website Contact Form &rarr; A1 VR Inquiry</span>
+        <span class="wf-source-badge">GHL Website Form &rarr; A1 VR Inquiry &middot; New Lead</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -690,7 +690,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
         <div class="wf-color-dot" style="background:var(--amber);box-shadow:0 0 8px var(--amber)"></div>
         <span class="wf-name">WF2-HOSTFULLY</span>
         <span class="wf-desc">Hostfully Booking Events</span>
-        <span class="wf-source-badge">Hostfully PMS (wf2) &rarr; A1 Master &middot; Guest</span>
+        <span class="wf-source-badge">Hostfully PMS (wf2) &rarr; A1 VR Inquiry &middot; Guest</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -715,7 +715,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
         <div class="wf-color-dot" style="background:var(--purple);box-shadow:0 0 8px var(--purple)"></div>
         <span class="wf-name">WF3-DISCOVERY</span>
         <span class="wf-desc">Discovery Form &rarr; ICP Router + Qualification</span>
-        <span class="wf-source-badge">Franchise Page (wf3) &rarr; A1 Master &middot; Discovery</span>
+        <span class="wf-source-badge">Franchise Page (wf3) &rarr; C) Franchise Inquiry &middot; Discovery</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -740,7 +740,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
         <div class="wf-color-dot" style="background:var(--gold);box-shadow:0 0 8px var(--gold)"></div>
         <span class="wf-name">WF-ACTIVATION</span>
         <span class="wf-desc">Customer Activation Pipeline</span>
-        <span class="wf-source-badge">A1 Closed Won &rarr; A2 Activation Pipeline</span>
+        <span class="wf-source-badge">A1 Closed Won &rarr; A2 VR Customer Pipeline</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -764,7 +764,7 @@ h1, h2, h3, h4, h5 { font-family: 'Cormorant Garamond', 'Georgia', serif; }
         <div class="wf-color-dot" style="background:var(--red);box-shadow:0 0 8px var(--red)"></div>
         <span class="wf-name">WF-CALLCENTER</span>
         <span class="wf-desc">Master &rarr; Call Center Push</span>
-        <span class="wf-source-badge">A1 Master Pipeline &rarr; CC Dialer Queue</span>
+        <span class="wf-source-badge">A1 VR Inquiry Pipeline &rarr; CC Dialer Queue</span>
       </div>
       <div class="wf-header-right">
         <div class="wf-status-dot"></div>
@@ -884,8 +884,8 @@ document.getElementById('flow-instantly').innerHTML = buildFlowRow([
   makeNode('Webhook', 'Droplet Handler', null, C.blue, {desc:'POST to port 8500/wf1', stageId:'wf1-webhook'}),
   makeNode('Find/Create Contact', 'GHL API', null, C.blue, {desc:'Lookup by email, create if new'}),
   makeNode('Tag: #instantly', 'Contact Tag', null, C.blue, {desc:'Source tracking tag applied'}),
-  makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '189', C.blue, {desc:'First stage of master pipeline', stageId:'A1-S1'}),
-  makeNode('\u{1F501} Routed to CC', 'A1) Master Pipeline', '42', C.blue, {terminal:true, desc:'Handed off to Call Center sub-account', stageId:'A1-S2'}),
+  makeNode('\u{1F9F2} New Lead', 'A1) VR Inquiry', '189', C.blue, {desc:'First stage of VR Inquiry pipeline', stageId:'A1-S1'}),
+  makeNode('\u{1F501} Routed to CC', 'A1) VR Inquiry', '42', C.blue, {terminal:true, desc:'Handed off to Call Center sub-account', stageId:'A1-S2'}),
 ], C.blue);
 
 // WF-WEBSITE
@@ -893,8 +893,8 @@ document.getElementById('flow-website').innerHTML = buildFlowRow([
   makeNode('Website Form', 'GHL Form', '47 subs', C.green, {desc:'Contact form on strsolutionsusa.com'}),
   makeNode('Contact Created', 'GHL Auto', null, C.green, {desc:'GHL native contact creation'}),
   makeNode('Tag: website-lead', 'Contact Tag', null, C.green, {desc:'Source tracking tag applied'}),
-  makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '189', C.green, {desc:'First stage of master pipeline', stageId:'A1-S1'}),
-  makeNode('\u{1F501} Routed to CC', 'A1) Master Pipeline', '42', C.green, {terminal:true, desc:'Handed off to Call Center sub-account', stageId:'A1-S2'}),
+  makeNode('\u{1F9F2} New Lead', 'A1) VR Inquiry', '189', C.green, {desc:'First stage of VR Inquiry pipeline', stageId:'A1-S1'}),
+  makeNode('\u{1F501} Routed to CC', 'A1) VR Inquiry', '42', C.green, {terminal:true, desc:'Handed off to Call Center sub-account', stageId:'A1-S2'}),
 ], C.green);
 
 // WF2-HOSTFULLY (main row)
@@ -909,27 +909,27 @@ document.getElementById('flow-hostfully-main').innerHTML = buildFlowRow([
 // WF2-HOSTFULLY branches
 const hfBranches = [
   { label:'booking_created', color:C.amber, nodes:[
-    makeNode('B1: CONFIRMED BOOKINGS', 'B1) Traveler Inquiries', '71', C.amber, {stageId:'B1-S7'}),
-    makeNode('B2: Confirmed', 'B2) Property Bookings', '71', C.amber, {stageId:'B2-S1'}),
+    makeNode('B1: CONFIRMED BOOKINGS', 'B1) Guest Inquiries', '71', C.amber, {stageId:'B1-S7'}),
+    makeNode('B2: Confirmed', 'B2) Guest Reservations', '71', C.amber, {stageId:'B2-S1'}),
     makeNode('Tag: guest-active', 'Contact Tag', null, C.amber, {terminal:true}),
   ]},
   { label:'message_received', color:C.amber, nodes:[
-    makeNode('B1: New Inquiry', 'B1) Traveler Inquiries', '71', C.amber, {stageId:'B1-S1'}),
+    makeNode('B1: New Inquiry', 'B1) Guest Inquiries', '71', C.amber, {stageId:'B1-S1'}),
     makeNode('Tag: hostfully:follow-up', 'Contact Tag', null, C.amber, {terminal:true}),
   ]},
   { label:'booking_cancelled', color:C.amber, nodes:[
-    makeNode('B1: Cancelled', 'B1) Traveler Inquiries', '3', C.amber, {stageId:'B1-S6'}),
-    makeNode('B2: Cancelled', 'B2) Property Bookings', '3', C.amber, {stageId:'B2-S7'}),
+    makeNode('B1: Cancelled', 'B1) Guest Inquiries', '3', C.amber, {stageId:'B1-S6'}),
+    makeNode('B2: Cancelled', 'B2) Guest Reservations', '3', C.amber, {stageId:'B2-S7'}),
     makeNode('Tag: guest-cancelled', 'Contact Tag', null, C.amber, {terminal:true}),
   ]},
   { label:'guest_checkin', color:C.amber, nodes:[
-    makeNode('B2: Check In', 'B2) Property Bookings', '18', C.amber, {stageId:'B2-S3'}),
+    makeNode('B2: Check In', 'B2) Guest Reservations', '18', C.amber, {stageId:'B2-S3'}),
     makeNode('Tag: guest-checked-in', 'Contact Tag', null, C.amber, {terminal:true}),
   ]},
   { label:'guest_checkout', color:C.amber, nodes:[
-    makeNode('B2: Check Out', 'B2) Property Bookings', '14', C.amber, {stageId:'B2-S4'}),
+    makeNode('B2: Check Out', 'B2) Guest Reservations', '14', C.amber, {stageId:'B2-S4'}),
     makeNode('Wait 24h', 'Delay', null, C.amber, {desc:'Wait 24 hours before requesting review'}),
-    makeNode('B2: Review Requested', 'B2) Property Bookings', '9', C.amber, {stageId:'B2-S5'}),
+    makeNode('B2: Review Requested', 'B2) Guest Reservations', '9', C.amber, {stageId:'B2-S5'}),
     makeNode('Tag: review-request-pending', 'Contact Tag', null, C.amber, {terminal:true}),
   ]},
 ];
@@ -952,32 +952,32 @@ document.getElementById('flow-discovery-main').innerHTML = buildFlowRow([
 // WF3-DISCOVERY branches
 const discBranches = [
   { label:'icp1 (STR Owner)', color:C.purple, nodes:[
-    makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '12', C.purple, {stageId:'A1-S1'}),
+    makeNode('\u{1F9F2} New Lead', 'A1) VR Inquiry', '12', C.purple, {stageId:'A1-S1'}),
     makeNode('Email + SMS', '15-min calendar', null, C.purple, {desc:'Send booking link for 15-min call'}),
     makeNode('Tag: ICP1, str-owner', 'Contact Tags', null, C.purple, {terminal:true}),
   ]},
   { label:'icp5-fast-track (Franchise)', color:C.purple, nodes:[
-    makeNode('Qualified-Not Booked', 'A1) Master Pipeline', '4', C.purple, {stageId:'A1-S3'}),
+    makeNode('Qualified-Not Booked', 'A1) VR Inquiry', '4', C.purple, {stageId:'A1-S3'}),
     makeNode('Email + SMS', '30-min calendar', null, C.purple, {desc:'Send booking link for 30-min call'}),
     makeNode('Tag: ICP5-fast-track', 'Contact Tag', null, C.purple, {terminal:true}),
   ]},
   { label:'icp5-qualified (Franchise)', color:C.purple, nodes:[
-    makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '8', C.purple, {stageId:'A1-S1'}),
+    makeNode('\u{1F9F2} New Lead', 'A1) VR Inquiry', '8', C.purple, {stageId:'A1-S1'}),
     makeNode('Email + SMS', '30-min calendar', null, C.purple, {desc:'Send booking link for 30-min call'}),
     makeNode('Tag: ICP5-qualified', 'Contact Tag', null, C.purple, {terminal:true}),
   ]},
   { label:'icp5-nurture (Franchise)', color:C.purple, nodes:[
-    makeNode('\u{1F9CA} Lost/Nurture', 'A1) Master Pipeline', '6', C.purple, {stageId:'A1-S10'}),
+    makeNode('\u{1F9CA} Lost/Nurture', 'A1) VR Inquiry', '6', C.purple, {stageId:'A1-S10'}),
     makeNode('Email Only', 'No calendar', null, C.purple, {desc:'Nurture drip sequence only'}),
     makeNode('Tag: ICP5-nurture', 'Contact Tag', null, C.purple, {terminal:true}),
   ]},
   { label:'icp5-not-qualified (Franchise)', color:C.purple, nodes:[
-    makeNode('\u{1F6AB} Closed-Lost', 'A1) Master Pipeline', '3', C.purple, {stageId:'A1-S12'}),
+    makeNode('\u{1F6AB} Closed-Lost', 'A1) VR Inquiry', '3', C.purple, {stageId:'A1-S12'}),
     makeNode('Email Only', 'Rejection notice', null, C.purple, {desc:'Polite decline email'}),
     makeNode('Tag: ICP5-not-qualified', 'Contact Tag', null, C.purple, {terminal:true}),
   ]},
   { label:'both (Dual Interest)', color:C.purple, nodes:[
-    makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '5', C.purple, {stageId:'A1-S1'}),
+    makeNode('\u{1F9F2} New Lead', 'A1) VR Inquiry', '5', C.purple, {stageId:'A1-S1'}),
     makeNode('Both Calendars', '15-min + 30-min', null, C.purple, {desc:'Send both calendar booking links'}),
     makeNode('Tag: dual-interest', 'Contact Tag', null, C.purple, {terminal:true}),
   ]},
@@ -991,7 +991,7 @@ document.getElementById('flow-discovery-branches').innerHTML = discBranchHTML;
 
 // WF-ACTIVATION
 document.getElementById('flow-activation').innerHTML = buildFlowRow([
-  makeNode('Contract Signed', 'A1) Master Pipeline', '1', C.gold, {desc:'Trigger: opp moves to Contract Signed', stageId:'A1-S8'}),
+  makeNode('Contract Signed', 'A1) VR Inquiry', '1', C.gold, {desc:'Trigger: opp moves to Contract Signed', stageId:'A1-S8'}),
   makeNode('New Lead (Pre-Sign Up)', 'A2) Activation', '1', C.gold, {stageId:'A2-S1'}),
   makeNode('Payment Successful', 'A2) Activation', '0', C.gold, {stageId:'A2-S2'}),
   makeNode('Property Intake', 'A2) Activation', '0', C.gold, {stageId:'A2-S4'}),
@@ -1005,25 +1005,25 @@ document.getElementById('flow-activation').innerHTML = buildFlowRow([
 
 // WF-CALLCENTER (main)
 document.getElementById('flow-callcenter-main').innerHTML = buildFlowRow([
-  makeNode('\u{1F9F2} New Lead', 'A1) Master Pipeline', '189', C.red, {stageId:'A1-S1'}),
-  makeNode('\u{1F501} Routed to CC', 'A1) Master Pipeline', '42', C.red, {stageId:'A1-S2'}),
+  makeNode('\u{1F9F2} New Lead', 'A1) VR Inquiry', '189', C.red, {stageId:'A1-S1'}),
+  makeNode('\u{1F501} Routed to CC', 'A1) VR Inquiry', '42', C.red, {stageId:'A1-S2'}),
   makeNode('Call Center Sub', 'Sub-Account Sync', null, C.red, {desc:'Push contact to CC sub-account'}),
-  makeNode('Qualified-Not Booked', 'A1) Master Pipeline', '28', C.red, {stageId:'A1-S3'}),
-  makeNode('Qualified-Booked', 'A1) Master Pipeline', '15', C.red, {stageId:'A1-S4'}),
-  makeNode('Contract Sent', 'A1) Master Pipeline', '6', C.red, {stageId:'A1-S6'}),
-  makeNode('Contract Signed', 'A1) Master Pipeline', '1', C.red, {terminal:true, stageId:'A1-S8', desc:'Triggers WF-ACTIVATION'}),
+  makeNode('Qualified-Not Booked', 'A1) VR Inquiry', '28', C.red, {stageId:'A1-S3'}),
+  makeNode('Qualified-Booked', 'A1) VR Inquiry', '15', C.red, {stageId:'A1-S4'}),
+  makeNode('Contract Sent', 'A1) VR Inquiry', '6', C.red, {stageId:'A1-S6'}),
+  makeNode('Contract Signed', 'A1) VR Inquiry', '1', C.red, {terminal:true, stageId:'A1-S8', desc:'Triggers WF-ACTIVATION'}),
 ], C.red);
 
 // WF-CALLCENTER exit branches
 const ccBranches = [
   { label:'Exit: Connected-DQ', color:C.red, nodes:[
-    makeNode('\u{1F9EF} Connected-DQ', 'A1) Master Pipeline', '11', C.red, {terminal:true, stageId:'A1-S11', desc:'Contacted but disqualified'}),
+    makeNode('\u{1F9EF} Connected-DQ', 'A1) VR Inquiry', '11', C.red, {terminal:true, stageId:'A1-S11', desc:'Contacted but disqualified'}),
   ]},
   { label:'Exit: Lost/Nurture', color:C.red, nodes:[
-    makeNode('\u{1F9CA} Lost/Nurture', 'A1) Master Pipeline', '34', C.red, {terminal:true, stageId:'A1-S10', desc:'Not ready, enter nurture sequence'}),
+    makeNode('\u{1F9CA} Lost/Nurture', 'A1) VR Inquiry', '34', C.red, {terminal:true, stageId:'A1-S10', desc:'Not ready, enter nurture sequence'}),
   ]},
   { label:'Exit: Closed-Lost', color:C.red, nodes:[
-    makeNode('\u{1F6AB} Closed-Lost', 'A1) Master Pipeline', '22', C.red, {terminal:true, stageId:'A1-S12', desc:'Deal permanently lost'}),
+    makeNode('\u{1F6AB} Closed-Lost', 'A1) VR Inquiry', '22', C.red, {terminal:true, stageId:'A1-S12', desc:'Deal permanently lost'}),
   ]},
 ];
 let ccBranchHTML = '';

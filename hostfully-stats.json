@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-13T17:45:01Z",
+  "updated_at": "2026-04-13T23:45:01Z",
   "summary": {
     "total_leads": 500,
     "total_bookings": 211,
@@ -13,7 +13,7 @@
     "this_week": 1270.29
   },
   "payments": {
-    "balance_due": 76442.68,
+    "balance_due": 75059.54,
     "overdue_count": 1,
     "overdue_amount": 30.23
   },

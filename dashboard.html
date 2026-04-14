@@ -154,8 +154,14 @@
 .crm-kpi-data p { font-size: 11px; color: rgba(255,255,255,0.5); margin: 2px 0 0; text-transform: uppercase; letter-spacing: 0.5px; }
 .crm-filter-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
 .crm-filter-bar select, .crm-filter-bar input {
-  background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff;
+  background: #1a1a1a; border: 1px solid var(--border); color: #fff;
   padding: 7px 12px; border-radius: 6px; font-size: 12px; font-family: 'DM Sans', sans-serif;
+}
+.crm-filter-bar select option {
+  background: #1a1a1a; color: #fff; padding: 6px 10px;
+}
+.crm-filter-bar select option:checked {
+  background: #2a2a2a; color: var(--gold);
 }
 .crm-filter-bar select:focus, .crm-filter-bar input:focus { border-color: var(--gold); outline: none; }
 .crm-table-wrap { overflow-x: auto; }
@@ -1088,6 +1094,7 @@
   font-size: 12px; margin-bottom: 10px; outline: none; cursor: pointer;
 }
 .oc-agent-select:focus { border-color: var(--gold); }
+.oc-agent-select option { background: #1a1a1a; color: #fff; }
 .oc-task-row { display: flex; gap: 6px; margin-bottom: 10px; }
 .oc-task-input {
   flex: 1; background: var(--panel-alt); border: 1px solid var(--border);
@@ -1826,11 +1833,11 @@
               <span class="node-indicator on"><span class="ni-dot"></span>Active</span>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-size:15px; font-family:'DM Sans',sans-serif;">GHL Traveler Inquiries Pipeline</span>
+              <span style="font-size:15px; font-family:'DM Sans',sans-serif;">GHL Guest Inquiries Pipeline</span>
               <span class="node-indicator warn"><span class="ni-dot"></span>Pending Setup</span>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-size:15px; font-family:'DM Sans',sans-serif;">GHL Property Bookings Pipeline</span>
+              <span style="font-size:15px; font-family:'DM Sans',sans-serif;">GHL Guest Reservations Pipeline</span>
               <span class="node-indicator warn"><span class="ni-dot"></span>Pending Setup</span>
             </div>
           </div>
@@ -2485,7 +2492,7 @@
           </div>
           <div style="display:flex; gap:4px; margin-top:4px; flex-wrap:wrap;">
             <button onclick="ghlQuick('master','ghl.pipeline.stage_counts',{pipeline_id:'Ta2LgMfzEOyWnXv0HNTO'})" class="qbtn" style="border-color:var(--gold);">CNX Stages</button>
-            <button onclick="ghlQuick('master','ghl.pipeline.stage_counts',{pipeline_id:'TtZu1ERm8n6MFyV5snKw'})" class="qbtn" style="border-color:var(--gold);">Activation Stages</button>
+            <button onclick="ghlQuick('master','ghl.pipeline.stage_counts',{pipeline_id:'TtZu1ERm8n6MFyV5snKw'})" class="qbtn" style="border-color:var(--gold);">VR Customer Stages</button>
             <button onclick="ghlQuick('master','ghl.contacts.search_all',{max_pages:5})" class="qbtn" style="border-color:var(--gold);">All Contacts</button>
             <button onclick="ghlQuick('master','ghl.pipeline.stage_counts',{pipeline_id:'5fird8Rw1i90B8X7kMNF'})" class="qbtn" style="border-color:var(--gold);">Expired Stages</button>
           </div>
@@ -2589,7 +2596,7 @@
           </div>
           <div style="display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;">
             <button onclick="claudeQuick('Search contacts in Call Center account')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">CC Contacts</button>
-            <button onclick="claudeQuick('List all pipelines in Master')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">Master Pipelines</button>
+            <button onclick="claudeQuick('List all pipelines')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">All Pipelines</button>
             <button onclick="claudeQuick('List tags in Call Center')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">CC Tags</button>
             <button onclick="claudeQuick('Show recent conversations in Master')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">Conversations</button>
           </div>
@@ -6035,6 +6042,9 @@ var CRM_GHL_CC = 'https://app.gohighlevel.com/v2/location/7hTDBClatcBgmUv36bZX/c
 function crmClassify(c) {
   var tags = (c.tags || []).map(function(t){ return t.toLowerCase(); });
   var src = (c.source || '').toLowerCase();
+  var pid = (c.pipeline_id || c.pipelineId || '');
+  // C) Franchise Inquiry or C2) Franchisee pipelines
+  if (pid === 'Ti6iUTgY7jir7N8j6uz1' || pid === 'wA7hcivegp40hBwZb9qb') return 'Franchise';
   if (tags.indexOf('franchise') >= 0 || (tags.indexOf('src:instantly') >= 0 && tags.indexOf('type:warm_reply') >= 0) || src.indexOf('instantly') >= 0) return 'Franchise';
   if (tags.indexOf('traveler') >= 0 || tags.indexOf('#hostfully') >= 0 || src.indexOf('hostfully') >= 0) return 'Traveller';
   if (tags.indexOf('str-scraper') >= 0 || tags.indexOf('hipcamp') >= 0 || src.indexOf('scraper') >= 0) return 'VR Operator';
@@ -6155,23 +6165,27 @@ async function crmLoad() {
     CRM_DATA.forEach(function(c) { if (c.source) sources[c.source] = (sources[c.source]||0) + 1; });
     var srcSel = document.getElementById('crm-f-source');
     if (srcSel) {
-      srcSel.innerHTML = '<option value="">All Sources</option>';
+      var srcOpts = '<option value="">All Sources (' + Object.keys(sources).length + ')</option>';
       Object.keys(sources).sort().forEach(function(s) {
-        srcSel.innerHTML += '<option value="' + s + '">' + s + ' (' + sources[s] + ')</option>';
+        srcOpts += '<option value="' + s + '">' + s + ' (' + sources[s] + ')</option>';
       });
+      srcSel.innerHTML = srcOpts;
     }
 
     // Populate pipeline dropdown
-    var stages = {};
+    var stageMap = {};
     CRM_DATA.forEach(function(c) {
-      (c.allStages || []).forEach(function(s) { stages[s] = (stages[s]||0) + 1; });
+      (c.allStages || []).forEach(function(s) { stageMap[s] = (stageMap[s]||0) + 1; });
     });
+    var noOppCount = CRM_DATA.filter(function(c){ return !c.allStages || c.allStages.length === 0; }).length;
     var pipeSel = document.getElementById('crm-f-pipeline');
     if (pipeSel) {
-      pipeSel.innerHTML = '<option value="">All Pipelines</option><option value="_none_">No Pipeline</option>';
-      Object.keys(stages).sort().forEach(function(s) {
-        pipeSel.innerHTML += '<option value="' + s + '">' + s + ' (' + stages[s] + ')</option>';
+      var pipeOpts = '<option value="">All Pipelines (' + Object.keys(stageMap).length + ')</option>';
+      pipeOpts += '<option value="_none_">No Pipeline (' + noOppCount + ')</option>';
+      Object.keys(stageMap).sort().forEach(function(s) {
+        pipeOpts += '<option value="' + s + '">' + s + ' (' + stageMap[s] + ')</option>';
       });
+      pipeSel.innerHTML = pipeOpts;
     }
 
     // Populate tag dropdown
@@ -6181,10 +6195,11 @@ async function crmLoad() {
     });
     var tagSel = document.getElementById('crm-f-tag');
     if (tagSel) {
-      tagSel.innerHTML = '<option value="">All Tags</option>';
+      var tagOpts = '<option value="">All Tags (' + Object.keys(tagCounts).length + ')</option>';
       Object.keys(tagCounts).sort(function(a,b){ return tagCounts[b]-tagCounts[a]; }).forEach(function(t) {
-        tagSel.innerHTML += '<option value="' + t + '">' + t + ' (' + tagCounts[t] + ')</option>';
+        tagOpts += '<option value="' + t + '">' + t + ' (' + tagCounts[t] + ')</option>';
       });
+      tagSel.innerHTML = tagOpts;
     }
 
     // KPIs — distinct + total
@@ -6401,7 +6416,7 @@ function ocRenderTiles() {
       + '</div>'
       + '<select class="oc-agent-select" data-tile="' + i + '" onchange="ocChangeAgent(this)">' + opts + '</select>'
       + '<div class="oc-task-row">'
-      + '<input class="oc-task-input" data-tile="' + i + '" placeholder="Enter task..." onkeydown="if(event.key===\'Enter\')ocAddTask(this)">'
+      + '<input class="oc-task-input" data-tile="' + i + '" placeholder="Type or click mic to speak..." onkeydown="if(event.key===\'Enter\')ocAddTask(this)">'
       + '<button class="oc-mic-btn" data-tile="' + i + '" onclick="ocToggleMic(this)" title="Hold to speak"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="1" width="6" height="13" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>'
       + '<button class="oc-task-btn" onclick="ocAddTask(this.parentElement.querySelector(\'input\'))">Send</button>'
       + '</div>'
@@ -6444,6 +6459,74 @@ function ocPickAgent(taskText) {
   return bestAgent;
 }
 
+
+/* Agent contextual reply generator */
+function ocAgentReply(agentName, taskText) {
+  var t = (taskText || '').toLowerCase();
+  var name = agentName || 'Agent';
+
+  // Handle conversational / identity questions
+  if (t.match(/what.*(call|name)|who are you|your name|introduce/)) {
+    var ag = OC_AGENTS[agentName] || {};
+    return "I'm " + name + ". I'm your " + (ag.role === 'coordinator' ? 'coordinator agent' : name.toLowerCase()) + " powered by " + (ag.model || 'AI') + ". How can I help you today?";
+  }
+  if (t.match(/hello|hey|hi |good morning|good afternoon|good evening/)) {
+    return "Hey Mike. " + name + " here. What would you like me to work on?";
+  }
+  if (t.match(/how are you|how.s it going|what.s up/)) {
+    return "All systems green, Mike. " + name + " is standing by. What do you need?";
+  }
+  if (t.match(/thank|thanks|good job|nice work/)) {
+    return "Anytime, Mike. " + name + " is here whenever you need me.";
+  }
+  if (t.match(/status|update|progress|report/)) {
+    return name + " checking status now. I'll have an update for you shortly.";
+  }
+
+  // Task-specific contextual replies based on agent role
+  if (agentName === 'STRBOSS') {
+    return "Got it. I've routed your task to the best agent for this. Stand by for confirmation.";
+  }
+  if (agentName === 'GHL Ops Analyst') {
+    if (t.match(/pipeline|stage|funnel/)) return "Pulling pipeline data now. I'll have the breakdown ready in a moment.";
+    if (t.match(/contact|lead/)) return "Searching contacts across both sub-accounts. One moment.";
+    return "On it. Analyzing the GHL data for you now.";
+  }
+  if (agentName === 'Sales Strategy Coach') {
+    if (t.match(/script|pitch/)) return "Working on that script now. I'll tailor it to your ICP.";
+    if (t.match(/call|demo/)) return "Reviewing the call strategy. I'll have recommendations shortly.";
+    return "Thinking through the best sales approach for this. Give me a moment.";
+  }
+  if (agentName === 'Comms Router') {
+    if (t.match(/email|reply/)) return "Drafting the email response now. I'll have it ready for your review.";
+    if (t.match(/sms|text|message/)) return "Composing the message. I'll route it through the right channel.";
+    return "Setting up the communication flow. I'll confirm routing shortly.";
+  }
+  if (agentName === 'GHL Master Manager') {
+    if (t.match(/workflow|automation/)) return "Reviewing the workflow configuration. I'll report back on any issues.";
+    if (t.match(/webhook|trigger/)) return "Checking the webhook endpoints now. Stand by.";
+    return "Managing the Master sub-account updates now.";
+  }
+  if (agentName === 'GHL CC Manager') {
+    if (t.match(/outbound|dial/)) return "Checking the call queue and dialer status now.";
+    if (t.match(/voicemail/)) return "Reviewing voicemail drops. I'll optimize the sequence.";
+    return "Running the Call Center operations check now.";
+  }
+  if (agentName === 'STR Ops Agent') {
+    if (t.match(/deploy|server|code/)) return "Connecting to the server now. I'll handle the deployment.";
+    if (t.match(/fix|bug|error/)) return "Investigating the issue. I'll diagnose and fix it.";
+    if (t.match(/dashboard/)) return "Updating the dashboard. Changes will be live shortly.";
+    return "Working on the infrastructure task now. I'll confirm when complete.";
+  }
+  if (agentName === 'Assistant') {
+    if (t.match(/search|find|look/)) return "Searching for that information now. One moment.";
+    if (t.match(/summary|summarize/)) return "Pulling together a summary. I'll have it shortly.";
+    return "Looking into that for you now, Mike.";
+  }
+
+  return name + " is working on your request. I'll update you when it's done.";
+}
+
 function ocAddTask(input) {
   if (!input) return;
   var idx = parseInt(input.getAttribute('data-tile'));
@@ -6484,7 +6567,7 @@ function ocAddTask(input) {
         var ts2 = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
         ocTileState[capturedTarget].feed.unshift({ time: ts2, text: '\u2705 ' + capturedDelegate + ' accepted task' });
         ocTileState[capturedIdx].feed.unshift({ time: ts2, text: '\u2705 ' + capturedDelegate + ' confirmed' });
-        ocSpeak(capturedDelegate + ' has accepted the task and is working on it.', capturedTarget);
+        ocSpeak(ocAgentReply(capturedDelegate, task), capturedTarget);
         ocSaveState();
         ocRenderTiles();
       }, 1500);
@@ -6497,7 +6580,7 @@ function ocAddTask(input) {
     setTimeout(function() {
       var ts3 = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
       ocTileState[capturedIdx2].feed.unshift({ time: ts3, text: '\u2713 ' + capturedName + ' acknowledged task' });
-      ocSpeak(capturedName + ' has acknowledged your task and is processing it.', capturedIdx2);
+      ocSpeak(ocAgentReply(capturedName, task), capturedIdx2);
       ocSaveState();
       ocRenderTiles();
     }, 1000);
@@ -6534,79 +6617,190 @@ var OC_VOICE = {
   speaking: false,
   audioQueue: [],
   currentAudio: null,
-  supported: !!(window.SpeechRecognition || window.webkitSpeechRecognition)
+  supported: !!(window.SpeechRecognition || window.webkitSpeechRecognition),
+  finalText: '',
+  sendTimer: null,
+  greeted: false,
+  micPermission: false,
+  autoListenAfterSpeak: false
 };
 
-/* ── Speech-to-Text (Browser SpeechRecognition) ── */
+/* ── Request mic permission (one-time) ── */
+function ocRequestMic() {
+  return new Promise(function(resolve, reject) {
+    if (OC_VOICE.micPermission) { resolve(); return; }
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(function(stream) {
+          stream.getTracks().forEach(function(t) { t.stop(); });
+          OC_VOICE.micPermission = true;
+          console.log('[voice] Mic permission granted');
+          resolve();
+        })
+        .catch(function(err) {
+          console.error('[voice] Mic denied:', err);
+          reject(err);
+        });
+    } else {
+      resolve();
+    }
+  });
+}
+
+/* ── Speech-to-Text ── */
 function ocInitSTT() {
   if (!OC_VOICE.supported) { console.warn('[voice] SpeechRecognition not supported'); return; }
+  if (OC_VOICE.recognition) return;
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  OC_VOICE.recognition = new SR();
-  OC_VOICE.recognition.continuous = false;
-  OC_VOICE.recognition.interimResults = true;
-  OC_VOICE.recognition.lang = 'en-US';
+  var rec = new SR();
+  rec.continuous = true;
+  rec.interimResults = true;
+  rec.lang = 'en-US';
+  rec.maxAlternatives = 1;
 
-  OC_VOICE.recognition.onresult = function(e) {
-    var transcript = '';
+  rec.onresult = function(e) {
+    var interim = '';
+    var final = '';
     for (var i = e.resultIndex; i < e.results.length; i++) {
-      transcript += e.results[i][0].transcript;
+      var t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) {
+        final += t;
+      } else {
+        interim += t;
+      }
+    }
+
+    if (OC_VOICE.activeTile === null) return;
+    var input = document.querySelector('.oc-task-input[data-tile="' + OC_VOICE.activeTile + '"]');
+    if (!input) return;
+
+    if (final) {
+      OC_VOICE.finalText = (OC_VOICE.finalText ? OC_VOICE.finalText + ' ' : '') + final.trim();
+      input.value = OC_VOICE.finalText;
+      input.style.color = '#fff';
+      console.log('[voice] final:', OC_VOICE.finalText);
+
+      // Auto-send after 2s of silence
+      if (OC_VOICE.sendTimer) clearTimeout(OC_VOICE.sendTimer);
+      OC_VOICE.sendTimer = setTimeout(function() {
+        var inp = document.querySelector('.oc-task-input[data-tile="' + OC_VOICE.activeTile + '"]');
+        if (inp && inp.value.trim()) {
+          console.log('[voice] Auto-sending after silence');
+          try { OC_VOICE.recognition.stop(); } catch(ex) {}
+          ocStopMicUI();
+          inp.style.color = '#fff';
+          ocAddTask(inp);
+          OC_VOICE.finalText = '';
+        }
+      }, 2000);
+    } else if (interim) {
+      input.value = (OC_VOICE.finalText ? OC_VOICE.finalText + ' ' : '') + interim;
+      input.style.color = 'rgba(201,185,154,0.6)';
+    }
+  };
+
+  rec.onend = function() {
+    console.log('[voice] recognition ended, activeTile:', OC_VOICE.activeTile, 'speaking:', OC_VOICE.speaking);
+    if (OC_VOICE.activeTile !== null && !OC_VOICE.speaking) {
+      setTimeout(function() {
+        if (OC_VOICE.activeTile !== null && !OC_VOICE.speaking) {
+          try { rec.start(); console.log('[voice] restarted after onend'); } catch(ex) {
+            console.warn('[voice] restart failed:', ex);
+            ocStopMicUI();
+          }
+        }
+      }, 100);
+      return;
     }
     if (OC_VOICE.activeTile !== null) {
       var input = document.querySelector('.oc-task-input[data-tile="' + OC_VOICE.activeTile + '"]');
-      if (input) input.value = transcript;
-    }
-    // If final result, auto-send
-    if (e.results[e.results.length - 1].isFinal && transcript.trim()) {
-      setTimeout(function() {
-        var input = document.querySelector('.oc-task-input[data-tile="' + OC_VOICE.activeTile + '"]');
-        if (input && input.value.trim()) ocAddTask(input);
-      }, 300);
+      if (input) input.style.color = '#fff';
     }
   };
 
-  OC_VOICE.recognition.onend = function() {
-    ocStopMicUI();
-  };
-
-  OC_VOICE.recognition.onerror = function(e) {
+  rec.onerror = function(e) {
     console.warn('[voice] STT error:', e.error);
-    ocStopMicUI();
+    if (e.error === 'no-speech' || e.error === 'aborted') {
+      if (OC_VOICE.activeTile !== null && !OC_VOICE.speaking) {
+        setTimeout(function() {
+          if (OC_VOICE.activeTile !== null && !OC_VOICE.speaking) {
+            try { rec.start(); } catch(ex) { ocStopMicUI(); }
+          }
+        }, 200);
+        return;
+      }
+    }
+    if (e.error !== 'aborted') ocStopMicUI();
   };
+
+  OC_VOICE.recognition = rec;
+  console.log('[voice] STT initialized');
 }
 
+/* ── Start listening on a tile ── */
+function ocStartListening(tileIdx) {
+  if (OC_VOICE.activeTile === tileIdx) return;
+
+  if (OC_VOICE.activeTile !== null) {
+    if (OC_VOICE.sendTimer) { clearTimeout(OC_VOICE.sendTimer); OC_VOICE.sendTimer = null; }
+    try { OC_VOICE.recognition.stop(); } catch(e) {}
+    ocStopMicUI();
+  }
+
+  OC_VOICE.activeTile = tileIdx;
+  OC_VOICE.finalText = '';
+
+  var btn = document.querySelector('.oc-mic-btn[data-tile="' + tileIdx + '"]');
+  if (btn) btn.classList.add('oc-mic-active');
+  var vbar = document.getElementById('oc-vbar-' + tileIdx);
+  if (vbar) vbar.classList.add('active');
+
+  ocInitSTT();
+  try {
+    OC_VOICE.recognition.start();
+    console.log('[voice] Listening on tile', tileIdx);
+  } catch(e) {
+    console.warn('[voice] start error:', e);
+    try { OC_VOICE.recognition.stop(); } catch(ex) {}
+    setTimeout(function() {
+      try { OC_VOICE.recognition.start(); console.log('[voice] Retry start OK'); }
+      catch(ex2) { console.warn('[voice] retry failed:', ex2); ocStopMicUI(); }
+    }, 200);
+  }
+}
+
+/* ── Mic button click = stop listening + send ── */
 function ocToggleMic(btn) {
   var tileIdx = parseInt(btn.getAttribute('data-tile'));
   if (isNaN(tileIdx)) return;
 
   if (!OC_VOICE.supported) {
-    alert('Voice input is not supported in this browser. Use Chrome for best results.');
+    alert('Voice input requires Chrome browser.');
     return;
   }
 
+  if (OC_VOICE.speaking) ocStopSpeaking();
+
+  // If listening on this tile — stop and send
   if (OC_VOICE.activeTile === tileIdx) {
-    // Stop listening
+    if (OC_VOICE.sendTimer) { clearTimeout(OC_VOICE.sendTimer); OC_VOICE.sendTimer = null; }
     try { OC_VOICE.recognition.stop(); } catch(e) {}
+    var input = document.querySelector('.oc-task-input[data-tile="' + tileIdx + '"]');
+    if (input) input.style.color = '#fff';
+    if (input && input.value.trim()) {
+      ocAddTask(input);
+      OC_VOICE.finalText = '';
+    }
     ocStopMicUI();
     return;
   }
 
-  // Stop any existing session
-  if (OC_VOICE.activeTile !== null) {
-    try { OC_VOICE.recognition.stop(); } catch(e) {}
-    ocStopMicUI();
-  }
-
-  // Start listening on this tile
-  OC_VOICE.activeTile = tileIdx;
-  btn.classList.add('oc-mic-active');
-  var vbar = document.getElementById('oc-vbar-' + tileIdx);
-  if (vbar) vbar.classList.add('active');
-
-  if (!OC_VOICE.recognition) ocInitSTT();
-  try { OC_VOICE.recognition.start(); } catch(e) {
-    console.warn('[voice] start error:', e);
-    ocStopMicUI();
-  }
+  // Not listening — start listening on this tile
+  ocRequestMic().then(function() {
+    ocStartListening(tileIdx);
+  }).catch(function() {
+    alert('Microphone access denied. Allow mic access in Chrome settings.');
+  });
 }
 
 function ocStopMicUI() {
@@ -6615,30 +6809,46 @@ function ocStopMicUI() {
   OC_VOICE.activeTile = null;
 }
 
-/* ── Text-to-Speech (ElevenLabs via server proxy) ── */
+/* ── Text-to-Speech (ElevenLabs) ── */
 function ocSpeak(text, tileIdx) {
   if (!text || text.length < 3) return;
-  // Clean text of emojis and HTML
   var clean = text.replace(/<[^>]*>/g, '').replace(/[\u{1F000}-\u{1FFFF}]/gu, '').trim();
   if (!clean) return;
+
+  if (OC_VOICE.activeTile !== null) {
+    try { OC_VOICE.recognition.stop(); } catch(e) {}
+  }
 
   OC_VOICE.audioQueue.push({ text: clean, tile: tileIdx });
   if (!OC_VOICE.speaking) ocPlayNext();
 }
 
 function ocPlayNext() {
-  if (OC_VOICE.audioQueue.length === 0) { OC_VOICE.speaking = false; return; }
+  if (OC_VOICE.audioQueue.length === 0) {
+    OC_VOICE.speaking = false;
+    // After TTS finishes, auto-start listening on STRBOSS tile
+    if (OC_VOICE.autoListenAfterSpeak) {
+      OC_VOICE.autoListenAfterSpeak = false;
+      console.log('[voice] TTS done, auto-starting mic on tile 0');
+      setTimeout(function() {
+        ocRequestMic().then(function() {
+          ocStartListening(0);
+        });
+      }, 300);
+    }
+    return;
+  }
   OC_VOICE.speaking = true;
   var item = OC_VOICE.audioQueue.shift();
 
-  // Show speaking indicator on tile
   var vbar = document.getElementById('oc-vbar-' + item.tile);
-  if (vbar) { vbar.classList.add('active'); vbar.style.setProperty('--bar-color', 'var(--gold)'); }
+  if (vbar) vbar.classList.add('active');
 
   fetch('/api/tts', {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text: item.text, voice: 'pFZP5JQG7iQjIQuC4Bku' })
+    body: JSON.stringify({ text: item.text })
   })
   .then(function(r) {
     if (!r.ok) throw new Error('TTS ' + r.status);
@@ -6660,16 +6870,15 @@ function ocPlayNext() {
       ocPlayNext();
     };
     audio.play().catch(function(e) {
-      console.warn('[voice] audio play error:', e);
+      console.warn('[voice] play error:', e);
       if (vbar) vbar.classList.remove('active');
       OC_VOICE.currentAudio = null;
       ocPlayNext();
     });
   })
   .catch(function(e) {
-    console.warn('[voice] TTS fetch error:', e);
+    console.warn('[voice] TTS error:', e);
     if (vbar) vbar.classList.remove('active');
-    // Fallback to browser TTS
     ocFallbackSpeak(item.text);
   });
 }
@@ -6694,10 +6903,41 @@ function ocStopSpeaking() {
   if ('speechSynthesis' in window) speechSynthesis.cancel();
   OC_VOICE.audioQueue = [];
   OC_VOICE.speaking = false;
+  OC_VOICE.autoListenAfterSpeak = false;
   document.querySelectorAll('.oc-voice-bar').forEach(function(v) { v.classList.remove('active'); });
 }
 
-// Initialize STT on load
+/* ── Greeting: short "Hey Mike" then auto-listen ── */
+function ocGreeting() {
+  if (OC_VOICE.greeted) return;
+  OC_VOICE.greeted = true;
+
+  var msg = 'Hey Mike';
+
+  var ts = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  if (ocTileState && ocTileState[0]) {
+    ocTileState[0].feed.unshift({ time: ts, text: 'STRBOSS online. Listening...' });
+    ocSaveState();
+    ocRenderTiles();
+  }
+
+  // Request mic permission now (triggers Chrome prompt during greeting)
+  ocRequestMic().then(function() {
+    OC_VOICE.autoListenAfterSpeak = true;
+    ocInitSTT();
+    setTimeout(function() { ocSpeak(msg, 0); }, 300);
+  }).catch(function() {
+    setTimeout(function() { ocSpeak(msg, 0); }, 300);
+  });
+}
+
+// Trigger greeting when OpenClaw tab is clicked
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest && e.target.closest('.tab-btn[data-tab="openclaw"]');
+  if (btn) setTimeout(ocGreeting, 300);
+});
+
+// Init STT on load
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', ocInitSTT);
 } else {
@@ -6707,7 +6947,9 @@ if (document.readyState === 'loading') {
 
 
 
+
+
+
     </script>
-<script src="voice-widget.js"></script>
 </body>
 </html>

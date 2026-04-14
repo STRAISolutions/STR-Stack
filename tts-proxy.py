@@ -5,7 +5,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import json, urllib.request, os, sys
 
 ELEVEN_KEY = os.environ.get('ELEVENLABS_API_KEY', 'sk_a601e26ca5b67989b6624529959045ed3be27b0f1657cdfc')
-DEFAULT_VOICE = 'c2O7ZagKqb05VCpb66Qc'  # Lily (natural female)
+DEFAULT_VOICE = 'c2O7ZagKqb05VCpb66Qc'  # Samantha (conversational)
 MODEL = 'eleven_turbo_v2_5'
 MAX_CHARS = 500
 
