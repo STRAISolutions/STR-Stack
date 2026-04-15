@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-13T23:45:01Z",
-  "count": 54,
+  "updated_at": "2026-04-15T05:45:02Z",
+  "count": 56,
   "properties": [
     {
       "uid": "8752740c-b020-43be-b5bc-74eebc105bca",
@@ -114,6 +114,19 @@
       "city": "San Antonio",
       "state": "TX",
       "maxGuests": "?"
+    },
+    {
+      "uid": "d266858f-036b-4db3-b81d-b4a1296a7885",
+      "name": "BASECAMP RETREAT",
+      "isActive": true,
+      "propertyType": "HOUSE",
+      "bedrooms": 3,
+      "bathrooms": "2",
+      "city": "PARK CITY ",
+      "state": "UT",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
     },
     {
       "uid": "26e90589-70ed-42b4-909e-eb87b529ae4a",
@@ -583,6 +596,19 @@
     {
       "uid": "29c561dd-6c59-477c-975f-2afec9841864",
       "name": "SUMMIT BREEZE",
+      "isActive": true,
+      "propertyType": "HOUSE",
+      "bedrooms": 3,
+      "bathrooms": "2",
+      "city": "Jackson ",
+      "state": "WY",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
+    },
+    {
+      "uid": "2b065f85-c3a5-4fd4-8c88-39f7fa06dae1",
+      "name": "SUMMIT BREEZE RETREAT",
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 3,

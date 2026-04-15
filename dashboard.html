@@ -1381,6 +1381,23 @@
           <div class="nc-label">Stale (&gt;1hr)</div>
           <div class="nc-sub">No stage chg</div>
         </div>
+          <div class="node-card" style="position:relative;">
+            <select id="kpi-deposits-period" style="position:absolute;top:6px;right:6px;background:#2a2a2a;border:1px solid #444;color:#aaa;font-size:9px;padding:1px 4px;border-radius:2px;cursor:pointer;font-family:inherit;">
+              <option value="1">1d</option>
+              <option value="2">2d</option>
+              <option value="3">3d</option>
+              <option value="4">4d</option>
+              <option value="5">5d</option>
+              <option value="6">6d</option>
+              <option value="7">7d</option>
+              <option value="14">14d</option>
+              <option value="21">21d</option>
+              <option value="mtd">MTD</option>
+            </select>
+            <div class="nc-val" style="color:var(--gold);" id="kpi-deposits">--</div>
+            <div class="nc-label">Deposits</div>
+            <div class="nc-sub" id="kpi-deposits-sub">BMO processed</div>
+          </div>
         <div class="node-card tba"><div class="nc-val" style="color:var(--muted);">--</div><div class="nc-label">TBA</div></div>
         <div class="node-card tba"><div class="nc-val" style="color:var(--muted);">--</div><div class="nc-label">TBA</div></div>
         <div class="node-card tba"><div class="nc-val" style="color:var(--muted);">--</div><div class="nc-label">TBA</div></div>
@@ -6950,6 +6967,31 @@ if (document.readyState === 'loading') {
 
 
 
-    </script>
+    
+
+    // --- BMO Deposits loader -----------------------------------------
+    async function loadDeposits() {
+      const sel = document.getElementById('kpi-deposits-period');
+      if (!sel) return;
+      try {
+        const resp = await fetch('/api/deposits/summary?lookback=' + sel.value);
+        const d = await resp.json();
+        const total = Number(d.total_deposits || 0);
+        document.getElementById('kpi-deposits').textContent =
+          '$' + total.toLocaleString('en-CA', {maximumFractionDigits: 0});
+        document.getElementById('kpi-deposits-sub').textContent =
+          (d.period_label || '') + ' \u2022 BMO';
+      } catch (e) {
+        document.getElementById('kpi-deposits').textContent = '$--';
+      }
+    }
+    if (document.getElementById('kpi-deposits-period')) {
+      document.getElementById('kpi-deposits-period').addEventListener('change', loadDeposits);
+      setInterval(loadDeposits, 300000);
+      loadDeposits();
+    }
+    // --- end BMO Deposits --------------------------------------------
+
+</script>
 </body>
 </html>
