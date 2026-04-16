@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-04-15T17:45:01Z",
-  "count": 1843,
-  "total_revenue": 1134432.12,
+  "updated_at": "2026-04-15T23:45:01Z",
+  "count": 1844,
+  "total_revenue": 1135275.08,
   "cities": [
     "ASPEN",
     "BRECKENRIDGE",
@@ -40802,7 +40802,7 @@
     {
       "uid": "344b0818-09a8-4532-85a6-9169462b3c74",
       "guest": "Dmitri Alexandrov",
-      "email": "dalexa.108717@guest.booking.com",
+      "email": "dalexan1@gmail.com",
       "phone": "+16023012540",
       "channel": "BOOKING_COM",
       "source": "DIRECT_BOOKINGDOTCOM",
@@ -41026,7 +41026,7 @@
     {
       "uid": "e01f3af8-9e84-471e-884c-e69a95fab364",
       "guest": "Paul Welzel",
-      "email": "pwelze.341748@guest.booking.com",
+      "email": "gigantorshorty2007@gmail.com",
       "phone": "+13023315254",
       "channel": "BOOKING_COM",
       "source": "DIRECT_BOOKINGDOTCOM",
@@ -47910,6 +47910,34 @@
       "rentNet": 756.8,
       "currency": "CAD",
       "externalId": "6234587033"
+    },
+    {
+      "uid": "db38c284-10e8-4e13-95a0-7e59d2fe2b4f",
+      "guest": "Leah Moran",
+      "email": "lmoran.534868@guest.booking.com",
+      "phone": "+15138856541",
+      "channel": "BOOKING_COM",
+      "source": "DIRECT_BOOKINGDOTCOM",
+      "checkin": "2026-08-07T15:00:00",
+      "checkout": "2026-08-08T11:00:00",
+      "nights": 1,
+      "property": "8752740c-b020-43be-b5bc-74eebc105bca",
+      "propertyName": "*Aspen Chic",
+      "city": "ASPEN",
+      "state": "CO",
+      "status": "BOOKED",
+      "bookedDate": "2026-04-15T17:46:05",
+      "adults": 4,
+      "children": 0,
+      "pets": 0,
+      "country": "US",
+      "totalAmount": 842.96,
+      "nightlyRate": 627.9,
+      "cleaningFee": 189.0,
+      "taxAmount": 26.06,
+      "rentNet": 627.9,
+      "currency": "USD",
+      "externalId": "5145925674"
     },
     {
       "uid": "702eb29d-f4a1-4677-afcf-b42c80c2102e",
