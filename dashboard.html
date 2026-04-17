@@ -3039,7 +3039,7 @@
       <div class="card" style="margin-bottom:18px;">
         <h2 style="display:flex; align-items:center; gap:10px;">
           Orchestration Hierarchy
-          <span style="font-size:10px; color:var(--muted); font-weight:400; font-family:'DM Sans',sans-serif;">STRBOSS &#8594; Workers</span>
+          <span style="font-size:10px; color:var(--muted); font-weight:400; font-family:'DM Sans',sans-serif;">AXL &#8594; Workers</span>
         </h2>
         <div id="am-hierarchy" style="display:flex; align-items:flex-start; gap:0; overflow-x:auto; padding:16px 0;"></div>
       </div>
@@ -5545,14 +5545,14 @@
 
     // ── Agent Management ──────────────────────────────────────
     var agentRoster = [
-      {name:"STRBOSS",id:"9fc29412",role:"coordinator",status:"live",statusDetail:"LIVE",model:"gpt-4.1",gateway:"gateway-a8028e86",delegation:"ENABLED",orchestrator:"ENABLED",governance:"approval-required",wake:"5m",heartbeat:"enabled",parent:null,team:"STR Command",tools:["shell","files","edit_file","web","delegate","browser","memory","wallet","monitor","email","manage_platform","manage_agents","manage_tasks","manage_documents","delegate_to_agent"],kpi:"Task delegation accuracy; SLA <4hr",priority:"HIGH",issues:[],summary:"Central coordinator. Delegates to 6 specialists."},
+      {name:"AXL",id:"9fc29412",role:"coordinator",status:"live",statusDetail:"LIVE",model:"gpt-4.1",gateway:"gateway-a8028e86",delegation:"ENABLED",orchestrator:"ENABLED",governance:"approval-required",wake:"5m",heartbeat:"enabled",parent:null,team:"STR Command",tools:["shell","files","edit_file","web","delegate","browser","memory","wallet","monitor","email","manage_platform","manage_agents","manage_tasks","manage_documents","delegate_to_agent"],kpi:"Task delegation accuracy; SLA <4hr",priority:"HIGH",issues:[],summary:"Central coordinator. Delegates to 6 specialists."},
       {name:"GHL Operations Analyst",id:"agent-ghl-ops-analyst",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents","ghl_master_mcp","ghl_cc_mcp"],kpi:"Reduce lead-to-action 30%",priority:"HIGH",issues:[],summary:"Monitors both GHL pipelines via MCP. Flags stale leads."},
-      {name:"Sales Strategy Coach",id:"agent-sales-strategist",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents"],kpi:"Call score trending up",priority:"MEDIUM",issues:[],summary:"Scores calls. Weekly training brief."},
+      {name:"KURT",id:"agent-sales-strategist",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents"],kpi:"Call score trending up",priority:"MEDIUM",issues:[],summary:"Scores calls. Weekly training brief."},
       {name:"Communications Router",id:"agent-comms-router",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents","email"],kpi:"Response <4hr",priority:"MEDIUM",issues:[],summary:"Classifies inbound comms. Routes to templates."},
       {name:"GHL Master Account Manager",id:"agent-ghl-master",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents","ghl_master_mcp"],kpi:"Master location health",priority:"MEDIUM",issues:[],summary:"Manages Master sub-account via GHL MCP."},
       {name:"GHL Call Center Manager",id:"agent-ghl-cc-manager",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"15m",heartbeat:"disabled",parent:"9fc29412",team:"FIRST TIER",tools:["memory","web_search","web_fetch","manage_tasks","manage_sessions","manage_documents","ghl_cc_mcp"],kpi:"Outbound call throughput",priority:"MEDIUM",issues:[],summary:"Manages Call Center sub-account via GHL MCP."},
-      {name:"STR Ops Agent",id:"377fb845",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-5.1-codex",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"enabled",parent:"9fc29412",team:"SECOND TIER",tools:["memory","files","shell","web_search","web_fetch","manage_tasks","manage_schedules","manage_connectors"],kpi:"Uptime >99.5%",priority:"LOW",issues:[],summary:"Infrastructure specialist. Now orchestrator-visible."},
-      {name:"Assistant",id:"default",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"disabled",governance:"autonomous",wake:"n/a",heartbeat:"disabled",parent:null,team:"none",tools:["memory","files","web_search","web_fetch","browser","claude_code","codex_cli"],kpi:"n/a",priority:"NONE",issues:[],summary:"SwarmClaw built-in assistant."}
+      {name:"BILLIE",id:"377fb845",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-5.1-codex",gateway:"none",delegation:"disabled",orchestrator:"ENABLED",governance:"autonomous",wake:"5m",heartbeat:"enabled",parent:"9fc29412",team:"SECOND TIER",tools:["memory","files","shell","web_search","web_fetch","manage_tasks","manage_schedules","manage_connectors"],kpi:"Uptime >99.5%",priority:"LOW",issues:[],summary:"Infrastructure specialist. Now orchestrator-visible."},
+      {name:"LAYNE",id:"default",role:"worker",status:"live",statusDetail:"LIVE",model:"gpt-4.1-mini",gateway:"none",delegation:"disabled",orchestrator:"disabled",governance:"autonomous",wake:"n/a",heartbeat:"disabled",parent:null,team:"none",tools:["memory","files","web_search","web_fetch","browser","claude_code","codex_cli"],kpi:"n/a",priority:"NONE",issues:[],summary:"SwarmClaw built-in assistant."}
     ];
 
     // ── Agent data (computed from agentRoster) ──
@@ -6346,25 +6346,25 @@ function actToggle(hdr) {
 
 /* === OpenClaw Agent Monitor === */
 var OC_AGENTS = {
-  'STRBOSS': { role:'coordinator', status:'live', color:'#4a9e6e', model:'gpt-4.1', keywords:[] },
-  'GHL Ops Analyst': { role:'worker', status:'live', color:'#d4a843', model:'gpt-4.1-mini', keywords:['ghl','pipeline','lead','contact','crm','tag','stage','opportunity','funnel','stale'] },
-  'Sales Strategy Coach': { role:'worker', status:'live', color:'#4a9eff', model:'gpt-4.1', keywords:['sales','call','script','training','pitch','demo','close','objection','score','coaching'] },
-  'Comms Router': { role:'worker', status:'live', color:'#a78bfa', model:'gpt-4.1-mini', keywords:['email','message','route','comms','inbox','reply','sms','template','respond','notify','slack'] },
-  'GHL Master Manager': { role:'worker', status:'live', color:'#e67e22', model:'gpt-4.1-mini', keywords:['master','subaccount','workflow','automation','trigger','webhook','form','survey'] },
-  'GHL CC Manager': { role:'worker', status:'live', color:'#e74c3c', model:'gpt-4.1-mini', keywords:['call center','outbound','dialer','cc','cold call','phone','voicemail'] },
-  'STR Ops Agent': { role:'worker', status:'live', color:'#22c984', model:'gpt-5.1-codex', keywords:['server','deploy','cron','infra','code','nginx','docker','script','database','api','build','fix','debug','python','dashboard'] },
-  'Assistant': { role:'worker', status:'live', color:'#00bcd4', model:'gpt-4.1-mini', keywords:['help','search','find','look','general','research','question','summary'] }
+  'AXL': { role:'coordinator', status:'live', color:'#4a9e6e', model:'gpt-4.1', keywords:[] },
+  'SLASH': { role:'worker', status:'live', color:'#d4a843', model:'gpt-4.1-mini', keywords:['ghl','pipeline','lead','contact','crm','tag','stage','opportunity','funnel','stale'] },
+  'KURT': { role:'worker', status:'live', color:'#4a9eff', model:'gpt-4.1', keywords:['sales','call','script','training','pitch','demo','close','objection','score','coaching'] },
+  'EDDIE': { role:'worker', status:'live', color:'#a78bfa', model:'gpt-4.1-mini', keywords:['email','message','route','comms','inbox','reply','sms','template','respond','notify','slack'] },
+  'CHRIS': { role:'worker', status:'live', color:'#e67e22', model:'gpt-4.1-mini', keywords:['master','subaccount','workflow','automation','trigger','webhook','form','survey'] },
+  'SCOTT': { role:'worker', status:'live', color:'#e74c3c', model:'gpt-4.1-mini', keywords:['call center','outbound','dialer','cc','cold call','phone','voicemail'] },
+  'BILLIE': { role:'worker', status:'live', color:'#22c984', model:'gpt-5.1-codex', keywords:['server','deploy','cron','infra','code','nginx','docker','script','database','api','build','fix','debug','python','dashboard'] },
+  'LAYNE': { role:'worker', status:'live', color:'#00bcd4', model:'gpt-4.1-mini', keywords:['help','search','find','look','general','research','question','summary'] }
 };
 
 var OC_DEFAULT_STATE = [
-  { agent:'STRBOSS', tasks:[], feed:[] },
-  { agent:'GHL Ops Analyst', tasks:[], feed:[] },
-  { agent:'Sales Strategy Coach', tasks:[], feed:[] },
-  { agent:'Comms Router', tasks:[], feed:[] },
-  { agent:'GHL Master Manager', tasks:[], feed:[] },
-  { agent:'GHL CC Manager', tasks:[], feed:[] },
-  { agent:'STR Ops Agent', tasks:[], feed:[] },
-  { agent:'Assistant', tasks:[], feed:[] }
+  { agent:'AXL', tasks:[], feed:[] },
+  { agent:'SLASH', tasks:[], feed:[] },
+  { agent:'KURT', tasks:[], feed:[] },
+  { agent:'EDDIE', tasks:[], feed:[] },
+  { agent:'CHRIS', tasks:[], feed:[] },
+  { agent:'SCOTT', tasks:[], feed:[] },
+  { agent:'BILLIE', tasks:[], feed:[] },
+  { agent:'LAYNE', tasks:[], feed:[] }
 ];
 
 var ocTileState;
@@ -6379,7 +6379,7 @@ try {
 
 // Pad to 8 tiles if needed
 while (ocTileState.length < 8) {
-  var da = ['STRBOSS','GHL Ops Analyst','Sales Strategy Coach','Comms Router','GHL Master Manager','GHL CC Manager','STR Ops Agent','Assistant'];
+  var da = ['AXL','SLASH','KURT','EDDIE','CHRIS','SCOTT','BILLIE','LAYNE'];
   ocTileState.push({ agent: da[ocTileState.length] || 'Assistant', tasks:[], feed:[] });
 }
 // Ensure each tile has required properties
@@ -6501,41 +6501,41 @@ function ocAgentReply(agentName, taskText) {
   }
 
   // Task-specific contextual replies based on agent role
-  if (agentName === 'STRBOSS') {
+  if (agentName === 'AXL') {
     return "Got it. I've routed your task to the best agent for this. Stand by for confirmation.";
   }
-  if (agentName === 'GHL Ops Analyst') {
+  if (agentName === 'SLASH') {
     if (t.match(/pipeline|stage|funnel/)) return "Pulling pipeline data now. I'll have the breakdown ready in a moment.";
     if (t.match(/contact|lead/)) return "Searching contacts across both sub-accounts. One moment.";
     return "On it. Analyzing the GHL data for you now.";
   }
-  if (agentName === 'Sales Strategy Coach') {
+  if (agentName === 'KURT') {
     if (t.match(/script|pitch/)) return "Working on that script now. I'll tailor it to your ICP.";
     if (t.match(/call|demo/)) return "Reviewing the call strategy. I'll have recommendations shortly.";
     return "Thinking through the best sales approach for this. Give me a moment.";
   }
-  if (agentName === 'Comms Router') {
+  if (agentName === 'EDDIE') {
     if (t.match(/email|reply/)) return "Drafting the email response now. I'll have it ready for your review.";
     if (t.match(/sms|text|message/)) return "Composing the message. I'll route it through the right channel.";
     return "Setting up the communication flow. I'll confirm routing shortly.";
   }
-  if (agentName === 'GHL Master Manager') {
+  if (agentName === 'CHRIS') {
     if (t.match(/workflow|automation/)) return "Reviewing the workflow configuration. I'll report back on any issues.";
     if (t.match(/webhook|trigger/)) return "Checking the webhook endpoints now. Stand by.";
     return "Managing the Master sub-account updates now.";
   }
-  if (agentName === 'GHL CC Manager') {
+  if (agentName === 'SCOTT') {
     if (t.match(/outbound|dial/)) return "Checking the call queue and dialer status now.";
     if (t.match(/voicemail/)) return "Reviewing voicemail drops. I'll optimize the sequence.";
     return "Running the Call Center operations check now.";
   }
-  if (agentName === 'STR Ops Agent') {
+  if (agentName === 'BILLIE') {
     if (t.match(/deploy|server|code/)) return "Connecting to the server now. I'll handle the deployment.";
     if (t.match(/fix|bug|error/)) return "Investigating the issue. I'll diagnose and fix it.";
     if (t.match(/dashboard/)) return "Updating the dashboard. Changes will be live shortly.";
     return "Working on the infrastructure task now. I'll confirm when complete.";
   }
-  if (agentName === 'Assistant') {
+  if (agentName === 'LAYNE') {
     if (t.match(/search|find|look/)) return "Searching for that information now. One moment.";
     if (t.match(/summary|summarize/)) return "Pulling together a summary. I'll have it shortly.";
     return "Looking into that for you now, Mike.";
@@ -6553,59 +6553,40 @@ function ocAddTask(input) {
   var now = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
   var agName = ocTileState[idx].agent;
 
-  if (agName === 'STRBOSS') {
-    ocTileState[idx].feed.unshift({ time: now, text: '\ud83d\udce8 Task received: ' + task });
-    var delegateTo = ocPickAgent(task);
-
-    var targetIdx = 1;
-    for (var t = 0; t < 8; t++) {
-      if (t !== idx && ocTileState[t].agent === delegateTo) { targetIdx = t; break; }
-    }
-    if (ocTileState[targetIdx].agent !== delegateTo) {
-      for (var t2 = 0; t2 < 8; t2++) {
-        if (t2 !== idx && ocTileState[t2].tasks.length === 0) { targetIdx = t2; break; }
-      }
-    }
-
-    var capturedTarget = targetIdx;
-    var capturedDelegate = delegateTo;
-    var capturedIdx = idx;
-
-    setTimeout(function() {
-      var ts = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-      ocTileState[capturedIdx].feed.unshift({ time: ts, text: '\u27a1\ufe0f Delegated to <strong>' + capturedDelegate + '</strong> \u2192 Tile ' + (capturedTarget + 1) });
-      ocTileState[capturedTarget].agent = capturedDelegate;
-      ocTileState[capturedTarget].tasks.push(task);
-      ocTileState[capturedTarget].feed.unshift({ time: ts, text: '\ud83d\udce5 Task from STRBOSS: ' + task });
-      ocSaveState();
-      ocRenderTiles();
-
-      setTimeout(function() {
-        var ts2 = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-        ocTileState[capturedTarget].feed.unshift({ time: ts2, text: '\u2705 ' + capturedDelegate + ' accepted task' });
-        ocTileState[capturedIdx].feed.unshift({ time: ts2, text: '\u2705 ' + capturedDelegate + ' confirmed' });
-        ocSpeak(ocAgentReply(capturedDelegate, task), capturedTarget);
-        ocSaveState();
-        ocRenderTiles();
-      }, 1500);
-    }, 800);
-  } else {
-    ocTileState[idx].tasks.push(task);
-    ocTileState[idx].feed.unshift({ time: now, text: '\ud83d\udccb Task queued: ' + task });
-    var capturedIdx2 = idx;
-    var capturedName = agName;
-    setTimeout(function() {
-      var ts3 = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-      ocTileState[capturedIdx2].feed.unshift({ time: ts3, text: '\u2713 ' + capturedName + ' acknowledged task' });
-      ocSpeak(ocAgentReply(capturedName, task), capturedIdx2);
-      ocSaveState();
-      ocRenderTiles();
-    }, 1000);
-  }
-
+  ocTileState[idx].feed.unshift({ time: now, text: '✏️  Task: ' + task });
   input.value = '';
   ocSaveState();
   ocRenderTiles();
+
+  var capturedIdx = idx;
+  var capturedAg = agName;
+
+  fetch('/api/agent/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    body: JSON.stringify({ agent: agName, message: task })
+  })
+  .then(function(r) { return r.json().then(function(j) { return {status: r.status, body: j}; }).catch(function() { return {status: r.status, body: {}}; }); })
+  .then(function(wrap) {
+    var ts = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    var data = wrap.body || {};
+    if (wrap.status === 200 && data.ok && data.reply) {
+      ocTileState[capturedIdx].feed.unshift({ time: ts, text: '✅ ' + capturedAg + ': ' + data.reply });
+      try { ocSpeak(data.reply, capturedIdx); } catch(e) { console.warn('[ocAddTask] ocSpeak failed', e); }
+    } else {
+      var err = (data && data.error) || ('HTTP ' + wrap.status);
+      ocTileState[capturedIdx].feed.unshift({ time: ts, text: '⚠️ ' + capturedAg + ' error: ' + err });
+    }
+    ocSaveState();
+    ocRenderTiles();
+  })
+  .catch(function(err) {
+    var ts = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    ocTileState[capturedIdx].feed.unshift({ time: ts, text: '⚠️ connection error: ' + (err && err.message ? err.message : String(err)) });
+    ocSaveState();
+    ocRenderTiles();
+  });
 }
 
 function ocRefresh() {
@@ -6933,7 +6914,7 @@ function ocGreeting() {
 
   var ts = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
   if (ocTileState && ocTileState[0]) {
-    ocTileState[0].feed.unshift({ time: ts, text: 'STRBOSS online. Listening...' });
+    ocTileState[0].feed.unshift({ time: ts, text: 'AXL online. Listening...' });
     ocSaveState();
     ocRenderTiles();
   }
