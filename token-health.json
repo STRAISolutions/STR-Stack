@@ -1,16 +1,15 @@
 {
-  "checked_at": "2026-04-17T05:30:02Z",
-  "next_deep_check": "2026-04-17T17:30:04Z",
+  "checked_at": "2026-04-17T11:30:01Z",
+  "next_deep_check": "2026-04-17T23:30:03Z",
   "tokens": [
     {"name":"GHL Master (main .env)","masked":"pit-8e3c...b3e7","status":"live","http":200,"detail":"HTTP 200","source":"/root/str-stack/.env","role":"KPIs, Dashboards, OpenClaw","duplicate":false},
     {"name":"GHL Call Center (main .env)","masked":"pit-4846...db6d","status":"live","http":200,"detail":"HTTP 200","source":"/root/str-stack/.env","role":"CC Flows, Clawhip","duplicate":false},
-    {"name":"GHL API Key (main .env)","masked":"pit-b4fa...9b7f","status":"live","http":200,"detail":"HTTP 200","source":"/root/str-stack/.env","role":"Flowise Tools, MCP","duplicate":false},
-    {"name":"GHL Master (SwarmClaw)","masked":"pit-8e3c...b3e7","status":"live","http":200,"detail":"HTTP 200","source":"/root/.swarmclaw/.env","role":"SwarmClaw BDR/OPS agents","duplicate":true}
+    {"name":"GHL API Key (main .env)","masked":"pit-b4fa...9b7f","status":"live","http":200,"detail":"HTTP 200","source":"/root/str-stack/.env","role":"Flowise Tools, MCP","duplicate":false}
   ],
   "mismatches": [],
   "summary": {
-    "total": 4,
-    "live": 4,
+    "total": 3,
+    "live": 3,
     "dead": 0,
     "health_pct": 100,
     "status": "all_healthy"
