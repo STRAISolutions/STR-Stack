@@ -6373,6 +6373,18 @@ try {
   if (!Array.isArray(ocTileState) || ocTileState.length === 0) {
     ocTileState = JSON.parse(JSON.stringify(OC_DEFAULT_STATE));
   }
+  // Auto-reset if any tile references an unknown agent (e.g. after rename)
+  var stale = ocTileState.some(function(t) { return !t || !t.agent || !OC_AGENTS[t.agent]; });
+  if (stale) {
+    console.log('[oc] stale tile-state detected (unknown agent), resetting to defaults');
+    ocTileState = JSON.parse(JSON.stringify(OC_DEFAULT_STATE));
+    localStorage.removeItem('oc-tile-state');
+  }
+  // Also reset if the URL has ?reset
+  if (location.search.indexOf('reset') !== -1) {
+    ocTileState = JSON.parse(JSON.stringify(OC_DEFAULT_STATE));
+    localStorage.removeItem('oc-tile-state');
+  }
 } catch(e) {
   ocTileState = JSON.parse(JSON.stringify(OC_DEFAULT_STATE));
 }
