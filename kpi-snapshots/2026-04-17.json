@@ -1,29 +1,29 @@
 {
-  "timestamp": "2026-04-10T23:55:02Z",
+  "timestamp": "2026-04-17T05:55:03Z",
   "pipeline": {
-    "ltv_pipeline": 525000,
-    "monthly_gross": 31500,
-    "hot_leads": 42,
+    "ltv_pipeline": 537500,
+    "monthly_gross": 32250,
+    "hot_leads": 43,
     "ltv_per_account": 12500,
     "monthly_per_account": 750,
     "formula_ltv": "hot_leads x $12,500 LTV",
     "formula_monthly": "hot_leads x $750/mo",
-    "open": 42,
+    "open": 43,
     "lost": 0,
     "won": 0,
-    "total": 42,
+    "total": 43,
     "ghl_monetary_value": 0,
     "hot_stage_breakdown": {
-      "other": 42
+      "other": 43
     },
     "all_stage_breakdown": {
-      "Call Queue": 34,
+      "Call Queue": 35,
       "Overflow - VAPI": 8
     },
     "stage_pipeline": [
       {
         "name": "Call Queue",
-        "count": 34,
+        "count": 35,
         "stage_id": "6e6ba196-949c-4403-b156-eb30cfeb858c"
       },
       {
@@ -64,22 +64,22 @@
     ]
   },
   "operations": {
-    "leads_waiting": 34,
-    "leads_stale_1hr": 42,
+    "leads_waiting": 35,
+    "leads_stale_1hr": 43,
     "lead_sources": {
-      "Instantly Warm Reply": 34,
+      "Instantly Warm Reply": 35,
       "Direct/Unknown": 8
     },
     "lead_types": {
+      "src:instantly": 35,
+      "type:warm_reply": 35,
       "name via lookup": 5,
       "spam likely": 1,
-      "couldn't find caller name": 2,
-      "src:instantly": 34,
-      "type:warm_reply": 34
+      "couldn't find caller name": 2
     }
   },
   "projections": {
-    "gross_profit_potential": 63000.0,
+    "gross_profit_potential": 64500.0,
     "demo_to_customer_ratio": 0.33,
     "revenue_per_conversion": 12500,
     "conversion_goal_pct": 12,
@@ -87,7 +87,7 @@
     "commission_schedule": "TBD"
   },
   "leads": {
-    "total": 42,
+    "total": 43,
     "active_campaigns": 2,
     "total_campaigns": 20
   },
@@ -103,13 +103,13 @@
     "rate": 0
   },
   "yesterday": {
-    "new_leads": 41,
-    "new_leads_delta": "41 total",
+    "new_leads": 43,
+    "new_leads_delta": "43 total",
     "appointments": 0,
     "demos": 0,
     "demos_delta": "vs 30 target",
-    "responses": 34,
+    "responses": 35,
     "lead_sources": 2,
-    "top_source": "Instantly Warm Reply (34)"
+    "top_source": "Instantly Warm Reply (35)"
   }
 }
