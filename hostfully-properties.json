@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-18T17:45:01Z",
+  "updated_at": "2026-04-18T23:45:02Z",
   "count": 57,
   "properties": [
     {
@@ -453,7 +453,7 @@
       "isActive": true,
       "propertyType": "HOUSE",
       "bedrooms": 3,
-      "bathrooms": "2",
+      "bathrooms": "2.5",
       "city": "JACKSON HOLE",
       "state": "WY",
       "maxGuests": "?",
