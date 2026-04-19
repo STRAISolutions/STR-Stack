@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-04-19T11:59:01Z",
+  "checked_at": "2026-04-19T12:00:02Z",
   "services": {
     "openclaw": {"status":"up","http":200,"port":18789},
     "vapi_relay": {"status":"up","http":200,"port":8443},
