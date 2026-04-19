@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-12T23:55:03Z",
+  "timestamp": "2026-04-19T05:55:02Z",
   "pipeline": {
     "ltv_pipeline": 537500,
     "monthly_gross": 32250,
@@ -103,13 +103,13 @@
     "rate": 0
   },
   "yesterday": {
-    "new_leads": 42,
-    "new_leads_delta": "42 total",
+    "new_leads": 43,
+    "new_leads_delta": "43 total",
     "appointments": 0,
     "demos": 0,
     "demos_delta": "vs 30 target",
-    "responses": 34,
+    "responses": 35,
     "lead_sources": 2,
-    "top_source": "Instantly Warm Reply (34)"
+    "top_source": "Instantly Warm Reply (35)"
   }
 }
