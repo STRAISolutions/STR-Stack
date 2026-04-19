@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-19T11:45:01Z",
-  "count": 57,
+  "updated_at": "2026-04-19T17:45:01Z",
+  "count": 60,
   "properties": [
     {
       "uid": "8752740c-b020-43be-b5bc-74eebc105bca",
@@ -544,6 +544,19 @@
       "maxGuests": "?"
     },
     {
+      "uid": "c3e3a2db-6a4b-484e-aba7-0af2e8ee50b5",
+      "name": "Powder Peak Place",
+      "isActive": true,
+      "propertyType": "HOUSE",
+      "bedrooms": 0,
+      "bathrooms": "0",
+      "city": "Salt Lake City",
+      "state": "UT",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
+    },
+    {
       "uid": "904c5a49-e6c2-49d4-b8f9-19d1f8e55b4d",
       "name": "PRAIRIE SKY STAY",
       "isActive": true,
@@ -591,6 +604,32 @@
       "bathrooms": "3",
       "city": "Quinte West",
       "state": "ON",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
+    },
+    {
+      "uid": "a5fe3746-36c6-413a-a060-7ba21ff7a6f7",
+      "name": "Salt Flats Sanctuary",
+      "isActive": true,
+      "propertyType": "HOUSE",
+      "bedrooms": 0,
+      "bathrooms": "0",
+      "city": "Salt Lake City",
+      "state": "UT",
+      "maxGuests": "?",
+      "dailyRate": 549.0,
+      "cleaningFee": 189.0
+    },
+    {
+      "uid": "fe4eb8cc-09a2-43b7-a954-f8ad7b392a30",
+      "name": "Skyline Slopes Escape",
+      "isActive": true,
+      "propertyType": "HOUSE",
+      "bedrooms": 0,
+      "bathrooms": "0",
+      "city": "Salt Lake City",
+      "state": "UT",
       "maxGuests": "?",
       "dailyRate": 549.0,
       "cleaningFee": 189.0

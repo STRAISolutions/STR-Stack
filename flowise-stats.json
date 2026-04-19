@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-19T11:55:02Z",
+  "timestamp": "2026-04-19T17:55:02Z",
   "health": {
     "http_status": 200,
     "status": "healthy"
@@ -11,7 +11,7 @@
   "executions": {
     "total": 206,
     "last_24h": 10,
-    "last_7d": 96
+    "last_7d": 90
   },
   "tools": 13,
   "credentials": 1,
