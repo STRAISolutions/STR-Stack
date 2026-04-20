@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-04-20T11:55:02Z",
+  "timestamp": "2026-04-20T17:55:03Z",
   "health": {
-    "http_status": 200,
-    "status": "healthy"
+    "http_status": 0000,
+    "status": "degraded"
   },
   "flows": {
     "total": 1,

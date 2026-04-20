@@ -1237,6 +1237,18 @@
         </div>
       </div>
       <div class="oc-grid" id="oc-grid"></div>
+
+    
+      <div class="section-title">Tools &amp; Stack</div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+        <a href="https://dashboard.strsolutionsusa.com/tools" target="_blank" style="text-decoration:none;" title="Open Tools Command Center">
+          <div class="card" style="min-width:220px;cursor:pointer;padding:1.2rem 1.5rem;">
+            <div style="font-size:1.6rem;font-weight:700;color:#e8d5a3;">68</div>
+            <div style="font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:#aaa;margin-top:.25rem;">Tools</div>
+            <div style="font-size:.7rem;color:#666;margin-top:.2rem;">Command Center</div>
+          </div>
+        </a>
+      </div>
       </section>
 
     
@@ -1473,10 +1485,7 @@
 
       
 
-    
-      <div class="section-title">Tools &amp; Stack</div>
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;"><a href="https://dashboard.strsolutionsusa.com/tools" target="_blank" style="text-decoration:none;"><div class="card" style="min-width:200px;cursor:pointer;padding:1.2rem 1.5rem;display:inline-block;"><div style="font-size:1.8rem;font-weight:700;color:#e8d5a3;">68</div><div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#aaa;margin-top:.3rem;">Tools</div><div style="font-size:.65rem;color:#666;margin-top:.2rem;">Command Center</div></div></a></div>
-      </section>
+    </section>
 
     <!-- ─── SERVICES TAB ──────────────────────────────────────── -->
     <section id="tab-services" class="tab-panel">
