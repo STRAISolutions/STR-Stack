@@ -1161,6 +1161,7 @@
         <button class="tab-btn active" data-tab="financials">KPI &amp; Revenue</button>
         <button class="tab-btn" data-tab="activity">Activity Log</button>
         <button class="tab-btn" data-tab="tasks">Tasks</button>
+        <button class="tab-btn" data-tab="tools">Tools</button>
       </div>
     </div>
 
@@ -1174,6 +1175,7 @@
         <button class="tab-btn" data-tab="stack">Tech Stack</button>
         <button class="tab-btn" data-tab="wiring">Wiring Diagram</button>
         <button class="tab-btn" data-tab="config">Configuration</button>
+        <a href="/calculator" target="_blank" class="tab-btn" style="display:block;text-decoration:none;color:inherit;">Calculator</a>
       </div>
     </div>
 
@@ -1477,6 +1479,57 @@
       <div class="section-title">Tools &amp; Stack</div>
       <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;"><a href="https://dashboard.strsolutionsusa.com/tools" target="_blank" style="text-decoration:none;"><div class="card" style="min-width:200px;cursor:pointer;padding:1.2rem 1.5rem;display:inline-block;"><div style="font-size:1.8rem;font-weight:700;color:#e8d5a3;">68</div><div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#aaa;margin-top:.3rem;">Tools</div><div style="font-size:.65rem;color:#666;margin-top:.2rem;">Command Center</div></div></a></div>
       </section>
+
+    <!-- ─── TOOLS TAB ─────────────────────────────────────────── -->
+    <section id="tab-tools" class="tab-panel">
+      <div class="section-title">Tools &amp; Stack</div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;">
+        <a href="https://dashboard.strsolutionsusa.com/tools" target="_blank" style="text-decoration:none;">
+          <div class="card" style="min-width:200px;cursor:pointer;padding:1.2rem 1.5rem;display:inline-block;">
+            <div style="font-size:1.8rem;font-weight:700;color:#e8d5a3;">68</div>
+            <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#aaa;margin-top:.3rem;">Tools</div>
+            <div style="font-size:.65rem;color:#666;margin-top:.2rem;">Command Center</div>
+          </div>
+        </a>
+      </div>
+      <div class="grid">
+        <div class="card" style="grid-column:span 2;">
+          <h2>Tool Categories</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:12px;">
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#128295;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">CRM &amp; GHL</div>
+              <div style="font-size:.65rem;color:#888;">GoHighLevel, contacts, workflows</div>
+            </div>
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#129302;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">AI Agents</div>
+              <div style="font-size:.65rem;color:#888;">OpenClaw, SwarmClaw, Flowise</div>
+            </div>
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#128200;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">Analytics</div>
+              <div style="font-size:.65rem;color:#888;">Revenue, KPIs, pipeline</div>
+            </div>
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#128279;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">Integrations</div>
+              <div style="font-size:.65rem;color:#888;">PayPal, Hostfully, GHL MCPs</div>
+            </div>
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#9881;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">Dev &amp; Ops</div>
+              <div style="font-size:.65rem;color:#888;">GitHub, DigitalOcean, deploy</div>
+            </div>
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#128241;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">Comms</div>
+              <div style="font-size:.65rem;color:#888;">Gmail, calendar, Slack</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ─── SERVICES TAB ──────────────────────────────────────── -->
     <section id="tab-services" class="tab-panel">
@@ -6502,7 +6555,7 @@ function ocAgentReply(agentName, taskText) {
     return "I'm " + name + ". I'm your " + (ag.role === 'coordinator' ? 'coordinator agent' : name.toLowerCase()) + " powered by " + (ag.model || 'AI') + ". How can I help you today?";
   }
   if (t.match(/hello|hey|hi |good morning|good afternoon|good evening/)) {
-    return "Hey Mike. " + name + " here. What would you like me to work on?";
+    return name + " here. What would you like me to work on?";
   }
   if (t.match(/how are you|how.s it going|what.s up/)) {
     return "All systems green, Mike. " + name + " is standing by. What do you need?";
@@ -6924,7 +6977,7 @@ function ocGreeting() {
   if (OC_VOICE.greeted) return;
   OC_VOICE.greeted = true;
 
-  var msg = 'Hey Mike';
+  var msg = 'Ready';
 
   var ts = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
   if (ocTileState && ocTileState[0]) {
