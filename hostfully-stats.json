@@ -1,50 +1,68 @@
 {
-  "updated_at": "2026-04-19T23:45:02Z",
+  "updated_at": "2026-04-20T05:45:01Z",
   "summary": {
     "total_leads": 500,
-    "total_bookings": 171,
-    "active_bookings": 110,
-    "cancelled": 61,
+    "total_bookings": 170,
+    "active_bookings": 108,
+    "cancelled": 62,
     "inquiries": 10
   },
   "revenue": {
-    "this_year": 126473.79,
-    "this_month": 124889.45,
-    "this_week": 1270.29
+    "this_year": 125419.54,
+    "this_month": 123835.2,
+    "this_week": 2299.57
   },
   "payments": {
-    "balance_due": 65995.95,
+    "balance_due": 65558.9,
     "overdue_count": 2,
     "overdue_amount": 333.4
   },
   "arrivals": {
-    "this_week": 3,
+    "this_week": 6,
     "details": [
       {
-        "guest": "Natalee Kazor",
-        "checkin": "2026-04-17T16:00:00",
-        "channel": "WHIMSTAY",
-        "property": "e81cbaa6"
+        "guest": "Ong Dennis",
+        "checkin": "2026-04-25T15:00:00",
+        "channel": "BOOKING_COM",
+        "property": "ceb47f7a"
       },
       {
-        "guest": "Dmitri Alexandrov",
-        "checkin": "2026-04-16T15:00:00",
+        "guest": "Matthew,dennis Vogel",
+        "checkin": "2026-04-25T16:00:00",
+        "channel": "AIRBNB",
+        "property": "625ce688"
+      },
+      {
+        "guest": "Iba Abbasi",
+        "checkin": "2026-04-24T16:00:00",
+        "channel": "AIRBNB",
+        "property": "625ce688"
+      },
+      {
+        "guest": "Paul Welzel",
+        "checkin": "2026-04-23T15:00:00",
+        "channel": "BOOKING_COM",
+        "property": "866378ce"
+      },
+      {
+        "guest": "Maciej Rybi\u0144ski",
+        "checkin": "2026-04-24T15:00:00",
+        "channel": "BOOKING_COM",
+        "property": "905e0ff7"
+      },
+      {
+        "guest": "Paul Welzel",
+        "checkin": "2026-04-23T15:00:00",
         "channel": "BOOKING_COM",
         "property": "15ee8fbc"
-      },
-      {
-        "guest": "Marc-Antoine G\u00e9linas",
-        "checkin": "2026-04-17T16:00:00",
-        "channel": "AIRBNB",
-        "property": "a8782eba"
       }
     ]
   },
   "channels": {
-    "BOOKING_COM": 25,
+    "BOOKING_COM": 24,
     "AIRBNB": 15,
     "WHIMSTAY": 2,
-    "HOSTFULLY": 68
+    "HOSTFULLY": 67
   },
   "properties": {
     "total": 44
