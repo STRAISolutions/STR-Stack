@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-19T17:45:01Z",
+  "updated_at": "2026-04-19T23:45:02Z",
   "count": 60,
   "properties": [
     {
@@ -626,8 +626,8 @@
       "name": "Skyline Slopes Escape",
       "isActive": true,
       "propertyType": "HOUSE",
-      "bedrooms": 0,
-      "bathrooms": "0",
+      "bedrooms": 4,
+      "bathrooms": "2.5",
       "city": "Salt Lake City",
       "state": "UT",
       "maxGuests": "?",
