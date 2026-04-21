@@ -27,6 +27,25 @@
       --glass-border:rgba(201,185,154,0.12);
       --shimmer:linear-gradient(135deg,rgba(201,185,154,0.04) 0%,rgba(201,185,154,0.08) 50%,rgba(201,185,154,0.04) 100%);
     }
+    [data-theme="light"] {
+      --bg: #f4f1ec;
+      --panel: #ffffff;
+      --panel-alt: #f8f5f0;
+      --border: #e0d8cc;
+      --text: #1a1a1a;
+      --muted: rgba(0,0,0,0.5);
+      --accent: #c9b99a;
+      --accent-soft: #f0ede5;
+      --gold: #c9b99a;
+      --gold-soft: rgba(201,185,154,0.15);
+      --success: #4a9e6e;
+      --warn: #d4a843;
+      --danger: #c0504d;
+      --glass: rgba(255,255,255,0.9);
+      --glass-border: rgba(201,185,154,0.3);
+      --shimmer: linear-gradient(135deg,rgba(201,185,154,0.08) 0%,rgba(201,185,154,0.15) 50%,rgba(201,185,154,0.08) 100%);
+    }
+    
     * { box-sizing:border-box; }
     body { margin:0; font-family:'DM Sans',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; }
     h1,h2,.kpi-val,.metric,.metric-sm,.stat-val { font-family:'Cormorant Garamond','Georgia',serif; }
@@ -1140,6 +1159,7 @@
       <h1>STR Solutions USA</h1>
     </div>
     <div style="display:flex; align-items:center; gap:16px; min-width:180px; justify-content:flex-end;">
+      <button id="theme-toggle" style="background:transparent; border:1px solid var(--border); color:var(--text); padding:8px 12px; border-radius:6px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; transition:all .2s; min-width:40px; margin-right:8px;">🌙</button>
       <div class="global-clock">
         <span class="clock-dot"></span>
         <div>
@@ -1207,6 +1227,7 @@
         <button class="tab-btn" data-tab="google">Workspace</button>
         <button class="tab-btn" data-tab="skills">Skills</button>
         <button class="tab-btn" data-tab="cowork">Cowork</button>
+        <button class="tab-btn" data-tab="calculator">Cashflow Calculator</button>
       </div>
     </div>
 
@@ -2704,6 +2725,11 @@
           <p style="font-family:'DM Sans',sans-serif; font-size:13px;">Logs tracked in <code>Stack/logs/</code></p>
         </div>
       </div>
+    </section>
+
+    <!-- ─── CALCULATOR TAB ──────────────────────────────────────── -->
+    <section id="tab-calculator" class="tab-panel">
+      <iframe src="/calculator/" style="width:100%;height:calc(100vh - 200px);border:none;border-radius:8px;"></iframe>
     </section>
 
         <!-- ─── CONFIG TAB ──────────────────────────────────────── -->
@@ -7042,6 +7068,45 @@ if (document.readyState === 'loading') {
     }
     // --- end BMO Deposits --------------------------------------------
 
-</script>
+
+/* ── Dark/Light Mode Toggle ── */
+(function() {
+  const THEME_KEY = 'str-dashboard-theme';
+  const toggle = document.getElementById('theme-toggle');
+  
+  function initTheme() {
+    const saved = localStorage.getItem(THEME_KEY) || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    updateToggleIcon(saved);
+  }
+  
+  function updateToggleIcon(theme) {
+    if (toggle) {
+      toggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+      toggle.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    }
+  }
+  
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem(THEME_KEY, next);
+    updateToggleIcon(next);
+  }
+  
+  if (toggle) {
+    toggle.addEventListener('click', toggleTheme);
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTheme);
+  } else {
+    initTheme();
+  }
+})();
+/* ── End Theme Toggle ── */
+
+    </script>
 </body>
 </html>
