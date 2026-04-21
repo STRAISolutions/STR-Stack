@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-04-20T18:00:01Z",
+  "checked_at": "2026-04-20T23:59:02Z",
   "services": {
-    "openclaw": {"status":"up","http":200,"port":18789},
+    "openclaw": {"status":"down","http":000,"port":18789},
     "vapi_relay": {"status":"up","http":200,"port":8443},
     "flowise": {"status":"up","http":200,"port":3000},
     "funnel": {"status":"up","port":443},

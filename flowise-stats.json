@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-04-20T17:55:03Z",
+  "timestamp": "2026-04-20T23:55:02Z",
   "health": {
-    "http_status": 0000,
-    "status": "degraded"
+    "http_status": 200,
+    "status": "healthy"
   },
   "flows": {
     "total": 1,
     "deployed": 1
   },
   "executions": {
-    "total": 206,
-    "last_24h": 0,
-    "last_7d": 90
+    "total": 228,
+    "last_24h": 22,
+    "last_7d": 112
   },
   "tools": 13,
   "credentials": 1,
