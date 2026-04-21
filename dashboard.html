@@ -2602,11 +2602,10 @@
 
     <!-- ─── COWORK TAB ──────────────────────────────────────── -->
     <section id="tab-cowork" class="tab-panel">
-      <div style="display:grid; grid-template-columns:minmax(0,1fr) 68px minmax(0,1fr); gap:0 12px; align-items:stretch;">
+      <div style="display:grid; grid-template-columns:minmax(0,1fr) 68px minmax(0,1fr); gap:0 12px; align-items:stretch; position:relative; overflow:hidden;">
 
         <!-- ═══ LEFT: OpenClaw Agent ═══ -->
-        <div class="card drag-section" data-drag-group="cowork" data-drag-id="cowork-card-1" style="display:flex; flex-direction:column; min-height:520px; border-top:2px solid #4a9eff;">
-          <span class="drag-handle">&#9776;</span>
+        <div class="card" style="display:flex; flex-direction:column; min-height:520px; border-top:2px solid #4a9eff;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <div style="display:flex; align-items:center; gap:8px;">
               <span style="width:8px;height:8px;border-radius:50%;background:#4a9eff;display:inline-block;box-shadow:0 0 6px #4a9eff;" id="oc-dot-header"></span>
@@ -2632,7 +2631,7 @@
         </div>
 
         <!-- ═══ CENTER: Agent Status Column ═══ -->
-        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; padding:8px 0; position:relative;">
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; padding:8px 0; position:relative; min-height:520px;">
           <!-- Vertical line -->
           <div style="position:absolute; top:0; bottom:0; left:50%; width:1px; background:var(--border); transform:translateX(-50%); z-index:0;"></div>
 
@@ -2662,8 +2661,7 @@
         </div>
 
         <!-- ═══ RIGHT: OpenAI Agent ═══ -->
-        <div class="card drag-section" data-drag-group="cowork" data-drag-id="cowork-card-2" style="display:flex; flex-direction:column; min-height:520px; border-top:2px solid #a855f7;">
-          <span class="drag-handle">&#9776;</span>
+        <div class="card" style="display:flex; flex-direction:column; min-height:520px; border-top:2px solid #a855f7;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <div style="display:flex; align-items:center; gap:8px;">
               <span style="width:8px;height:8px;border-radius:50%;background:#a855f7;display:inline-block;box-shadow:0 0 6px #a855f7;" id="ai-dot-header"></span>
