@@ -6,9 +6,5 @@
   "Slack": {
     "failed_at": "2026-04-04T16:28:32Z",
     "fail_reason": "HTTP 200"
-  },
-  "Discord": {
-    "failed_at": "2026-04-20T23:50:01Z",
-    "fail_reason": "Channel check output truncated"
   }
 }

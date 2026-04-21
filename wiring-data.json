@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-04-20T23:59:01Z",
+  "generated_at": "2026-04-21T05:59:01Z",
   "nodes": {
     "services": [
       {"id":"nginx","label":"Nginx","port":"80/443","status":"on","type":"proxy"},
       {"id":"swarmclaw","label":"Swarmclaw","port":"3456","status":"on","type":"service","detail":"Next.js AI Runtime"},
-      {"id":"openclaw_gw","label":"OpenClaw Gateway","port":"18789","status":"off","type":"service","detail":"v2026.4.2"},
+      {"id":"openclaw_gw","label":"OpenClaw Gateway","port":"18789","status":"on","type":"service","detail":"v2026.4.2"},
       {"id":"flowise","label":"Flowise","port":"3000","status":"on","type":"service","detail":"AI Workflow Engine"},
       {"id":"flowise_db","label":"Flowise DB","port":"5432","status":"on","type":"database","detail":"PostgreSQL"},
       {"id":"vapi_relay","label":"Vapi Relay","port":"8443","status":"on","type":"service","detail":"Webhook Relay"},
@@ -13,7 +13,7 @@
       {"id":"paperclip","label":"Paperclip","port":"3100","status":"on","type":"service","detail":"Multi-Agent Orchestrator"}
     ],
     "external": [
-      {"id":"discord","label":"Discord","status":"trouble","type":"external","detail":"WebSocket Gateway"},
+      {"id":"discord","label":"Discord","status":"on","type":"external","detail":"WebSocket Gateway"},
       {"id":"openai","label":"OpenAI","status":"on","type":"external","detail":"GPT / Codex"},
       {"id":"ghl_master","label":"GHL Master","status":"on","type":"external","detail":"Loc: 1OOZ4AKI..."},
       {"id":"ghl_callcenter","label":"GHL Call Center","status":"on","type":"external","detail":"Loc: 7hTDBCla..."},
@@ -33,23 +33,23 @@
   "wires": [
     {"from":"nginx","to":"swarmclaw","label":"proxy :3456","status":"idle"},
     {"from":"nginx","to":"flowise","label":"proxy :3000","status":"idle"},
-    {"from":"nginx","to":"openclaw_gw","label":"proxy :18789","status":"trouble"},
-    {"from":"openclaw_gw","to":"discord","label":"WebSocket","status":"off"},
-    {"from":"openclaw_gw","to":"openai","label":"API (OAuth)","status":"off"},
+    {"from":"nginx","to":"openclaw_gw","label":"proxy :18789","status":"idle"},
+    {"from":"openclaw_gw","to":"discord","label":"WebSocket","status":"idle"},
+    {"from":"openclaw_gw","to":"openai","label":"API (OAuth)","status":"idle"},
     {"from":"flowise","to":"flowise_db","label":"pg:5432","status":"active"},
     {"from":"flowise","to":"ghl_master","label":"GHL API","status":"idle"},
     {"from":"flowise","to":"openai","label":"API Key","status":"idle"},
-    {"from":"vapi_relay","to":"openclaw_gw","label":"webhook","status":"trouble"},
+    {"from":"vapi_relay","to":"openclaw_gw","label":"webhook","status":"idle"},
     {"from":"swarmclaw","to":"openai","label":"API (OAuth)","status":"idle"},
     {"from":"swarmclaw","to":"redis","label":"cache","status":"idle"},
-    {"from":"paperclip","to":"openclaw_gw","label":"WebSocket :18789","status":"trouble"}
+    {"from":"paperclip","to":"openclaw_gw","label":"WebSocket :18789","status":"idle"}
   ],
   "keys": [
     {"name":"OPENAI_API_KEY","masked":"sk-proj-...TOMA","status":"on","http":200,"target":"OpenClaw, Flowise, Swarmclaw"},
     {"name":"GHL_MASTER_OAUTH","masked":"pit-8e3c...b3e7","status":"on","http":200,"target":"KPI Script, OpenClaw"},
     {"name":"GHL_CALL_CENTER_OAUTH","masked":"pit-4846...db6d","status":"on","http":200,"target":"Call Center Flows"},
     {"name":"GHL_API_KEY","masked":"pit-b4fa...9b7f","status":"on","http":200,"target":"Flowise Tools, MCP"},
-    {"name":"DISCORD_TOKEN","masked":"MTQ3MjM0...WqpI","status":"trouble","http":0,"target":"OpenClaw Gateway"},
+    {"name":"DISCORD_TOKEN","masked":"MTQ3MjM0...WqpI","status":"on","http":0,"target":"OpenClaw Gateway"},
     {"name":"INSTANTLY_API_KEY","masked":"NDI1M2E0...Zg==","status":"on","http":200,"target":"Email Campaigns"},
     {"name":"CLAY_API_KEY","masked":"3bb1e2be...8871","status":"trouble","http":401,"target":"Data Enrichment"},
     {"name":"APOLLO_API_KEY","masked":"NWt_5gpS...bc2g","status":"on","http":200,"target":"Lead Generation"},
@@ -61,17 +61,16 @@
     {"name":"AIRDNA_API_KEY","masked":"f0cd7cc9...e48a","status":"standby","http":0,"target":"Market Data"}
   ],
   "breakpoints": [
-    {"component":"Discord","issue":"Discord bot trouble","severity":"high","failed_at":"2026-04-20T23:50:01Z","fail_reason":"Channel check output truncated"},
     {"component":"Clay","issue":"API key trouble (HTTP 401) - enrichment unavailable","severity":"medium","failed_at":"2026-04-04T16:28:32Z","fail_reason":"HTTP 401 from api.clay.com"},
     {"component":"Slack","issue":"Token trouble - notifications blocked","severity":"low","failed_at":"2026-04-04T16:28:32Z","fail_reason":"HTTP 200"}
   ],
   "summary": {
     "total_services": 9,
-    "services_up": 8,
+    "services_up": 9,
     "total_apis": 12,
     "apis_healthy": 9,
     "total_wires": 12,
-    "wires_ok": 7,
-    "critical_breaks": 1
+    "wires_ok": 12,
+    "critical_breaks": 0
   }
 }

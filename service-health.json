@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-04-21T00:00:02Z",
+  "checked_at": "2026-04-21T05:59:01Z",
   "services": {
-    "openclaw": {"status":"down","http":000,"port":18789},
+    "openclaw": {"status":"up","http":200,"port":18789},
     "vapi_relay": {"status":"up","http":200,"port":8443},
     "flowise": {"status":"up","http":200,"port":3000},
-    "funnel": {"status":"up","port":443},
+    "funnel": {"status":"down","port":443},
     "discord": {"status":"up","port":"ws"},
     "paperclip": {"status":"up","http":200,"port":3100}
   },
