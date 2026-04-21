@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-21T17:59:01Z",
+  "generated_at": "2026-04-21T20:57:01Z",
   "nodes": {
     "services": [
       {"id":"nginx","label":"Nginx","port":"80/443","status":"on","type":"proxy"},
@@ -9,7 +9,7 @@
       {"id":"flowise_db","label":"Flowise DB","port":"5432","status":"on","type":"database","detail":"PostgreSQL"},
       {"id":"vapi_relay","label":"Vapi Relay","port":"8443","status":"on","type":"service","detail":"Webhook Relay"},
       {"id":"redis","label":"Redis","port":"6379","status":"on","type":"database","detail":"Cache/Queue"},
-      {"id":"tailscale","label":"Tailscale","port":"VPN","status":"on","type":"network","detail":"Mesh VPN"},
+      {"id":"tailscale","label":"Tailscale","port":"VPN","status":"off","type":"network","detail":"Mesh VPN"},
       {"id":"paperclip","label":"Paperclip","port":"3100","status":"on","type":"service","detail":"Multi-Agent Orchestrator"}
     ],
     "external": [
@@ -66,7 +66,7 @@
   ],
   "summary": {
     "total_services": 9,
-    "services_up": 9,
+    "services_up": 8,
     "total_apis": 12,
     "apis_healthy": 9,
     "total_wires": 12,

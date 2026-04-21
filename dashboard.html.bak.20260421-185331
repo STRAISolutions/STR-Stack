@@ -1550,8 +1550,8 @@
           <span class="drag-handle">&#9776;</span>
           <h2>Callback Endpoints</h2>
           <ul class="list">
-            <li><strong>Vapi Webhook</strong><br/><code style="font-size:11px;color:var(--gold);">https://134.209.11.87/vapi/webhook</code><br/><span class="subline">POST &middot; x-vapi-secret auth</span></li>
-            <li><strong>OpenClaw Gateway</strong><br/><code style="font-size:11px;color:var(--gold);">https://134.209.11.87/</code><br/><span class="subline">Token auth &middot; Funnel &rarr; :18789</span></li>
+            <li><strong>Vapi Webhook</strong><br/><code style="font-size:11px;color:var(--gold);">https://openclaw-droplet.tailb44e91.ts.net/vapi/webhook</code><br/><span class="subline">POST &middot; x-vapi-secret auth</span></li>
+            <li><strong>OpenClaw Gateway</strong><br/><code style="font-size:11px;color:var(--gold);">https://openclaw-droplet.tailb44e91.ts.net/</code><br/><span class="subline">Token auth &middot; Funnel &rarr; :18789</span></li>
             <li><strong>Flowise Prediction</strong><br/><code style="font-size:11px;color:var(--gold);">https://flowise.strsolutionsusa.com/api/v1/prediction/2955e532...</code><br/><span class="subline">POST &middot; Bearer FLOWISE_API_KEY</span></li>
           </ul>
         </div>
