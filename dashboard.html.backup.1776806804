@@ -27,25 +27,6 @@
       --glass-border:rgba(201,185,154,0.12);
       --shimmer:linear-gradient(135deg,rgba(201,185,154,0.04) 0%,rgba(201,185,154,0.08) 50%,rgba(201,185,154,0.04) 100%);
     }
-    [data-theme="light"] {
-      --bg: #f4f1ec;
-      --panel: #ffffff;
-      --panel-alt: #f8f5f0;
-      --border: #e0d8cc;
-      --text: #1a1a1a;
-      --muted: rgba(0,0,0,0.5);
-      --accent: #c9b99a;
-      --accent-soft: #f0ede5;
-      --gold: #c9b99a;
-      --gold-soft: rgba(201,185,154,0.15);
-      --success: #4a9e6e;
-      --warn: #d4a843;
-      --danger: #c0504d;
-      --glass: rgba(255,255,255,0.9);
-      --glass-border: rgba(201,185,154,0.3);
-      --shimmer: linear-gradient(135deg,rgba(201,185,154,0.08) 0%,rgba(201,185,154,0.15) 50%,rgba(201,185,154,0.08) 100%);
-    }
-    
     * { box-sizing:border-box; }
     body { margin:0; font-family:'DM Sans',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; }
     h1,h2,.kpi-val,.metric,.metric-sm,.stat-val { font-family:'Cormorant Garamond','Georgia',serif; }
@@ -1159,7 +1140,6 @@
       <h1>STR Solutions USA</h1>
     </div>
     <div style="display:flex; align-items:center; gap:16px; min-width:180px; justify-content:flex-end;">
-      <button id="theme-toggle" style="background:transparent; border:1px solid var(--border); color:var(--text); padding:8px 12px; border-radius:6px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; transition:all .2s; min-width:40px; margin-right:8px;">🌙</button>
       <div class="global-clock">
         <span class="clock-dot"></span>
         <div>
@@ -1178,7 +1158,6 @@
     <div class="nav-group">
       <button class="nav-top active" data-group="dashboard">Dashboard <span class="arrow">&#9662;</span></button>
       <div class="nav-drop">
-        <button class="tab-btn" data-tab="cowork">Cowork</button>
         <button class="tab-btn active" data-tab="financials">KPI &amp; Revenue</button>
         <button class="tab-btn" data-tab="activity">Activity Log</button>
         <button class="tab-btn" data-tab="tasks">Tasks</button>
@@ -1196,7 +1175,7 @@
         <button class="tab-btn" data-tab="stack">Tech Stack</button>
         <button class="tab-btn" data-tab="wiring">Wiring Diagram</button>
         <button class="tab-btn" data-tab="config">Configuration</button>
-
+        <button class="tab-btn" onclick="window.open('/calculator','_blank')">Calculator</button>
       </div>
     </div>
 
@@ -1227,7 +1206,7 @@
       <div class="nav-drop">
         <button class="tab-btn" data-tab="google">Workspace</button>
         <button class="tab-btn" data-tab="skills">Skills</button>
-        <button class="tab-btn" data-tab="calculator">Cashflow Calculator</button>
+        <button class="tab-btn" data-tab="cowork">Cowork</button>
       </div>
     </div>
 
@@ -1501,11 +1480,59 @@
       
 
     
+      <div class="section-title">Tools &amp; Stack</div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;"><a href="https://dashboard.strsolutionsusa.com/tools" target="_blank" style="text-decoration:none;"><div class="card" style="min-width:200px;cursor:pointer;padding:1.2rem 1.5rem;display:inline-block;"><div style="font-size:1.8rem;font-weight:700;color:#e8d5a3;">68</div><div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#aaa;margin-top:.3rem;">Tools</div><div style="font-size:.65rem;color:#666;margin-top:.2rem;">Command Center</div></div></a></div>
       </section>
 
     <!-- ─── TOOLS TAB ─────────────────────────────────────────── -->
     <section id="tab-tools" class="tab-panel">
-      <iframe src="/tools" style="width:100%;height:calc(100vh - 180px);border:none;border-radius:8px;display:block;"></iframe>
+      <div class="section-title">Tools &amp; Stack</div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;">
+        <a href="https://dashboard.strsolutionsusa.com/tools" target="_blank" style="text-decoration:none;">
+          <div class="card" style="min-width:200px;cursor:pointer;padding:1.2rem 1.5rem;display:inline-block;">
+            <div style="font-size:1.8rem;font-weight:700;color:#e8d5a3;">68</div>
+            <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#aaa;margin-top:.3rem;">Tools</div>
+            <div style="font-size:.65rem;color:#666;margin-top:.2rem;">Command Center</div>
+          </div>
+        </a>
+      </div>
+      <div class="grid">
+        <div class="card" style="grid-column:span 2;">
+          <h2>Tool Categories</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:12px;">
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#128295;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">CRM &amp; GHL</div>
+              <div style="font-size:.65rem;color:#888;">GoHighLevel, contacts, workflows</div>
+            </div>
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#129302;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">AI Agents</div>
+              <div style="font-size:.65rem;color:#888;">OpenClaw, SwarmClaw, Flowise</div>
+            </div>
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#128200;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">Analytics</div>
+              <div style="font-size:.65rem;color:#888;">Revenue, KPIs, pipeline</div>
+            </div>
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#128279;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">Integrations</div>
+              <div style="font-size:.65rem;color:#888;">PayPal, Hostfully, GHL MCPs</div>
+            </div>
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#9881;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">Dev &amp; Ops</div>
+              <div style="font-size:.65rem;color:#888;">GitHub, DigitalOcean, deploy</div>
+            </div>
+            <div class="card" style="padding:.9rem 1rem;cursor:pointer;" onclick="window.open('https://dashboard.strsolutionsusa.com/tools','_blank')">
+              <div style="font-size:1.4rem;">&#128241;</div>
+              <div style="font-size:.75rem;color:#e8d5a3;font-weight:600;margin:.4rem 0 .2rem;">Comms</div>
+              <div style="font-size:.65rem;color:#888;">Gmail, calendar, Slack</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ─── SERVICES TAB ──────────────────────────────────────── -->
@@ -2602,25 +2629,22 @@
 
     <!-- ─── COWORK TAB ──────────────────────────────────────── -->
     <section id="tab-cowork" class="tab-panel">
-      <div style="display:grid; grid-template-columns:1fr 72px 1fr; gap:0 14px; align-items:stretch;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
 
-        <!-- ═══ LEFT: OpenClaw Agent ═══ -->
-        <div class="card drag-section" data-drag-group="cowork" data-drag-id="cowork-card-1" style="display:flex; flex-direction:column; height:600px; border-top:2px solid #4a9eff;">
+        <!-- STU Chat -->
+        <div class="card drag-section" data-drag-group="cowork" data-drag-id="cowork-card-1" style="display:flex; flex-direction:column; height:600px;">
           <span class="drag-handle">&#9776;</span>
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="width:8px;height:8px;border-radius:50%;background:#4a9eff;display:inline-block;box-shadow:0 0 6px #4a9eff;" id="oc-dot-header"></span>
-              <h2 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:18px;">OpenClaw</h2>
-            </div>
-            <span class="pill" style="font-size:10px; background:rgba(74,158,255,0.12); color:#4a9eff; border:1px solid rgba(74,158,255,0.3);">Flowise &middot; GHL Agent</span>
+            <h2 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:18px;">STU</h2>
+            <span class="pill" style="font-size:10px;">GPT-4.1 &middot; 9 GHL Tools</span>
           </div>
-          <div class="subline" style="margin-bottom:10px;">GHL Operations &middot; Contacts &middot; Pipelines &middot; Workflows &middot; Tags &middot; Calendars</div>
+          <div class="subline" style="margin-bottom:10px;">GHL Management (Master + Call Center) &middot; Pipelines &middot; Contacts &middot; Calendars &middot; Tags &middot; Workflows</div>
           <div id="stu-messages" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:10px 0;">
-            <div style="background:rgba(74,158,255,0.06); border-radius:10px; padding:10px 14px; align-self:flex-start; max-width:85%; font-size:15px; font-family:'DM Sans',sans-serif; border-left:3px solid rgba(74,158,255,0.4);">OpenClaw online. I route your GHL operations — search contacts, manage pipelines, trigger workflows, handle tags and calendars across both Master and Call Center accounts.</div>
+            <div style="background:rgba(201,185,154,0.08); border-radius:10px; padding:10px 14px; align-self:flex-start; max-width:85%; font-size:15px; font-family:'DM Sans',sans-serif;">I'm STU, your GHL command router. I can search contacts, list pipelines, manage tags, trigger workflows, send messages, and more — across both Master and Call Center subaccounts. Try the quick buttons below!</div>
           </div>
           <div style="display:flex; gap:8px; margin-top:8px;">
-            <input type="text" id="stu-input" placeholder="Ask OpenClaw..." style="flex:1;" onkeydown="if(event.key==='Enter')sendSTU()" />
-            <button class="refresh" onclick="sendSTU()" style="white-space:nowrap; background:#4a9eff; border-color:#4a9eff; color:#fff;">Send</button>
+            <input type="text" id="stu-input" placeholder="Ask STU anything..." style="flex:1;" onkeydown="if(event.key==='Enter')sendSTU()" />
+            <button class="refresh" onclick="sendSTU()" style="white-space:nowrap;">Send</button>
           </div>
           <div style="display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;">
             <button onclick="stuQuick('Search contacts in Master account')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">Master Contacts</button>
@@ -2631,59 +2655,26 @@
           </div>
         </div>
 
-        <!-- ═══ CENTER: Agent Status Column ═══ -->
-        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; padding:8px 0; position:relative;">
-          <!-- Vertical line -->
-          <div style="position:absolute; top:0; bottom:0; left:50%; width:1px; background:var(--border); transform:translateX(-50%); z-index:0;"></div>
-
-          <!-- OpenClaw indicator -->
-          <div style="display:flex; flex-direction:column; align-items:center; gap:3px; z-index:1; margin-bottom:28px;">
-            <div id="ind-openclaw" style="width:12px;height:12px;border-radius:50%;background:#333;box-shadow:none;transition:all 0.4s;"></div>
-            <span style="font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg);">OpenClaw</span>
-          </div>
-
-          <!-- SwarmClaw indicator -->
-          <div style="display:flex; flex-direction:column; align-items:center; gap:3px; z-index:1; margin-bottom:28px;">
-            <div id="ind-swarmclaw" style="width:12px;height:12px;border-radius:50%;background:#333;box-shadow:none;transition:all 0.4s;"></div>
-            <span style="font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg);">SwarmClaw</span>
-          </div>
-
-          <!-- AI Relay indicator -->
-          <div style="display:flex; flex-direction:column; align-items:center; gap:3px; z-index:1; margin-bottom:28px;">
-            <div id="ind-relay" style="width:12px;height:12px;border-radius:50%;background:#333;box-shadow:none;transition:all 0.4s;"></div>
-            <span style="font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg);">AI Relay</span>
-          </div>
-
-          <!-- Flowise indicator -->
-          <div style="display:flex; flex-direction:column; align-items:center; gap:3px; z-index:1;">
-            <div id="ind-flowise" style="width:12px;height:12px;border-radius:50%;background:#333;box-shadow:none;transition:all 0.4s;"></div>
-            <span style="font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg);">Flowise</span>
-          </div>
-        </div>
-
-        <!-- ═══ RIGHT: OpenAI Agent ═══ -->
-        <div class="card drag-section" data-drag-group="cowork" data-drag-id="cowork-card-2" style="display:flex; flex-direction:column; height:600px; border-top:2px solid #a855f7;">
+        <!-- Claude Chat -->
+        <div class="card drag-section" data-drag-group="cowork" data-drag-id="cowork-card-2" style="display:flex; flex-direction:column; height:600px;">
           <span class="drag-handle">&#9776;</span>
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="width:8px;height:8px;border-radius:50%;background:#a855f7;display:inline-block;box-shadow:0 0 6px #a855f7;" id="ai-dot-header"></span>
-              <h2 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:18px;">OpenAI Agent</h2>
-            </div>
-            <span class="pill accent" id="claude-status-pill" style="font-size:10px; background:rgba(168,85,247,0.12); color:#a855f7; border:1px solid rgba(168,85,247,0.3);">GPT-4o &middot; STR Memory</span>
+            <h2 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:18px;">Claude</h2>
+            <span class="pill accent" id="claude-status-pill" style="font-size:10px;">GPT-4.1 &middot; 10 Tools</span>
           </div>
-          <div class="subline" style="margin-bottom:10px;">Strategy &middot; Analysis &middot; Property Ops &middot; STR Knowledge Base &middot; SwarmClaw Runtime</div>
+          <div class="subline" style="margin-bottom:10px;">GHL Strategy &middot; Deep Analysis &middot; Contacts &middot; Pipelines &middot; Workflows &middot; Messaging</div>
           <div id="claude-messages" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:10px 0;">
-            <div style="background:rgba(168,85,247,0.06); border-radius:10px; padding:10px 14px; align-self:flex-start; max-width:85%; font-size:15px; font-family:'DM Sans',sans-serif; border-left:3px solid rgba(168,85,247,0.4);">OpenAI Agent online. Powered by GPT-4o with STR Solutions context. Ask me to analyze strategy, review property operations, plan campaigns, or advise on your stack.</div>
+            <div style="background:rgba(201,185,154,0.08); border-radius:10px; padding:10px 14px; align-self:flex-start; max-width:85%; font-size:15px; font-family:'DM Sans',sans-serif;">I'm Claude, your GHL strategist. I have the same GHL tools as STU plus deep analysis capabilities. Ask me to analyze pipelines, search contacts across accounts, or trigger workflows.</div>
           </div>
           <div style="display:flex; gap:8px; margin-top:8px;">
-            <input type="text" id="claude-input" placeholder="Ask OpenAI Agent..." style="flex:1;" onkeydown="if(event.key==='Enter')sendClaude()" />
-            <button class="refresh" onclick="sendClaude()" id="claude-send-btn" style="white-space:nowrap; background:#a855f7; border-color:#a855f7; color:#fff;">Send</button>
+            <input type="text" id="claude-input" placeholder="Ask Claude anything..." style="flex:1;" onkeydown="if(event.key==='Enter')sendClaude()" />
+            <button class="refresh" onclick="sendClaude()" id="claude-send-btn" style="white-space:nowrap;">Send</button>
           </div>
           <div style="display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;">
-            <button onclick="claudeQuick('Analyze our current pipeline performance')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">Pipeline Analysis</button>
-            <button onclick="claudeQuick('What STR markets should we target next?')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">Market Strategy</button>
-            <button onclick="claudeQuick('Review our franchise offer value proposition')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">Franchise Review</button>
-            <button onclick="claudeQuick('Summarize STR Solutions stack and tools')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">Stack Summary</button>
+            <button onclick="claudeQuick('Search contacts in Call Center account')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">CC Contacts</button>
+            <button onclick="claudeQuick('List all pipelines')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">All Pipelines</button>
+            <button onclick="claudeQuick('List tags in Call Center')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">CC Tags</button>
+            <button onclick="claudeQuick('Show recent conversations in Master')" style="background:var(--panel-alt);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">Conversations</button>
           </div>
         </div>
 
@@ -2713,11 +2704,6 @@
           <p style="font-family:'DM Sans',sans-serif; font-size:13px;">Logs tracked in <code>Stack/logs/</code></p>
         </div>
       </div>
-    </section>
-
-    <!-- ─── CALCULATOR TAB ──────────────────────────────────────── -->
-    <section id="tab-calculator" class="tab-panel">
-      <iframe src="/calculator/" style="width:100%;height:calc(100vh - 200px);border:none;border-radius:8px;"></iframe>
     </section>
 
         <!-- ─── CONFIG TAB ──────────────────────────────────────── -->
@@ -4130,7 +4116,7 @@
     }
 
     // ── Claude Chat ──
-    const CLAUDE_ENDPOINT = '/claude-relay/';
+    const CLAUDE_ENDPOINT = 'https://flowise.strsolutionsusa.com/api/v1/prediction/2955e532-d156-4648-8a38-6a645f37cc43';
     let claudeSessionId = null;
 
     async function sendClaude() {
@@ -4630,49 +4616,6 @@
 
     // Load commands on page init
     loadSlashCommands();
-    // ── Agent Status Indicators ──────────────────────────────────
-    const INDICATOR_MAP = {
-      'openclaw':  { el: 'ind-openclaw',  color: '#4a9eff', glow: '0 0 8px #4a9eff, 0 0 14px rgba(74,158,255,0.5)' },
-      'swarmclaw': { el: 'ind-swarmclaw', color: '#a855f7', glow: '0 0 8px #a855f7, 0 0 14px rgba(168,85,247,0.5)' },
-      'relay':     { el: 'ind-relay',     color: '#22c55e', glow: '0 0 8px #22c55e, 0 0 14px rgba(34,197,94,0.5)'  },
-      'flowise':   { el: 'ind-flowise',   color: '#f59e0b', glow: '0 0 8px #f59e0b, 0 0 14px rgba(245,158,11,0.5)' },
-    };
-
-    function setIndicator(key, isUp) {
-      const cfg = INDICATOR_MAP[key];
-      if (!cfg) return;
-      const el = document.getElementById(cfg.el);
-      if (!el) return;
-      el.style.background = isUp ? cfg.color : '#2a2a3a';
-      el.style.boxShadow  = isUp ? cfg.glow  : 'none';
-    }
-
-    async function pollAgentIndicators() {
-      try {
-        const r = await fetch('/service-health.json?t=' + Date.now());
-        const d = await r.json();
-        const svc = d.services || {};
-        // openclaw
-        const oc = svc.openclaw || svc['openclaw-gateway'] || svc['openclaw_gw'] || {};
-        setIndicator('openclaw',  oc.status === 'up');
-        // swarmclaw
-        const sc = svc.swarmclaw || {};
-        setIndicator('swarmclaw', sc.status === 'up');
-        // relay (claude-relay)
-        const rl = svc['claude-relay'] || svc.relay || svc['claude_relay'] || {};
-        setIndicator('relay',     rl.status === 'up');
-        // flowise
-        const fw = svc.flowise || {};
-        setIndicator('flowise',   fw.status === 'up');
-      } catch(e) {
-        // If health file unreachable, dim all
-        ['openclaw','swarmclaw','relay','flowise'].forEach(k => setIndicator(k, false));
-      }
-    }
-
-    // Poll on load and every 20 seconds
-    pollAgentIndicators();
-    setInterval(pollAgentIndicators, 20000);
 
 
     // ── Wiring Diagram Data ──
@@ -7099,45 +7042,6 @@ if (document.readyState === 'loading') {
     }
     // --- end BMO Deposits --------------------------------------------
 
-
-/* ── Dark/Light Mode Toggle ── */
-(function() {
-  const THEME_KEY = 'str-dashboard-theme';
-  const toggle = document.getElementById('theme-toggle');
-  
-  function initTheme() {
-    const saved = localStorage.getItem(THEME_KEY) || 'dark';
-    document.documentElement.setAttribute('data-theme', saved);
-    updateToggleIcon(saved);
-  }
-  
-  function updateToggleIcon(theme) {
-    if (toggle) {
-      toggle.textContent = theme === 'dark' ? '🌙' : '☀️';
-      toggle.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-    }
-  }
-  
-  function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme') || 'dark';
-    const next = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem(THEME_KEY, next);
-    updateToggleIcon(next);
-  }
-  
-  if (toggle) {
-    toggle.addEventListener('click', toggleTheme);
-  }
-  
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTheme);
-  } else {
-    initTheme();
-  }
-})();
-/* ── End Theme Toggle ── */
-
-    </script>
+</script>
 </body>
 </html>

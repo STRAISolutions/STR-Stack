@@ -1,6 +1,1 @@
-{
-  "status": "stub",
-  "ok": true,
-  "service": "ghl-mcp",
-  "note": "Static stub"
-}
+{"status":"up","service":"ghl-mcp","port":3001}
