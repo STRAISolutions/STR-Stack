@@ -5923,15 +5923,17 @@
       renderMCCmdHistory();
 
       if (target.value === 'openclaw') {
-        fetch('http://' + location.hostname + ':18789/api/command', {
+        var stuEp = 'https://flowise.strsolutionsusa.com/api/v1/prediction/2955e532-d156-4648-8a38-6a645f37cc43';
+        output.textContent = 'Sending to OpenClaw via AI relay...';
+        fetch(stuEp, {
           method:'POST',
           headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({ command: cmd })
+          body:JSON.stringify({ question: cmd, overrideConfig: { sessionId: 'dashboard-openclaw' } })
         }).then(function(r) { return r.json(); })
-          .then(function(data) { output.textContent = JSON.stringify(data, null, 2); })
-          .catch(function(e) { output.textContent = 'Error: ' + e.message + '\nNote: OpenClaw API may not be running on port 18789.'; });
+          .then(function(data) { output.textContent = data.text || data.answer || JSON.stringify(data, null, 2); })
+          .catch(function(e) { output.textContent = 'Error: ' + e.message + '\nTip: Check Flowise is running at flowise.strsolutionsusa.com'; });
       } else if (target.value === 'swarmclaw') {
-        fetch('http://' + location.hostname + ':3456/api/command', {
+        fetch('/api/swarmclaw/command', {
           method:'POST',
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify({ command: cmd })
