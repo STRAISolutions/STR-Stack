@@ -2635,7 +2635,7 @@
             <h2 style="margin:0; font-family:'Cormorant Garamond',serif; font-size:18px;">Claude</h2>
             <span class="pill accent" id="claude-status-pill" style="font-size:10px;">GPT-4.1 &middot; 10 Tools</span>
           </div>
-          <div class="subline" style="margin-bottom:10px;">GHL Strategy &middot; Deep Analysis &middot; Contacts &middot; Pipelines &middot; Workflows &middot; Messaging</div>
+          <div class="subline" style="margin-bottom:10px;">Strategy &middot; Analysis &middot; Stack Advisor &middot; GPT-4o with full STR context</div>
           <div id="claude-messages" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; padding:10px 0;">
             <div style="background:rgba(201,185,154,0.08); border-radius:10px; padding:10px 14px; align-self:flex-start; max-width:85%; font-size:15px; font-family:'DM Sans',sans-serif;">I'm Claude, your GHL strategist. I have the same GHL tools as STU plus deep analysis capabilities. Ask me to analyze pipelines, search contacts across accounts, or trigger workflows.</div>
           </div>
@@ -4094,7 +4094,7 @@
     }
 
     // ── Claude Chat ──
-    const CLAUDE_ENDPOINT = 'https://flowise.strsolutionsusa.com/api/v1/prediction/2955e532-d156-4648-8a38-6a645f37cc43';
+    const CLAUDE_ENDPOINT = '/claude-relay/';
     let claudeSessionId = null;
 
     async function sendClaude() {
