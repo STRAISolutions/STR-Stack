@@ -2630,33 +2630,51 @@
           </div>
         </div>
 
-        <!-- ═══ CENTER: Agent Status Column ═══ -->
-        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; padding:8px 0; position:relative; min-height:520px;">
-          <!-- Vertical line -->
-          <div style="position:absolute; top:0; bottom:0; left:50%; width:1px; background:var(--border); transform:translateX(-50%); z-index:0;"></div>
+        <!-- ═══ CENTER: The STR Seven Agent Column ═══ -->
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:space-evenly; padding:14px 0; position:relative; min-height:520px; width:80px;">
+          <!-- Vertical spine line -->
+          <div style="position:absolute; top:0; bottom:0; left:50%; width:1px; background:linear-gradient(to bottom, transparent, var(--border) 15%, var(--border) 85%, transparent); transform:translateX(-50%); z-index:0;"></div>
 
-          <!-- OpenClaw indicator -->
-          <div style="display:flex; flex-direction:column; align-items:center; gap:3px; z-index:1; margin-bottom:28px;">
-            <div id="ind-openclaw" style="width:12px;height:12px;border-radius:50%;background:#333;box-shadow:none;transition:all 0.4s;"></div>
-            <span style="font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg);">OpenClaw</span>
+          <!-- ORION — Command & Operations (OpenClaw) -->
+          <div class="str-agent" title="ORION — Command &amp; Operations" style="display:flex; flex-direction:column; align-items:center; gap:4px; z-index:1; cursor:default;">
+            <div id="ind-orion" style="width:13px;height:13px;border-radius:50%;background:#2a2a3a;box-shadow:none;transition:all 0.5s ease;"></div>
+            <span style="font-size:7.5px; font-family:'DM Sans',sans-serif; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; writing-mode:vertical-rl; transform:rotate(180deg); line-height:1;">ORION</span>
           </div>
 
-          <!-- SwarmClaw indicator -->
-          <div style="display:flex; flex-direction:column; align-items:center; gap:3px; z-index:1; margin-bottom:28px;">
-            <div id="ind-swarmclaw" style="width:12px;height:12px;border-radius:50%;background:#333;box-shadow:none;transition:all 0.4s;"></div>
-            <span style="font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg);">SwarmClaw</span>
+          <!-- NOVA — Strategy & Intelligence (AI Relay) -->
+          <div class="str-agent" title="NOVA — Strategy &amp; Intelligence" style="display:flex; flex-direction:column; align-items:center; gap:4px; z-index:1; cursor:default;">
+            <div id="ind-nova" style="width:13px;height:13px;border-radius:50%;background:#2a2a3a;box-shadow:none;transition:all 0.5s ease;"></div>
+            <span style="font-size:7.5px; font-family:'DM Sans',sans-serif; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; writing-mode:vertical-rl; transform:rotate(180deg); line-height:1;">NOVA</span>
           </div>
 
-          <!-- AI Relay indicator -->
-          <div style="display:flex; flex-direction:column; align-items:center; gap:3px; z-index:1; margin-bottom:28px;">
-            <div id="ind-relay" style="width:12px;height:12px;border-radius:50%;background:#333;box-shadow:none;transition:all 0.4s;"></div>
-            <span style="font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg);">AI Relay</span>
+          <!-- ATLAS — CRM & Pipeline (Flowise/STU) -->
+          <div class="str-agent" title="ATLAS — CRM &amp; Pipeline" style="display:flex; flex-direction:column; align-items:center; gap:4px; z-index:1; cursor:default;">
+            <div id="ind-atlas" style="width:13px;height:13px;border-radius:50%;background:#2a2a3a;box-shadow:none;transition:all 0.5s ease;"></div>
+            <span style="font-size:7.5px; font-family:'DM Sans',sans-serif; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; writing-mode:vertical-rl; transform:rotate(180deg); line-height:1;">ATLAS</span>
           </div>
 
-          <!-- Flowise indicator -->
-          <div style="display:flex; flex-direction:column; align-items:center; gap:3px; z-index:1;">
-            <div id="ind-flowise" style="width:12px;height:12px;border-radius:50%;background:#333;box-shadow:none;transition:all 0.4s;"></div>
-            <span style="font-size:8px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; writing-mode:vertical-rl; text-orientation:mixed; transform:rotate(180deg);">Flowise</span>
+          <!-- VEGA — Guest Communications (Vapi) -->
+          <div class="str-agent" title="VEGA — Guest Communications" style="display:flex; flex-direction:column; align-items:center; gap:4px; z-index:1; cursor:default;">
+            <div id="ind-vega" style="width:13px;height:13px;border-radius:50%;background:#2a2a3a;box-shadow:none;transition:all 0.5s ease;"></div>
+            <span style="font-size:7.5px; font-family:'DM Sans',sans-serif; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; writing-mode:vertical-rl; transform:rotate(180deg); line-height:1;">VEGA</span>
+          </div>
+
+          <!-- FORGE — Workflow Automation (SwarmClaw) -->
+          <div class="str-agent" title="FORGE — Workflow Automation" style="display:flex; flex-direction:column; align-items:center; gap:4px; z-index:1; cursor:default;">
+            <div id="ind-forge" style="width:13px;height:13px;border-radius:50%;background:#2a2a3a;box-shadow:none;transition:all 0.5s ease;"></div>
+            <span style="font-size:7.5px; font-family:'DM Sans',sans-serif; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; writing-mode:vertical-rl; transform:rotate(180deg); line-height:1;">FORGE</span>
+          </div>
+
+          <!-- PRISM — Analytics & Reporting (Paperclip) -->
+          <div class="str-agent" title="PRISM — Analytics &amp; Reporting" style="display:flex; flex-direction:column; align-items:center; gap:4px; z-index:1; cursor:default;">
+            <div id="ind-prism" style="width:13px;height:13px;border-radius:50%;background:#2a2a3a;box-shadow:none;transition:all 0.5s ease;"></div>
+            <span style="font-size:7.5px; font-family:'DM Sans',sans-serif; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; writing-mode:vertical-rl; transform:rotate(180deg); line-height:1;">PRISM</span>
+          </div>
+
+          <!-- VAULT — IP & Data Repository -->
+          <div class="str-agent" title="VAULT — IP &amp; Data Repository" style="display:flex; flex-direction:column; align-items:center; gap:4px; z-index:1; cursor:default;">
+            <div id="ind-vault" style="width:13px;height:13px;border-radius:50%;background:#2a2a3a;box-shadow:none;transition:all 0.5s ease;"></div>
+            <span style="font-size:7.5px; font-family:'DM Sans',sans-serif; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; writing-mode:vertical-rl; transform:rotate(180deg); line-height:1;">VAULT</span>
           </div>
         </div>
 
@@ -4630,20 +4648,32 @@
     // Load commands on page init
     loadSlashCommands();
     // ── Agent Status Indicators ──────────────────────────────────
-    const INDICATOR_MAP = {
-      'openclaw':  { el: 'ind-openclaw',  color: '#4a9eff', glow: '0 0 8px #4a9eff, 0 0 14px rgba(74,158,255,0.5)' },
-      'swarmclaw': { el: 'ind-swarmclaw', color: '#a855f7', glow: '0 0 8px #a855f7, 0 0 14px rgba(168,85,247,0.5)' },
-      'relay':     { el: 'ind-relay',     color: '#22c55e', glow: '0 0 8px #22c55e, 0 0 14px rgba(34,197,94,0.5)'  },
-      'flowise':   { el: 'ind-flowise',   color: '#f59e0b', glow: '0 0 8px #f59e0b, 0 0 14px rgba(245,158,11,0.5)' },
+    // ── The STR Seven — Agent Indicator System ─────────────────────
+    // Each agent maps to a service + color. VAULT/PRISM use heuristics.
+    const STR_AGENTS = {
+      orion: { el: 'ind-orion', color: '#4a9eff', glow: '0 0 8px #4a9eff, 0 0 16px rgba(74,158,255,0.6)',   label: 'ORION',  role: 'Command & Operations'    },
+      nova:  { el: 'ind-nova',  color: '#a855f7', glow: '0 0 8px #a855f7, 0 0 16px rgba(168,85,247,0.6)',  label: 'NOVA',   role: 'Strategy & Intelligence' },
+      atlas: { el: 'ind-atlas', color: '#f59e0b', glow: '0 0 8px #f59e0b, 0 0 16px rgba(245,158,11,0.6)',  label: 'ATLAS',  role: 'CRM & Pipeline'          },
+      vega:  { el: 'ind-vega',  color: '#06b6d4', glow: '0 0 8px #06b6d4, 0 0 16px rgba(6,182,212,0.6)',   label: 'VEGA',   role: 'Guest Communications'    },
+      forge: { el: 'ind-forge', color: '#f97316', glow: '0 0 8px #f97316, 0 0 16px rgba(249,115,22,0.6)',  label: 'FORGE',  role: 'Workflow Automation'     },
+      prism: { el: 'ind-prism', color: '#10b981', glow: '0 0 8px #10b981, 0 0 16px rgba(16,185,129,0.6)',  label: 'PRISM',  role: 'Analytics & Reporting'   },
+      vault: { el: 'ind-vault', color: '#e2c97e', glow: '0 0 8px #e2c97e, 0 0 16px rgba(226,201,126,0.6)', label: 'VAULT',  role: 'IP & Data Repository'    },
     };
 
-    function setIndicator(key, isUp) {
-      const cfg = INDICATOR_MAP[key];
+    function setAgent(key, isUp) {
+      const cfg = STR_AGENTS[key];
       if (!cfg) return;
       const el = document.getElementById(cfg.el);
       if (!el) return;
       el.style.background = isUp ? cfg.color : '#2a2a3a';
       el.style.boxShadow  = isUp ? cfg.glow  : 'none';
+      el.style.transform  = isUp ? 'scale(1.15)' : 'scale(1)';
+      // Update parent label color
+      const parent = el.parentElement;
+      if (parent) {
+        const label = parent.querySelector('span');
+        if (label) label.style.color = isUp ? cfg.color : '';
+      }
     }
 
     async function pollAgentIndicators() {
@@ -4651,26 +4681,59 @@
         const r = await fetch('/service-health.json?t=' + Date.now());
         const d = await r.json();
         const svc = d.services || {};
-        // openclaw
-        const oc = svc.openclaw || svc['openclaw-gateway'] || svc['openclaw_gw'] || {};
-        setIndicator('openclaw',  oc.status === 'up');
-        // swarmclaw
-        const sc = svc.swarmclaw || {};
-        setIndicator('swarmclaw', sc.status === 'up');
-        // relay (claude-relay)
-        const rl = svc['claude-relay'] || svc.relay || svc['claude_relay'] || {};
-        setIndicator('relay',     rl.status === 'up');
-        // flowise
+
+        // ORION — OpenClaw (Command & Operations)
+        const oc = svc.openclaw || svc['openclaw-gateway'] || {};
+        setAgent('orion', oc.status === 'up');
+
+        // NOVA — AI Relay / GPT-4o (Strategy & Intelligence)
+        const rl = svc['claude-relay'] || svc.relay || {};
+        setAgent('nova', rl.status === 'up');
+
+        // ATLAS — Flowise / CRM (Pipeline)
         const fw = svc.flowise || {};
-        setIndicator('flowise',   fw.status === 'up');
+        setAgent('atlas', fw.status === 'up');
+
+        // VEGA — Vapi Relay (Guest Communications)
+        const vp = svc.vapi_relay || svc.vapi || {};
+        setAgent('vega', vp.status === 'up');
+
+        // FORGE — SwarmClaw (Workflow Automation)
+        const sc = svc.swarmclaw || {};
+        setAgent('forge', sc.status === 'up');
+
+        // PRISM — Paperclip analytics service
+        const pc = svc.paperclip || svc.prism || {};
+        setAgent('prism', pc.status === 'up');
+
+        // VAULT — active if any core service is up (data flows when stack runs)
+        const coreUp = [oc, rl, fw, sc].filter(s => s.status === 'up').length;
+        setAgent('vault', coreUp >= 2);
+
       } catch(e) {
-        // If health file unreachable, dim all
-        ['openclaw','swarmclaw','relay','flowise'].forEach(k => setIndicator(k, false));
+        Object.keys(STR_AGENTS).forEach(k => setAgent(k, false));
       }
     }
 
-    // Poll on load and every 20 seconds
-    pollAgentIndicators();
+    // Staggered startup animation — light up one by one on load
+    async function startupAgentSequence() {
+      const keys = Object.keys(STR_AGENTS);
+      for (let i = 0; i < keys.length; i++) {
+        await new Promise(r => setTimeout(r, 120));
+        const cfg = STR_AGENTS[keys[i]];
+        const el = document.getElementById(cfg.el);
+        if (el) {
+          el.style.background = cfg.color;
+          el.style.boxShadow = cfg.glow;
+          el.style.transform = 'scale(1.15)';
+        }
+      }
+      await new Promise(r => setTimeout(r, 400));
+      // Then do real poll to set actual state
+      pollAgentIndicators();
+    }
+
+    startupAgentSequence();
     setInterval(pollAgentIndicators, 20000);
 
 
