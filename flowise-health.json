@@ -1,18 +1,18 @@
 {
-  "checked_at": "2026-04-23 12:00:01 UTC",
+  "checked_at": "2026-04-23 17:55:02 UTC",
   "containers": [
     {
-      "id": "934f480c481c",
+      "id": "d126e0cd5f91",
       "image": "flowiseai/flowise:latest",
       "name": "flowise",
-      "status": "Up 12 hours",
-      "ports": "0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp"
+      "status": "Up 5 hours",
+      "ports": "127.0.0.1:3000->3000/tcp"
     },
     {
-      "id": "2e53f854546d",
+      "id": "fa34b6f2738e",
       "image": "postgres:16-alpine",
       "name": "flowise-db",
-      "status": "Up 34 hours (healthy)",
+      "status": "Up 5 hours (healthy)",
       "ports": "5432/tcp"
     }
   ],
