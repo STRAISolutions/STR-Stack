@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-22T17:45:01Z",
+  "updated_at": "2026-04-22T23:45:01Z",
   "count": 60,
   "properties": [
     {
@@ -548,8 +548,8 @@
       "name": "Powder Peak Place",
       "isActive": true,
       "propertyType": "HOUSE",
-      "bedrooms": 0,
-      "bathrooms": "0",
+      "bedrooms": 3,
+      "bathrooms": "2",
       "city": "Salt Lake City",
       "state": "UT",
       "maxGuests": "?",
