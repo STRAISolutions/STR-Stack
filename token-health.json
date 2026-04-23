@@ -1,6 +1,6 @@
 {
-  "checked_at": "2026-04-23T11:30:01Z",
-  "next_deep_check": "2026-04-23T23:30:03Z",
+  "checked_at": "2026-04-23T12:00:01Z",
+  "next_deep_check": "2026-04-24T00:00:02Z",
   "tokens": [
     {"name":"GHL Master (main .env)","masked":"pit-8e3c...b3e7","status":"live","http":200,"detail":"HTTP 200","source":"/root/str-stack/.env","role":"KPIs, Dashboards, OpenClaw","duplicate":false},
     {"name":"GHL Call Center (main .env)","masked":"pit-4846...db6d","status":"live","http":200,"detail":"HTTP 200","source":"/root/str-stack/.env","role":"CC Flows, Clawhip","duplicate":false},
