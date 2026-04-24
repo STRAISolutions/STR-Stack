@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-04-23T23:45:01Z",
+  "updated_at": "2026-04-24T05:45:02Z",
   "summary": {
     "total_leads": 500,
-    "total_bookings": 104,
+    "total_bookings": 106,
     "active_bookings": 45,
-    "cancelled": 59,
+    "cancelled": 61,
     "inquiries": 9
   },
   "revenue": {
-    "this_year": 44543.09,
-    "this_month": 43845.52,
+    "this_year": 43876.93,
+    "this_month": 43179.36,
     "this_week": 2299.57
   },
   "payments": {
-    "balance_due": 15663.43,
+    "balance_due": 14997.27,
     "overdue_count": 0,
     "overdue_amount": 0
   },
