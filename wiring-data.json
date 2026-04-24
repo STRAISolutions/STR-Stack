@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-24T11:59:01Z",
+  "generated_at": "2026-04-24T17:59:01Z",
   "nodes": {
     "services": [
       {"id":"nginx","label":"Nginx","port":"80/443","status":"on","type":"proxy"},
@@ -15,7 +15,7 @@
     "external": [
       {"id":"discord","label":"Discord","status":"on","type":"external","detail":"WebSocket Gateway"},
       {"id":"openai","label":"OpenAI","status":"on","type":"external","detail":"GPT / Codex"},
-      {"id":"ghl_master","label":"GHL Master","status":"on","type":"external","detail":"Loc: 1OOZ4AKI..."},
+      {"id":"ghl_master","label":"GHL Master","status":"trouble","type":"external","detail":"Loc: 1OOZ4AKI..."},
       {"id":"ghl_callcenter","label":"GHL Call Center","status":"on","type":"external","detail":"Loc: 7hTDBCla..."},
       {"id":"instantly","label":"Instantly","status":"on","type":"external","detail":"Email Outreach"},
       {"id":"clay","label":"Clay","status":"trouble","type":"external","detail":"Data Enrichment"},
@@ -37,7 +37,7 @@
     {"from":"openclaw_gw","to":"discord","label":"WebSocket","status":"idle"},
     {"from":"openclaw_gw","to":"openai","label":"API (OAuth)","status":"idle"},
     {"from":"flowise","to":"flowise_db","label":"pg:5432","status":"active"},
-    {"from":"flowise","to":"ghl_master","label":"GHL API","status":"idle"},
+    {"from":"flowise","to":"ghl_master","label":"GHL API","status":"trouble"},
     {"from":"flowise","to":"openai","label":"API Key","status":"idle"},
     {"from":"vapi_relay","to":"openclaw_gw","label":"webhook","status":"idle"},
     {"from":"swarmclaw","to":"openai","label":"API (OAuth)","status":"idle"},
@@ -46,7 +46,7 @@
   ],
   "keys": [
     {"name":"OPENAI_API_KEY","masked":"sk-proj-...TOMA","status":"on","http":200,"target":"OpenClaw, Flowise, Swarmclaw"},
-    {"name":"GHL_MASTER_OAUTH","masked":"pit-8e3c...b3e7","status":"on","http":200,"target":"KPI Script, OpenClaw"},
+    {"name":"GHL_MASTER_OAUTH","masked":"pit-8e3c...b3e7","status":"trouble","http":401,"target":"KPI Script, OpenClaw"},
     {"name":"GHL_CALL_CENTER_OAUTH","masked":"pit-4846...db6d","status":"on","http":200,"target":"Call Center Flows"},
     {"name":"GHL_API_KEY","masked":"pit-b4fa...9b7f","status":"on","http":200,"target":"Flowise Tools, MCP"},
     {"name":"DISCORD_TOKEN","masked":"MTQ3MjM0...WqpI","status":"on","http":0,"target":"OpenClaw Gateway"},
@@ -61,6 +61,7 @@
     {"name":"AIRDNA_API_KEY","masked":"f0cd7cc9...e48a","status":"standby","http":0,"target":"Market Data"}
   ],
   "breakpoints": [
+    {"component":"GHL Master","issue":"Master OAuth trouble (HTTP 401) - KPIs won't update","severity":"high","failed_at":"2026-04-24T16:13:01Z","fail_reason":"HTTP 401 from leadconnectorhq.com"},
     {"component":"Clay","issue":"API key trouble (HTTP 401) - enrichment unavailable","severity":"medium","failed_at":"2026-04-04T16:28:32Z","fail_reason":"HTTP 401 from api.clay.com"},
     {"component":"Slack","issue":"Token trouble - notifications blocked","severity":"low","failed_at":"2026-04-04T16:28:32Z","fail_reason":"HTTP 200"}
   ],
@@ -68,9 +69,9 @@
     "total_services": 9,
     "services_up": 8,
     "total_apis": 12,
-    "apis_healthy": 9,
+    "apis_healthy": 8,
     "total_wires": 12,
-    "wires_ok": 12,
+    "wires_ok": 11,
     "critical_breaks": 0
   }
 }

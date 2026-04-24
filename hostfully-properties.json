@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-24T11:45:01Z",
+  "updated_at": "2026-04-24T17:45:01Z",
   "count": 60,
   "properties": [
     {
@@ -613,8 +613,8 @@
       "name": "Salt Flats Sanctuary",
       "isActive": true,
       "propertyType": "HOUSE",
-      "bedrooms": 0,
-      "bathrooms": "0",
+      "bedrooms": 3,
+      "bathrooms": "2.5",
       "city": "Salt Lake City",
       "state": "UT",
       "maxGuests": "?",
