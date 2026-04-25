@@ -193,11 +193,21 @@
   font-weight: 600; cursor: pointer; white-space: nowrap;
 }
 .crm-table th:hover { color: #fff; }
-.crm-table td {
-  padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,0.04);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;
-}
-.crm-table tr:hover td { background: rgba(201,185,154,0.05); }
+    .crm-table td {
+      padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,0.04);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;
+    }
+    .crm-table tr:hover td { background: rgba(201,185,154,0.05); }
+    .crm-comm-panel { margin-top:18px; border:1px solid var(--border); border-radius:12px; padding:16px; background:var(--panel-alt); }
+    .crm-comm-header { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap; }
+    .crm-comm-list { margin-top:12px; max-height:420px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; }
+    .crm-comm-item { border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:10px 12px; background:rgba(255,255,255,0.02); display:flex; flex-direction:column; gap:6px; }
+    .crm-comm-item:hover { border-color:var(--gold); background:rgba(201,185,154,0.06); }
+    .crm-comm-meta { display:flex; flex-wrap:wrap; gap:8px; font-size:11px; color:var(--muted); }
+    .crm-comm-body { font-size:13px; color:var(--text); line-height:1.4; }
+    .crm-comm-channel { padding:2px 8px; border-radius:999px; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; background:rgba(255,255,255,0.08); color:var(--text); }
+    .crm-comm-direction { font-weight:600; }
+    .crm-comm-empty { padding:20px; text-align:center; color:var(--muted); font-size:13px; border:1px dashed var(--border); border-radius:8px; }
 .crm-type-badge {
   display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px;
   font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;
@@ -1366,6 +1376,20 @@
         </table>
       </div>
       <div class="crm-loading" id="crm-loading">Loading CRM data...</div>
+
+      <div class="crm-comm-panel card">
+        <div class="crm-comm-header">
+          <div>
+            <div class="section-title" style="margin:0;">Recent Communications</div>
+            <div class="subline" id="crm-comm-status">Waiting for data...</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="subline" id="crm-comm-count"></span>
+            <button class="refresh" onclick="crmLoadComms(true)">&#8635; Refresh</button>
+          </div>
+        </div>
+        <div class="crm-comm-list" id="crm-comm-list"></div>
+      </div>
     </section>
 
     <section id="tab-workflows" class="tab-panel">
@@ -6219,6 +6243,36 @@ var CRM_DATA = [];
 var CRM_SORT = { col: 'name', asc: true };
 var CRM_GHL_MASTER = 'https://app.gohighlevel.com/v2/location/1OOZ4AKIgxO8QKKMnIcK/contacts/detail/';
 var CRM_GHL_CC = 'https://app.gohighlevel.com/v2/location/7hTDBClatcBgmUv36bZX/contacts/detail/';
+var CRM_FILTER_SET = null;
+var CRM_COMMS = [];
+var CRM_COMMS_TIMER = null;
+
+function crmUpdateKpis(dataset, universeTotal) {
+  var types = ['Franchise','VR Operator','Traveller','Unclassified'];
+  var distinctByType = {}; var totalByType = {};
+  types.forEach(function(t){ distinctByType[t] = 0; totalByType[t] = 0; });
+  var seen = {};
+  dataset.forEach(function(c){
+    var type = c.type || 'Unclassified';
+    if (totalByType[type] === undefined) totalByType[type] = 0;
+    totalByType[type]++;
+    var key = (c.email || c.phone || c.id || '').toLowerCase();
+    if (key && !seen[key]) {
+      seen[key] = true;
+      if (distinctByType[type] === undefined) distinctByType[type] = 0;
+      distinctByType[type]++;
+    }
+  });
+  function setEl(id, val){ var el = document.getElementById(id); if (el) el.textContent = val; }
+  setEl('crm-k-franchise', distinctByType['Franchise'] || 0);
+  setEl('crm-k-vroperator', distinctByType['VR Operator'] || 0);
+  setEl('crm-k-traveller', distinctByType['Traveller'] || 0);
+  setEl('crm-k-total', Object.keys(seen).length);
+  setEl('crm-k-franchise-sub', (totalByType['Franchise'] || 0) + ' shown');
+  setEl('crm-k-vroperator-sub', (totalByType['VR Operator'] || 0) + ' shown');
+  setEl('crm-k-traveller-sub', (totalByType['Traveller'] || 0) + ' shown');
+  setEl('crm-k-total-sub', dataset.length + ' rows in view / ' + universeTotal + ' total');
+}
 
 function crmClassify(c) {
   var tags = (c.tags || []).map(function(t){ return t.toLowerCase(); });
@@ -6383,28 +6437,14 @@ async function crmLoad() {
       tagSel.innerHTML = tagOpts;
     }
 
-    // KPIs — distinct + total
-    var seen = {};
-    var distinctByType = { 'Franchise': 0, 'VR Operator': 0, 'Traveller': 0, 'Unclassified': 0 };
-    var totalByType = { 'Franchise': 0, 'VR Operator': 0, 'Traveller': 0, 'Unclassified': 0 };
-    var distinctTotal = 0;
-    CRM_DATA.forEach(function(c) {
-      totalByType[c.type] = (totalByType[c.type]||0) + 1;
-      var key = (c.email || c.phone || c.id).toLowerCase();
-      if (!seen[key]) { seen[key] = true; distinctByType[c.type]++; distinctTotal++; }
-    });
-
-    document.getElementById('crm-k-franchise').textContent = distinctByType['Franchise'];
-    document.getElementById('crm-k-vroperator').textContent = distinctByType['VR Operator'];
-    document.getElementById('crm-k-traveller').textContent = distinctByType['Traveller'];
-    document.getElementById('crm-k-total').textContent = distinctTotal;
-    document.getElementById('crm-k-franchise-sub').textContent = totalByType['Franchise'] + ' total across accounts';
-    document.getElementById('crm-k-vroperator-sub').textContent = totalByType['VR Operator'] + ' total across accounts';
-    document.getElementById('crm-k-traveller-sub').textContent = totalByType['Traveller'] + ' total across accounts';
-    document.getElementById('crm-k-total-sub').textContent = CRM_DATA.length + ' total rows';
+    crmUpdateKpis(CRM_DATA, CRM_DATA.length);
 
     document.getElementById('crm-last-update').textContent = 'Updated ' + new Date().toLocaleTimeString();
     crmFilter();
+    crmLoadComms(true);
+    if (!CRM_COMMS_TIMER) {
+      CRM_COMMS_TIMER = setInterval(function(){ crmLoadComms(); }, 60000);
+    }
   } catch(e) {
     console.error('[crm] load error:', e);
     if (loading) loading.innerHTML = 'Error loading CRM data: ' + e.message;
@@ -6450,6 +6490,9 @@ function crmFilter() {
     return 0;
   });
 
+  CRM_FILTER_SET = new Set(filtered.map(function(c){ return c.id; }));
+  crmUpdateKpis(filtered, CRM_DATA.length);
+
   var countEl = document.getElementById('crm-f-count');
   if (countEl) countEl.textContent = filtered.length + ' of ' + CRM_DATA.length + ' contacts';
 
@@ -6485,6 +6528,64 @@ function crmFilter() {
       + '</tr>';
   });
   tbody.innerHTML = rows;
+  crmRenderComms(CRM_FILTER_SET);
+}
+
+async function crmLoadComms(showSpinner) {
+  var status = document.getElementById('crm-comm-status');
+  if (status && showSpinner) status.textContent = 'Refreshing...';
+  try {
+    var resp = await fetch('communications-feed.json?_=' + Date.now());
+    var data = await resp.json();
+    CRM_COMMS = (data.messages || []).slice().sort(function(a, b){
+      return new Date(b.timestamp || 0) - new Date(a.timestamp || 0);
+    });
+    if (status) status.textContent = 'Updated ' + new Date().toLocaleTimeString();
+    crmRenderComms(CRM_FILTER_SET);
+  } catch(err) {
+    console.error('crmLoadComms error', err);
+    if (status) status.textContent = 'Error loading communications';
+  }
+}
+
+function crmRenderComms(filterSet) {
+  var list = document.getElementById('crm-comm-list');
+  if (!list) return;
+  var countEl = document.getElementById('crm-comm-count');
+  if (!CRM_COMMS.length) {
+    list.innerHTML = '<div class="crm-comm-empty">No communications yet. Refresh to pull the latest activity.</div>';
+    if (countEl) countEl.textContent = '0 messages';
+    return;
+  }
+  var data = CRM_COMMS;
+  if (filterSet && filterSet.size) {
+    var subset = CRM_COMMS.filter(function(msg){ return msg.contactId && filterSet.has(msg.contactId); });
+    if (subset.length) data = subset;
+  }
+  var rows = data.slice(0, 30).map(function(msg){
+    var timestamp = msg.timestamp ? new Date(msg.timestamp).toLocaleString() : 'Unknown time';
+    var direction = (msg.direction || '').toUpperCase();
+    var channel = msg.channel ? msg.channel.toUpperCase() : 'CHANNEL';
+    var snippet = msg.snippet || msg.body || '';
+    var account = msg.account || '';
+    var contact = msg.contactName || '(unknown contact)';
+    var badge = '<span class="crm-comm-channel">' + channel + '</span>';
+    var dirLabel = '<span class="crm-comm-direction">' + direction + '</span>';
+    var acctLabel = account ? '<span>' + account + '</span>' : '';
+    return '<div class="crm-comm-item">'
+      + '<div class="crm-comm-meta">'
+      + badge
+      + '<span>' + contact + '</span>'
+      + (msg.contactId ? '<a href="' + (msg.account === 'Call Center' ? CRM_GHL_CC : CRM_GHL_MASTER) + msg.contactId + '" target="_blank" style="color:var(--gold);text-decoration:none;">Open</a>' : '')
+      + dirLabel
+      + (acctLabel || '')
+      + '<span>' + timestamp + '</span>'
+      + '</div>'
+      + '<div class="crm-comm-body">' + snippet + '</div>'
+      + '</div>';
+  }).join('');
+  list.innerHTML = rows || '<div class="crm-comm-empty">No communications match the current filters.</div>';
+  if (countEl) countEl.textContent = (data.length ? data.length : 0) + ' message' + (data.length === 1 ? '' : 's') + (filterSet && filterSet.size ? ' (filtered)' : '');
 }
 
 function crmSort(col) {

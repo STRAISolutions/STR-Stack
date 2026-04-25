@@ -1,0 +1,31 @@
+{
+  "messages": [
+    {
+      "timestamp": "2026-04-25T14:20:00Z",
+      "contactId": "11kicAyCLzw0Otr2NiJ6",
+      "contactName": "Call 8602540642",
+      "account": "Call Center",
+      "channel": "SMS",
+      "direction": "outbound",
+      "snippet": "Just confirmed your inquiry details. Text STOP to opt out."
+    },
+    {
+      "timestamp": "2026-04-25T14:05:00Z",
+      "contactId": "QfFFMZGDVKiMn4vB3tMp",
+      "contactName": "artacjanet",
+      "account": "Master",
+      "channel": "Email",
+      "direction": "inbound",
+      "snippet": "Thanks for the franchise info. Can we review the economics later today?"
+    },
+    {
+      "timestamp": "2026-04-25T13:42:00Z",
+      "contactId": "rmKecEbb3GmwVeHG09Uv",
+      "contactName": "asonderfan",
+      "account": "Master",
+      "channel": "Email",
+      "direction": "outbound",
+      "snippet": "Dropping the STR playbook here—book an intro call if you want the walkthrough."
+    }
+  ]
+}
