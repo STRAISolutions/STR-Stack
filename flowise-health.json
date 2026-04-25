@@ -1,18 +1,18 @@
 {
-  "checked_at": "2026-04-25 00:00:02 UTC",
+  "checked_at": "2026-04-25 05:55:02 UTC",
   "containers": [
     {
       "id": "d126e0cd5f91",
       "image": "flowiseai/flowise:latest",
       "name": "flowise",
-      "status": "Up 35 hours",
+      "status": "Up 41 hours",
       "ports": "127.0.0.1:3000->3000/tcp"
     },
     {
       "id": "fa34b6f2738e",
       "image": "postgres:16-alpine",
       "name": "flowise-db",
-      "status": "Up 35 hours (healthy)",
+      "status": "Up 41 hours (healthy)",
       "ports": "5432/tcp"
     }
   ],
