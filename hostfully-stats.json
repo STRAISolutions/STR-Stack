@@ -1,31 +1,25 @@
 {
-  "updated_at": "2026-04-24T17:45:01Z",
+  "updated_at": "2026-04-24T23:45:02Z",
   "summary": {
     "total_leads": 500,
-    "total_bookings": 109,
+    "total_bookings": 111,
     "active_bookings": 46,
-    "cancelled": 63,
+    "cancelled": 65,
     "inquiries": 9
   },
   "revenue": {
-    "this_year": 45985.15,
-    "this_month": 45287.58,
-    "this_week": 2299.57
+    "this_year": 47486.8,
+    "this_month": 46789.23,
+    "this_week": 1996.4
   },
   "payments": {
-    "balance_due": 17105.49,
+    "balance_due": 18309.86,
     "overdue_count": 0,
     "overdue_amount": 0
   },
   "arrivals": {
-    "this_week": 6,
+    "this_week": 5,
     "details": [
-      {
-        "guest": "Ong Dennis",
-        "checkin": "2026-04-25T15:00:00",
-        "channel": "BOOKING_COM",
-        "property": "ceb47f7a"
-      },
       {
         "guest": "Matthew,dennis Vogel",
         "checkin": "2026-04-25T16:00:00",
