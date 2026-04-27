@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-04-27T05:55:01Z",
+  "updated_at": "2026-04-27T11:55:01Z",
   "campaigns": {
-    "total": 20,
+    "total": 21,
     "active": 2,
     "paused": 2,
     "completed": 8,
@@ -10,6 +10,11 @@
       "ICP 5 - Franchisee"
     ],
     "all_campaigns": [
+      {
+        "name": "GT | ICP 1 - Side-Hustle Host",
+        "id": "fdcb1376-aef4-4c27-bf3f-b82905b6a60b",
+        "status": 0
+      },
       {
         "name": "[AI SDR] strsolutionsusa.com - AI Sales Agent - Fully Personalized Campaign",
         "id": "f0147c27-d0df-4bd1-af0e-fca9edec025a",
@@ -140,6 +145,21 @@
     "icp1": {
       "campaigns": [
         {
+          "id": "fdcb1376-aef4-4c27-bf3f-b82905b6a60b",
+          "name": "GT | ICP 1 - Side-Hustle Host",
+          "status": 0,
+          "is_active": false,
+          "emails_sent": 0,
+          "contacted": 0,
+          "opened": 0,
+          "replied": 0,
+          "bounced": 0,
+          "interested": 0,
+          "opportunities": 0,
+          "opp_value": 0,
+          "meetings": 0
+        },
+        {
           "id": "bcdbff74-1a6d-4033-b7b7-d2fc9c3f37b9",
           "name": "ICP 1 - Side-Hustle Host (Apollo copy)",
           "status": 0,
@@ -195,7 +215,7 @@
       "total_opp_value": 0,
       "total_meetings": 0,
       "active_count": 0,
-      "inactive_count": 3,
+      "inactive_count": 4,
       "label": "Side-Hustle Host"
     },
     "icp2": {

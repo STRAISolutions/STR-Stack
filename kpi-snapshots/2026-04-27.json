@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-27T05:55:02Z",
+  "timestamp": "2026-04-27T11:55:02Z",
   "pipeline": {
     "ltv_pipeline": 0,
     "monthly_gross": 0,
@@ -75,7 +75,7 @@
   "leads": {
     "total": 0,
     "active_campaigns": 2,
-    "total_campaigns": 20
+    "total_campaigns": 21
   },
   "demos": {
     "booked": 0,
