@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-26T17:45:01Z",
-  "count": 60,
+  "updated_at": "2026-04-26T23:45:01Z",
+  "count": 61,
   "properties": [
     {
       "uid": "8752740c-b020-43be-b5bc-74eebc105bca",
@@ -114,6 +114,19 @@
       "city": "San Antonio",
       "state": "TX",
       "maxGuests": "?"
+    },
+    {
+      "uid": "5ebc996f-e61b-415d-87a4-5d8b0579c4d1",
+      "name": "ALPINE GLOW GETAWAY",
+      "isActive": true,
+      "propertyType": "HOUSE",
+      "bedrooms": 4,
+      "bathrooms": "2.5",
+      "city": "Salt Lake City",
+      "state": "UT",
+      "maxGuests": "?",
+      "dailyRate": 649.0,
+      "cleaningFee": 229.0
     },
     {
       "uid": "d266858f-036b-4db3-b81d-b4a1296a7885",

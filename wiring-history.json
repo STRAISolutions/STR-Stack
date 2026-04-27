@@ -10,5 +10,9 @@
   "GHL Master": {
     "failed_at": "2026-04-24T16:13:01Z",
     "fail_reason": "HTTP 401 from leadconnectorhq.com"
+  },
+  "GHL Call Center": {
+    "failed_at": "2026-04-26T23:55:01Z",
+    "fail_reason": "HTTP 401 from leadconnectorhq.com"
   }
 }
