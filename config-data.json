@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-04-27T18:00:01Z",
+  "ghl": {
+    "master_oauth": "pit-8e3c20cd-0d7f-43a3-be9d-c087e925b3e7",
+    "callcenter_oauth": "pit-48465a41-26c9-4115-8195-b0a557dbdb6d",
+    "api_key": "pit-b4fa2b54-e421-4552-b226-d3feb99b9b7f",
+    "master_location": "1OOZ4AKIgxO8QKKMnIcK",
+    "callcenter_location": "7hTDBClatcBgmUv36bZX",
+    "marketplace_client_id": "696e7c804d3f6c42c22c4ef9-mmo7e9dl",
+    "api_base": "https://services.leadconnectorhq.com",
+    "api_version": "2021-07-28"
+  },
+  "leadgen": {
+    "instantly_key": "NDI1M2E0...1lZg==",
+    "apollo_key": "NWt_5gpS...BPbc2g",
+    "clay_key": "3bb1e2...8871",
+    "airdna_key": "f0cd7cc9...e7e48a",
+    "apify_key": "apify_ap...0VyEkv"
+  },
+  "ai_voice": {
+    "openai_key": "sk-proj-...lLTOMA",
+    "anthropic_key": "***",
+    "elevenlabs_key": "sk_a601e...57cdfc",
+    "vapi_key": "48cc1c2e...210a5d",
+    "discord_token": "MTQ3MjM0...ZHWqpI"
+  },
+  "infra": {
+    "flowise_url": "https://flowise.strsolutionsusa.com",
+    "server_ip": "134.209.11.87",
+    "make_token": "c95c833a...bb1105",
+    "slack_token": "xoxe.xox...E3MDky",
+    "google_key": "AIzaSyC5...oHg6nA"
+  }
+}
