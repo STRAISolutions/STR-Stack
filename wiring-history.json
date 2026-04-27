@@ -14,5 +14,9 @@
   "GHL Call Center": {
     "failed_at": "2026-04-26T23:55:01Z",
     "fail_reason": "HTTP 401 from leadconnectorhq.com"
+  },
+  "Discord": {
+    "failed_at": "2026-04-27T16:51:02Z",
+    "fail_reason": "Channel check output truncated"
   }
 }

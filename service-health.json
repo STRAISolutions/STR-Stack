@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-04-27T12:00:01Z",
+  "checked_at": "2026-04-27T17:59:01Z",
   "services": {
     "openclaw": {"status":"up","http":200,"port":18789},
     "swarmclaw": {"status":"up","http":200,"port":3456},
@@ -10,5 +10,5 @@
     "discord": {"status":"up","port":"ws"},
     "paperclip": {"status":"up","http":200,"port":3100}
   },
-  "disk": {"used_pct":82,"available":"29G"}
+  "disk": {"used_pct":84,"available":"26G"}
 }
