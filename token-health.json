@@ -1,6 +1,6 @@
 {
-  "checked_at": "2026-04-27T00:00:01Z",
-  "next_deep_check": "2026-04-27T12:00:02Z",
+  "checked_at": "2026-04-27T05:30:01Z",
+  "next_deep_check": "2026-04-27T17:30:03Z",
   "tokens": [
     {"name":"GHL Master (main .env)","masked":"pit-8e3c...b3e7","status":"dead","http":401,"detail":"Invalid/expired token","source":"/root/str-stack/.env","role":"KPIs, Dashboards, OpenClaw","duplicate":false},
     {"name":"GHL Call Center (main .env)","masked":"pit-4846...db6d","status":"dead","http":401,"detail":"Invalid/expired token","source":"/root/str-stack/.env","role":"CC Flows, Clawhip","duplicate":false},
