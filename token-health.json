@@ -1,17 +1,17 @@
 {
-  "checked_at": "2026-04-26T23:30:01Z",
-  "next_deep_check": "2026-04-27T11:30:03Z",
+  "checked_at": "2026-04-27T00:00:01Z",
+  "next_deep_check": "2026-04-27T12:00:02Z",
   "tokens": [
     {"name":"GHL Master (main .env)","masked":"pit-8e3c...b3e7","status":"dead","http":401,"detail":"Invalid/expired token","source":"/root/str-stack/.env","role":"KPIs, Dashboards, OpenClaw","duplicate":false},
-    {"name":"GHL Call Center (main .env)","masked":"pit-4846...db6d","status":"live","http":200,"detail":"HTTP 200","source":"/root/str-stack/.env","role":"CC Flows, Clawhip","duplicate":false},
-    {"name":"GHL API Key (main .env)","masked":"pit-b4fa...9b7f","status":"live","http":200,"detail":"HTTP 200","source":"/root/str-stack/.env","role":"Flowise Tools, MCP","duplicate":false}
+    {"name":"GHL Call Center (main .env)","masked":"pit-4846...db6d","status":"dead","http":401,"detail":"Invalid/expired token","source":"/root/str-stack/.env","role":"CC Flows, Clawhip","duplicate":false},
+    {"name":"GHL API Key (main .env)","masked":"pit-b4fa...9b7f","status":"dead","http":401,"detail":"Invalid/expired token","source":"/root/str-stack/.env","role":"Flowise Tools, MCP","duplicate":false}
   ],
   "mismatches": [],
   "summary": {
     "total": 3,
-    "live": 2,
-    "dead": 1,
-    "health_pct": 66,
-    "status": "degraded"
+    "live": 0,
+    "dead": 3,
+    "health_pct": 0,
+    "status": "all_dead"
   }
 }
