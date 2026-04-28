@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-04-27T23:59:01Z",
+  "checked_at": "2026-04-28T00:00:02Z",
   "services": {
     "openclaw": {"status":"up","http":200,"port":18789},
     "swarmclaw": {"status":"up","http":200,"port":3456},
