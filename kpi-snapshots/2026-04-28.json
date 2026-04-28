@@ -1,29 +1,24 @@
 {
-  "timestamp": "2026-04-21T23:55:02Z",
+  "timestamp": "2026-04-28T05:55:02Z",
   "pipeline": {
-    "ltv_pipeline": 537500,
-    "monthly_gross": 32250,
-    "hot_leads": 43,
+    "ltv_pipeline": 0,
+    "monthly_gross": 0,
+    "hot_leads": 0,
     "ltv_per_account": 12500,
     "monthly_per_account": 750,
     "formula_ltv": "hot_leads x $12,500 LTV",
     "formula_monthly": "hot_leads x $750/mo",
-    "open": 43,
+    "open": 0,
     "lost": 0,
     "won": 0,
-    "total": 43,
+    "total": 0,
     "ghl_monetary_value": 0,
-    "hot_stage_breakdown": {
-      "other": 43
-    },
-    "all_stage_breakdown": {
-      "Call Queue": 35,
-      "Overflow - VAPI": 8
-    },
+    "hot_stage_breakdown": {},
+    "all_stage_breakdown": {},
     "stage_pipeline": [
       {
         "name": "Call Queue",
-        "count": 35,
+        "count": 0,
         "stage_id": "6e6ba196-949c-4403-b156-eb30cfeb858c"
       },
       {
@@ -33,7 +28,7 @@
       },
       {
         "name": "Overflow - VAPI",
-        "count": 8,
+        "count": 0,
         "stage_id": "29554f80-6207-4320-8570-a28aa382aeb4"
       },
       {
@@ -64,22 +59,13 @@
     ]
   },
   "operations": {
-    "leads_waiting": 35,
-    "leads_stale_1hr": 43,
-    "lead_sources": {
-      "Instantly Warm Reply": 35,
-      "Direct/Unknown": 8
-    },
-    "lead_types": {
-      "src:instantly": 35,
-      "type:warm_reply": 35,
-      "name via lookup": 5,
-      "spam likely": 1,
-      "couldn't find caller name": 2
-    }
+    "leads_waiting": 0,
+    "leads_stale_1hr": 0,
+    "lead_sources": {},
+    "lead_types": "no_tag_data_available"
   },
   "projections": {
-    "gross_profit_potential": 64500.0,
+    "gross_profit_potential": 0.0,
     "demo_to_customer_ratio": 0.33,
     "revenue_per_conversion": 12500,
     "conversion_goal_pct": 12,
@@ -87,9 +73,9 @@
     "commission_schedule": "TBD"
   },
   "leads": {
-    "total": 43,
+    "total": 0,
     "active_campaigns": 2,
-    "total_campaigns": 20
+    "total_campaigns": 21
   },
   "demos": {
     "booked": 0,
@@ -103,13 +89,13 @@
     "rate": 0
   },
   "yesterday": {
-    "new_leads": 43,
-    "new_leads_delta": "43 total",
+    "new_leads": 0,
+    "new_leads_delta": "0 total",
     "appointments": 0,
     "demos": 0,
     "demos_delta": "vs 30 target",
-    "responses": 35,
-    "lead_sources": 2,
-    "top_source": "Instantly Warm Reply (35)"
+    "responses": 0,
+    "lead_sources": 0,
+    "top_source": ""
   }
 }
