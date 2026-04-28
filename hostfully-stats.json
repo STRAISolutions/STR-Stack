@@ -1,25 +1,31 @@
 {
-  "updated_at": "2026-04-27T17:45:01Z",
+  "updated_at": "2026-04-27T23:45:02Z",
   "summary": {
     "total_leads": 500,
-    "total_bookings": 130,
-    "active_bookings": 56,
-    "cancelled": 74,
-    "inquiries": 9
+    "total_bookings": 133,
+    "active_bookings": 57,
+    "cancelled": 76,
+    "inquiries": 10
   },
   "revenue": {
-    "this_year": 53231.86,
-    "this_month": 52534.29,
-    "this_week": 2280.43
+    "this_year": 54931.2,
+    "this_month": 54233.63,
+    "this_week": 2813.75
   },
   "payments": {
-    "balance_due": 21367.47,
+    "balance_due": 22313.25,
     "overdue_count": 0,
     "overdue_amount": 0
   },
   "arrivals": {
-    "this_week": 4,
+    "this_week": 5,
     "details": [
+      {
+        "guest": "Liam Joiner",
+        "checkin": "2026-05-01T16:00:00",
+        "channel": "AIRBNB",
+        "property": "57e9bed3"
+      },
       {
         "guest": "Emma Coon Come",
         "checkin": "2026-04-29T16:00:00",
@@ -48,7 +54,7 @@
   },
   "channels": {
     "BOOKING_COM": 33,
-    "AIRBNB": 16,
+    "AIRBNB": 17,
     "WHIMSTAY": 1,
     "HOSTFULLY": 6
   },

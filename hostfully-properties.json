@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-27T17:45:01Z",
-  "count": 61,
+  "updated_at": "2026-04-27T23:45:02Z",
+  "count": 63,
   "properties": [
     {
       "uid": "8752740c-b020-43be-b5bc-74eebc105bca",
@@ -140,6 +140,19 @@
       "maxGuests": "?",
       "dailyRate": 549.0,
       "cleaningFee": 189.0
+    },
+    {
+      "uid": "6b293cef-bb9a-4090-8e18-0c0c9ece8515",
+      "name": "Bluebird Sky Cabin",
+      "isActive": true,
+      "propertyType": "HOUSE",
+      "bedrooms": 3,
+      "bathrooms": "2.5",
+      "city": "BRECKENRIDGE",
+      "state": "CO",
+      "maxGuests": "?",
+      "dailyRate": 649.0,
+      "cleaningFee": 229.0
     },
     {
       "uid": "26e90589-70ed-42b4-909e-eb87b529ae4a",
@@ -670,6 +683,19 @@
       "maxGuests": "?",
       "dailyRate": 549.0,
       "cleaningFee": 189.0
+    },
+    {
+      "uid": "a3670bef-882e-4f88-9dce-0a3d03f85253",
+      "name": "Summit Bliss Retreat",
+      "isActive": true,
+      "propertyType": "HOUSE",
+      "bedrooms": 3,
+      "bathrooms": "2.5",
+      "city": "BRECKENRIDGE",
+      "state": "CO",
+      "maxGuests": "?",
+      "dailyRate": 649.0,
+      "cleaningFee": 229.0
     },
     {
       "uid": "2b065f85-c3a5-4fd4-8c88-39f7fa06dae1",

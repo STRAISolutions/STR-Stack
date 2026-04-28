@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-27T17:59:01Z",
+  "generated_at": "2026-04-27T23:59:01Z",
   "nodes": {
     "services": [
       {"id":"nginx","label":"Nginx","port":"80/443","status":"on","type":"proxy"},
@@ -13,7 +13,7 @@
       {"id":"paperclip","label":"Paperclip","port":"3100","status":"on","type":"service","detail":"Multi-Agent Orchestrator"}
     ],
     "external": [
-      {"id":"discord","label":"Discord","status":"trouble","type":"external","detail":"WebSocket Gateway"},
+      {"id":"discord","label":"Discord","status":"on","type":"external","detail":"WebSocket Gateway"},
       {"id":"openai","label":"OpenAI","status":"on","type":"external","detail":"GPT / Codex"},
       {"id":"ghl_master","label":"GHL Master","status":"trouble","type":"external","detail":"Loc: 1OOZ4AKI..."},
       {"id":"ghl_callcenter","label":"GHL Call Center","status":"trouble","type":"external","detail":"Loc: 7hTDBCla..."},
@@ -34,7 +34,7 @@
     {"from":"nginx","to":"swarmclaw","label":"proxy :3456","status":"idle"},
     {"from":"nginx","to":"flowise","label":"proxy :3000","status":"idle"},
     {"from":"nginx","to":"openclaw_gw","label":"proxy :18789","status":"idle"},
-    {"from":"openclaw_gw","to":"discord","label":"WebSocket","status":"trouble"},
+    {"from":"openclaw_gw","to":"discord","label":"WebSocket","status":"idle"},
     {"from":"openclaw_gw","to":"openai","label":"API (OAuth)","status":"idle"},
     {"from":"flowise","to":"flowise_db","label":"pg:5432","status":"active"},
     {"from":"flowise","to":"ghl_master","label":"GHL API","status":"trouble"},
@@ -49,7 +49,7 @@
     {"name":"GHL_MASTER_OAUTH","masked":"pit-8e3c...b3e7","status":"trouble","http":401,"target":"KPI Script, OpenClaw"},
     {"name":"GHL_CALL_CENTER_OAUTH","masked":"pit-4846...db6d","status":"trouble","http":401,"target":"Call Center Flows"},
     {"name":"GHL_API_KEY","masked":"pit-b4fa...9b7f","status":"trouble","http":401,"target":"Flowise Tools, MCP"},
-    {"name":"DISCORD_TOKEN","masked":"MTQ3MjM0...WqpI","status":"trouble","http":0,"target":"OpenClaw Gateway"},
+    {"name":"DISCORD_TOKEN","masked":"MTQ3MjM0...WqpI","status":"on","http":0,"target":"OpenClaw Gateway"},
     {"name":"INSTANTLY_API_KEY","masked":"NDI1M2E0...Zg==","status":"on","http":200,"target":"Email Campaigns"},
     {"name":"CLAY_API_KEY","masked":"3bb1e2be...8871","status":"trouble","http":401,"target":"Data Enrichment"},
     {"name":"APOLLO_API_KEY","masked":"NWt_5gpS...bc2g","status":"on","http":200,"target":"Lead Generation"},
@@ -61,7 +61,6 @@
     {"name":"AIRDNA_API_KEY","masked":"f0cd7cc9...e48a","status":"standby","http":0,"target":"Market Data"}
   ],
   "breakpoints": [
-    {"component":"Discord","issue":"Discord bot trouble","severity":"high","failed_at":"2026-04-27T16:51:02Z","fail_reason":"Channel check output truncated"},
     {"component":"GHL Master","issue":"Master OAuth trouble (HTTP 401) - KPIs won't update","severity":"high","failed_at":"2026-04-24T16:13:01Z","fail_reason":"HTTP 401 from leadconnectorhq.com"},
     {"component":"GHL Call Center","issue":"Call Center OAuth trouble (HTTP 401)","severity":"high","failed_at":"2026-04-26T23:55:01Z","fail_reason":"HTTP 401 from leadconnectorhq.com"},
     {"component":"Clay","issue":"API key trouble (HTTP 401) - enrichment unavailable","severity":"medium","failed_at":"2026-04-04T16:28:32Z","fail_reason":"HTTP 401 from api.clay.com"},
@@ -73,7 +72,7 @@
     "total_apis": 12,
     "apis_healthy": 6,
     "total_wires": 12,
-    "wires_ok": 10,
+    "wires_ok": 11,
     "critical_breaks": 0
   }
 }
